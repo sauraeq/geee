@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountEdit">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_activity1"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginLeft="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:src="@drawable/bckarrow"
+
+            />
+
+        <ImageView
+            android:id="@+id/navigation_header_img"
+            android:layout_width="@dimen/_76sdp"
+            android:layout_height="@dimen/_76sdp"
+            android:layout_marginLeft="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_59sdp"
+            android:src="@drawable/profilepic" />
+        <LinearLayout
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:background="@drawable/circlebackblack"
+            android:layout_marginLeft="@dimen/_80sdp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/camera">
+            </ImageView>
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/_18sdp"
+        android:layout_marginRight="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_38sdp"
+        android:orientation="vertical">
+        <TextView
+            android:text="Name"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="@dimen/_13ssp"
+            android:layout_height="@dimen/_19sdp">
+        </TextView>
+        <EditText
+
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:background="@null"
+            android:inputType="textPersonName"
+            android:layout_height="@dimen/_19sdp">
+        </EditText>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:background="#000" />
+        <TextView
+            android:text="Email"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:textSize="@dimen/_13ssp"
+            android:layout_height="@dimen/_19sdp">
+        </TextView>
+        <EditText
+
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:background="@null"
+            android:inputType="textEmailAddress"
+            android:layout_height="@dimen/_19sdp">
+        </EditText>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:background="#000" />
+        <TextView
+            android:text="Phone Number"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:textSize="@dimen/_13ssp"
+            android:layout_height="@dimen/_19sdp">
+        </TextView>
+        <EditText
+
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:background="@null"
+            android:inputType="number"
+            android:layout_height="@dimen/_19sdp">
+        </EditText>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:background="#000" />
+        <TextView
+            android:text="Address"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:textSize="@dimen/_13ssp"
+            android:layout_height="@dimen/_19sdp">
+        </TextView>
+        <EditText
+
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:background="@null"
+            android:inputType="textPostalAddress"
+            android:layout_height="@dimen/_19sdp">
+        </EditText>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:background="#000" />
+        <TextView
+            android:text="Gender"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:textSize="@dimen/_13ssp"
+            android:layout_height="@dimen/_19sdp">
+        </TextView>
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:weightSum="5"
+           android:layout_height="@dimen/_19sdp">
+
+
+        <EditText
+
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            android:background="@null"
+            android:inputType="text"
+            android:layout_weight="4"
+            android:layout_height="@dimen/_19sdp">
+        </EditText>
+           <Spinner
+
+               android:layout_weight="1"
+               android:layout_width="wrap_content"
+               android:layout_marginRight="@dimen/_10sdp"
+               android:layout_height="wrap_content">
+
+           </Spinner>
+       </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:background="#000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginRight="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/edit_profile_save"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner"
+                android:fontFamily="@font/poppinsmedium"
+                android:paddingTop="@dimen/_12sdp"
+                android:text="Save"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

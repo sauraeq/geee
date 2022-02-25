@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">GeeLong</string>
+    <string name="agree_terms_privacy">By clicking start, you agree to our  <a href="">Terms Conditions</a></string>
+
+    <string name="signin">Sign In</string>
+    <string name="singup">sing Up</string>
+    <string name="name">Name</string>
+    <string name="name_example_com">Name@example.com</string>
+    <string name="address">Address</string>
+    <string name="_91_mobile_number">+91 Mobile Number</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="signup">Sign Up</string>
+    <string name="signup1">Sign Up</string>
+    <string name="login_to_your_account">Login To your account!</string>
+
+
+    <string name="or_sign_up_with">or Sign Up with</string>
+    <string name="next">Next</string>
+    <string name="verify_now">Verify Now</string>
+    <string name="google_maps_key" />
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="pickup">PICK UP</string>
+    <string name="drop">DROP</string>
+    <string name="no_of_passengers">NO. OF PASSENGERS</string>
+    <string name="_7958_swfit_village">7958 Swfit Village</string>
+    <string name="search">Search</string>
+    <string name="jhon_smit">Jhon smit</string>
+    <string name="confirm_pick_up">Confirm pick-up</string>
+</resources>

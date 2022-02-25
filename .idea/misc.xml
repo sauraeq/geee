@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1695" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_black.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_white.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/back_corner.xml" value="0.1465" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/button_corner.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/cancel.xml" value="0.1695" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/circlebackblack.xml" value="0.1" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/circlebck.xml" value="0.1" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/corner_ediitext.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_thumb.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_track.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/logout.xml" value="0.1465" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/noti.xml" value="0.1695" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/pickup.xml" value="0.1" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/rectangle.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/toggle_bck.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_acccount.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_account_edit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_confirm.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_confirm_pick_up.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_otp.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search.xml" value="0.1" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search1.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_sign_up.xml" value="0.17253121452894438" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/confirm_pickup_fragment.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/content_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragment_confirm.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/row_nav_drawer.xml" value="0.20416666666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

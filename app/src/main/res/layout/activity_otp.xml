@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Sign_Up">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_189sdp"
+                android:orientation="vertical"
+                android:background="#F9CB33" >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/sign_up_bg"
+                    android:scaleType="center">
+                </ImageView>
+
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_120sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="9dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="Phone Verification"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:textSize="@dimen/_15ssp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:layout_height="wrap_content">
+                    </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter Your OTP  code here"
+                        android:textStyle="bold"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:fontFamily="@font/poppinsmedium">
+                    </TextView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:background="#CAC9C9" />
+
+                    <in.aabhasjindal.otptextview.OtpTextView
+                        android:id="@+id/otp_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        app:height="40dp"
+                        app:width="40dp"
+                        app:bar_enabled="true"
+                        app:bar_height="2dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_38sdp"
+                        app:length="4"
+                        app:otp_text_size="24dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_70sdp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/_22sdp"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:id="@+id/verify_now"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/button_corner"
+                            android:fontFamily="@font/poppinsmedium"
+                            android:paddingTop="@dimen/_12sdp"
+                            android:text="@string/verify_now"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:textSize="@dimen/_13sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
