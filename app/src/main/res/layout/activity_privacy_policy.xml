@@ -4,6 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Privacy_Policy">
+    tools:context=".Activity.Privacy_Policy">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_57sdp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:background="@drawable/headercorner"
+                android:gravity="center"
+                android:text="Privacy Policy"
+                android:fontFamily="@font/poppinsmedium"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp" />
+
+            <ImageView
+                android:id="@+id/LeftArrow2"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:src="@drawable/fgmbckarrow" />
+        </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_14sdp"
+
+            >
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:text="1. Introduction"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            </TextView>
+            <TextView
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <TextView
+
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:text="2. Overview"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            </TextView>
+            <TextView
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_height="wrap_content">
+
+            </TextView>
+            <TextView
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <TextView
+
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:text="3. Data Collections and uses"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            </TextView>
+            <TextView
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_height="wrap_content">
+
+            </TextView>
+            <TextView
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_13ssp"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+    </ScrollView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

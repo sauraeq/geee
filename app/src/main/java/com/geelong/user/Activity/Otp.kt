@@ -1,12 +1,12 @@
-package com.geelong.user
+package com.geelong.user.Activity
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.geelong.user.R
 
 
 class Otp : AppCompatActivity() {
@@ -16,7 +16,7 @@ class Otp : AppCompatActivity() {
         supportActionBar?.hide()
         var verify_txt=findViewById<TextView>(R.id.verify_now)
         verify_txt.setOnClickListener {
-            var intent= Intent(this,Search1::class.java)
+            var intent= Intent(this, Search1::class.java)
             startActivity(intent)
         }
 

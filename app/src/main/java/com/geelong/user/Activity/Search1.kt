@@ -1,4 +1,4 @@
-package com.geelong.user
+package com.geelong.user.Activity
 
 import android.content.Context
 import android.content.Intent
@@ -9,16 +9,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customnavigationdrawerexample.ClickListener
-import com.example.customnavigationdrawerexample.NavigationItemModel
-import com.example.customnavigationdrawerexample.NavigationRVAdapter
+import com.geelong.user.Model.NavigationItemModel
+import com.geelong.user.Adapter.NavigationRVAdapter
 import com.example.customnavigationdrawerexample.RecyclerTouchListener
+import com.geelong.user.Fragment.HomeFragment
+import com.geelong.user.R
 
 
 class Search1 : AppCompatActivity() {
@@ -98,19 +98,24 @@ class Search1 : AppCompatActivity() {
 
                     }
                     1 -> {
-                        drawerLayout.closeDrawer(GravityCompat.START)
-
+                      //  drawerLayout.closeDrawer(GravityCompat.START)
+                        val intent = Intent(this@Search1, TripDetails::class.java)
+                        startActivity(intent)
                     }
                     2 -> {
-
+                        val intent = Intent(this@Search1, Notification::class.java)
+                        startActivity(intent)
                     }
                     3 -> {
+                        val intent = Intent(this@Search1, TermsCondition::class.java)
+                        startActivity(intent)
                         // # Books Fragment
 
                     }
                     4 -> {
                         // # Profile Activity
-
+                        val intent = Intent(this@Search1, Privacy_Policy::class.java)
+                        startActivity(intent)
                     }
                     5 -> {
                         drawerLayout.closeDrawer(GravityCompat.START)
@@ -123,9 +128,10 @@ class Search1 : AppCompatActivity() {
                          settingsFragment.arguments = bundle
                          supportFragmentManager.beginTransaction()
                              .replace(R.id.activity_main_content_id, settingsFragment).commit()*/
+
                     }
                     6 -> {
-                        // # Open URL in browser
+
 
                     }
                 }
@@ -216,13 +222,13 @@ class Search1 : AppCompatActivity() {
         }
     }
 
-    fun click(){
+    fun click1(){
         drawerLayout.openDrawer(GravityCompat.START)
     }
 
     fun inte()
     {
-        val intent = Intent(this,Confirm::class.java)
+        val intent = Intent(this, Confirm::class.java)
         startActivity(intent)
     }
 

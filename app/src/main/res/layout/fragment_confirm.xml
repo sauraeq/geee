@@ -28,8 +28,8 @@
             android:layout_height="@dimen/_25sdp"
             android:layout_gravity="center"
             android:padding="@dimen/_2sdp"
-            android:src="@drawable/bckarrow"
-            android:layout_marginLeft="@dimen/_4sdp"
+            android:src="@drawable/fgmbckarrow"
+
             />
     </LinearLayout>
 

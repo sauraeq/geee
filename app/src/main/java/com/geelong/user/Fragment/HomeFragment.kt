@@ -1,28 +1,35 @@
-package com.geelong.user
+package com.geelong.user.Fragment
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.R
+import com.geelong.user.Activity.Search1
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
+
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-class ConfirmFragment : Fragment() {
+
+/**
+ * A simple [Fragment] subclass.
+ * Use the [HomeFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,26 +47,18 @@ class ConfirmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootview= inflater.inflate(R.layout.fragment_confirm, container, false)
-        var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
-        var back_linera_layoutt=rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
+        val rootview= inflater.inflate(R.layout.fragment_home, container, false)
 
-        var pick_up_confirmm=rootview.findViewById<TextView>(R.id.pick_up_confirm)
-        pick_up_confirmm.setOnClickListener {
-            (activity as Confirm)?.inte()
-        }
-        back_linera_layoutt.setOnClickListener {
-            val intent = Intent(requireContext(), Search1::class.java)
-            startActivity(intent)
+      var search_textt:TextView=rootview.findViewById(R.id.search_text)
+        search_textt.setOnClickListener {
+
+            (activity as Search1?)?.inte()
         }
 
-
-       /* var ivMenu1: ImageView =rootview.findViewById(R.id.ivMenu1)
+        var ivMenu1:ImageView=rootview.findViewById(R.id.ivMenu_home)
         ivMenu1.setOnClickListener {
-            (activity as Search1?)?.click()
+            (activity as Search1?)?.click1()
         }
-
-        */
 
 
         val mapFragment =
@@ -69,6 +68,9 @@ class ConfirmFragment : Fragment() {
 
             mMap.clear() //clear old markers
 
+
+
+
             val googlePlex = CameraPosition.builder()
                 .target(LatLng(28.6201514,77.342835))
                 .zoom(12f)
@@ -76,19 +78,14 @@ class ConfirmFragment : Fragment() {
                 .tilt(45f)
                 .build()
 
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null)
-            val height = 90
-            val width = 90
-            val bitmapdraw = resources.getDrawable(R.drawable.maparroww) as BitmapDrawable
-            val b = bitmapdraw.bitmap
-            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+           mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null)
+
             mMap.addMarker(
                 MarkerOptions()
                     .position(LatLng(28.6201514,77.342835))
                     .title("Spider Man")
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
             )
-
 
 
         }

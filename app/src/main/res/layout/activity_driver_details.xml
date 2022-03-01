@@ -2,12 +2,13 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/drawer_layout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
 
-    <!-- Main Activity -->
+    tools:context=".Activity.DriverDetails">
+
     <LinearLayout
         android:id="@+id/main_activity_content_id"
         android:layout_width="match_parent"
@@ -80,7 +81,7 @@
 
 
             <ImageView
-                android:id="@+id/ivMenu1"
+                android:id="@+id/ivMenu_driver"
                 android:layout_width="25dp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_marginLeft="15dp"
@@ -206,7 +207,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/navigation_rv1"
+            android:id="@+id/navigation_rv11"
             android:layout_width="250dp"
             android:layout_height="@dimen/_1sdp"
             android:layout_weight="1"
@@ -224,7 +225,7 @@
             android:layout_marginLeft="@dimen/_18sdp"
             android:layout_marginBottom="@dimen/_19sdp"
             android:orientation="horizontal"
-           >
+            >
 
 
             <ImageView
@@ -232,7 +233,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
                 android:src="@drawable/logout"
-              >
+                >
             </ImageView>
 
             <TextView
@@ -248,6 +249,5 @@
         </LinearLayout>
 
     </LinearLayout>
-    <!-- Custom Navigation Drawer End -->
 
 </androidx.drawerlayout.widget.DrawerLayout>

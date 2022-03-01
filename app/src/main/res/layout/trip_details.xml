@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+    <androidx.cardview.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-8dp"
+        android:layout_margin="@dimen/_10sdp"
+        android:elevation="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_20sdp"
+
+        >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_90sdp"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_14sdp"
+        android:layout_width="@dimen/_42sdp"
+        android:layout_height="@dimen/_42sdp"
+        android:src="@drawable/profilepic"
+        >
+
+    </ImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="@dimen/_100sdp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_6sdp"
+            android:layout_height="@dimen/_20sdp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:text="Jacky pual"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp">
+
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:text="₹25.00"
+                    android:textSize="@dimen/_14ssp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold">
+
+
+                </TextView>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+
+        android:layout_height="@dimen/_20sdp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:src="@drawable/drop">
+
+            </ImageView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="2.2 km"
+                android:textSize="@dimen/_11sdp">
+
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="12/12/21, 8:20 PM"
+                android:textSize="@dimen/_13ssp">
+
+
+            </TextView>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_14sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="#C8C3C3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:text="@string/pickup"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="7958 Swfit Village"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="#C8C3C3" />
+
+                <TextView
+                    android:text="@string/drop"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="@string/_7958_swfit_village"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="#C8C3C3" />
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:text="@string/write_a_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor=" #2C40F3"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_14sdp"
+                >
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.geelong.user
+package com.geelong.user.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.geelong.user.R
 
 class Sign_Up : AppCompatActivity() {
 
@@ -80,7 +81,7 @@ class Sign_Up : AppCompatActivity() {
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
         sign_in.setOnClickListener {
-            var intent=Intent(this,Otp::class.java)
+            var intent=Intent(this, Otp::class.java)
             startActivity(intent)
 
         }

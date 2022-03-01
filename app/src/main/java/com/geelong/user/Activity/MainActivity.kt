@@ -1,10 +1,11 @@
-package com.geelong.user
+package com.geelong.user.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import com.geelong.user.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.geelong.user
+package com.geelong.user.Fragment
 
 import android.content.Context
 import android.content.Intent
@@ -10,10 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.Activity.Confirm
+import com.geelong.user.Activity.Pay_Now
+import com.geelong.user.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -44,9 +46,14 @@ class ConfirmPickupAdapter : Fragment() {
         val rootview= inflater.inflate(R.layout.confirm_pickup_fragment, container, false)
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
        var  back_go_activityy=rootview.findViewById<LinearLayout>(R.id.back_go_activity)
+        var  confirm_pick_up=rootview.findViewById<LinearLayout>(R.id.confirm_pick_Up_layout)
 
         back_go_activityy.setOnClickListener {
             val intent = Intent(requireContext(), Confirm::class.java)
+            startActivity(intent)
+        }
+        confirm_pick_up.setOnClickListener {
+            val intent = Intent(requireContext(), Pay_Now::class.java)
             startActivity(intent)
         }
 

@@ -1,19 +1,17 @@
-package com.example.customnavigationdrawerexample
+package com.geelong.user.Adapter
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 
 
-class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>,private var items1: ArrayList<NavigationItemModel>, private var currentPos: Int) :RecyclerView.Adapter<NavigationRVAdapter.NavigationItemViewHolder>() {
+class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, private var items1: ArrayList<NavigationItemModel>, private var currentPos: Int) :RecyclerView.Adapter<NavigationRVAdapter.NavigationItemViewHolder>() {
 
     private lateinit var context: Context
     lateinit var navigation_icon:ImageView

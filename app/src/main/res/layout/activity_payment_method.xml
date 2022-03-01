@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Payment_method">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_57sdp">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_57sdp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:background="@drawable/headercorner"
+                android:fontFamily="@font/poppinsmedium"
+                android:gravity="center"
+                android:text="Payment method"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_17sdp" />
+
+            <ImageView
+                android:id="@+id/LeftArrow1"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_23sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:src="@drawable/fgmbckarrow" />
+        </RelativeLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_gpay"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:background="@drawable/paymentcorner"
+                android:layout_height="@dimen/_40sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/gpay">
+
+                </ImageView>
+
+            </RelativeLayout>
+            <TextView
+                android:text="Google pay"
+                android:textSize="@dimen/_13ssp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_marginLeft="@dimen/_19sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_14sdp"
+            android:background="#C8C3C3" />
+        <LinearLayout
+            android:id="@+id/linear_paytm"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:background="@drawable/paymentcorner"
+                android:layout_height="@dimen/_40sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_4sdp"
+
+                    android:src="@drawable/paytm">
+
+                </ImageView>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_19sdp"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="Paytm"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold">
+
+            </TextView>
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_14sdp"
+            android:background="#C8C3C3" />
+        <LinearLayout
+            android:id="@+id/linear_phonepay"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:background="@drawable/paymentcorner"
+                android:layout_height="@dimen/_40sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_1sdp"
+                    android:src="@drawable/phonepay">
+
+                </ImageView>
+
+            </RelativeLayout>
+            <TextView
+                android:text="Phone Pay"
+                android:textSize="@dimen/_13ssp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_marginLeft="@dimen/_19sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_14sdp"
+            android:background="#C8C3C3" />
+
+
+        <LinearLayout
+            android:id="@+id/linear_cash"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:background="@drawable/paymentcorner"
+                android:layout_height="@dimen/_40sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/cashicon">
+
+                </ImageView>
+
+            </RelativeLayout>
+            <TextView
+                android:text="Cash"
+                android:textSize="@dimen/_13ssp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppinsmedium"
+                android:layout_marginLeft="@dimen/_19sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_14sdp"
+            android:background="#C8C3C3" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/add_success_popup"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include layout="@layout/successalertdialog"/>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

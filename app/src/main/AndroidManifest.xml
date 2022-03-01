@@ -14,23 +14,44 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GeeLong">
         <activity
-            android:name=".Privacy_Policy"
+            android:name=".Activity.DriverDetails"
             android:exported="false" />
         <activity
-            android:name=".ConfirmPick_up"
+            android:name=".Activity.Payment_method"
             android:exported="false" />
         <activity
-            android:name=".Confirm"
+            android:name=".Activity.FareDetails"
             android:exported="false" />
         <activity
-            android:name=".AccountEdit"
+            android:name=".Activity.Pay_Now"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Notification"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.TripDetails"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.TermsCondition"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Privacy_Policy"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ConfirmPick_up"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Confirm"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AccountEdit"
             android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Acccount"
+            android:name=".Activity.Acccount"
             android:exported="false" />
         <activity
-            android:name=".Search1"
+            android:name=".Activity.Search1"
             android:exported="false" />
 
         <meta-data
@@ -38,18 +59,18 @@
             android:value="AIzaSyAKV5mMwONFDI_qwVN_ro1zdMkH-rQYQvk" />
 
         <activity
-            android:name=".Search"
+            android:name=".Activity.Search"
             android:exported="false" />
         <activity
-            android:name=".Otp"
+            android:name=".Activity.Otp"
             android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Sign_Up"
+            android:name=".Activity.Sign_Up"
             android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

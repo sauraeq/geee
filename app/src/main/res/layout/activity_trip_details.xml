@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    tools:context=".Activity.TripDetails">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_57sdp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:background="@drawable/headercorner"
+            android:fontFamily="@font/poppinsmedium"
+            android:gravity="center"
+            android:text="Trips"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_17sdp" />
+
+        <ImageView
+            android:id="@+id/LeftArrow"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:src="@drawable/fgmbckarrow" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcyView_trip_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
