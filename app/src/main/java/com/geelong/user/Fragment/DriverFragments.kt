@@ -1,6 +1,7 @@
 package com.geelong.user.Fragment
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.Activity.CallActivity
+import com.geelong.user.Activity.Chat
 import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
@@ -42,6 +46,20 @@ class DriverFragments : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootview= inflater.inflate(R.layout.fragments_driver_details, container, false)
+
+        var call_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_call)
+        var message_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_message)
+
+        call_to_driver.setOnClickListener {
+            val intent= Intent(context, CallActivity::class.java)
+            startActivity(intent)
+        }
+
+        message_to_driver.setOnClickListener {
+            val intent= Intent(context, Chat::class.java)
+            startActivity(intent)
+        }
+
 
 
 

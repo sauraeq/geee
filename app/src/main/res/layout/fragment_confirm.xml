@@ -112,9 +112,10 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginBottom="18dp"
+                        app:cardElevation="@dimen/_5sdp"
                         app:cardBackgroundColor="@color/yellow"
                         android:layout_marginRight="20dp"
-                        app:cardCornerRadius="5dp"
+                        app:cardCornerRadius="9dp"
                         android:layout_height="131dp">
                         <RelativeLayout
                             android:layout_width="match_parent"

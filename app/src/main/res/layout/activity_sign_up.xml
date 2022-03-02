@@ -160,7 +160,6 @@
                         android:layout_marginBottom="@dimen/_8sdp"
                         android:background="@drawable/corner_ediitext"
                         android:hint="@string/name"
-
                         android:inputType="textPersonName"
                         android:padding="@dimen/_10sdp">
 
@@ -369,44 +368,48 @@
 
                     <RelativeLayout
                         android:id="@+id/rlGoogle"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:background="@drawable/white_circle"
                         android:gravity="center">
 
                         <ImageView
                             android:id="@+id/img_gogle"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_10sdp"
+
                             android:src="@drawable/img_google" />
                     </RelativeLayout>
 
 
                     <RelativeLayout
                         android:id="@+id/rlFb"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+
                         android:background="@drawable/white_circle"
                         android:gravity="center">
 
                         <ImageView
-
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:padding="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:src="@drawable/img_facebook" />
                     </RelativeLayout>
 
 
                     <RelativeLayout
                         android:id="@+id/rlTwiter"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:background="@drawable/white_circle"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:padding="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:src="@drawable/img_twitter" />
                     </RelativeLayout>
 

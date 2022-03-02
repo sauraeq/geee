@@ -16,6 +16,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_thumb.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_track.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/headercorner.xml" value="0.1695" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/logout.xml" value="0.1465" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/noti.xml" value="0.1695" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/pickup.xml" value="0.1" />
@@ -23,11 +24,14 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/toggle_bck.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_acccount.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_account_edit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_call.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_chat.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_confirm.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_confirm_pick_up.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_driver_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_fare_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_message.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_notification.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_otp.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_pay_now.xml" value="0.20416666666666666" />

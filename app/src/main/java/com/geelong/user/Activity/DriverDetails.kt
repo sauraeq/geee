@@ -8,6 +8,7 @@ import android.os.Handler
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -56,6 +57,8 @@ class DriverDetails : AppCompatActivity() {
        navigation_rv=findViewById(R.id.navigation_rv11)
 
        ivClose1=findViewById(R.id.ivClose)
+
+
 
 
     /* img_prfil.setOnClickListener() {

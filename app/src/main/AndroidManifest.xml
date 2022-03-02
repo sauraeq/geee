@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GeeLong">
         <activity
+            android:name=".Activity.Chat"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MessageAct"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CallActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DriverDetails"
             android:exported="false" />
         <activity
