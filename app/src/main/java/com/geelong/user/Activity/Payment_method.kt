@@ -36,6 +36,12 @@ class Payment_method : AppCompatActivity() {
         linearcash.setOnClickListener {
             showDialog()
         }
+        var back_activity_privacy=findViewById<ImageView>(R.id.Left_paymentmethod)
+        back_activity_privacy.setOnClickListener {
+            val intent = Intent(this, FareDetails::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun showDialog() {
@@ -62,7 +68,7 @@ class Payment_method : AppCompatActivity() {
 
         dialog.show()
 
-        dialog.window?.setLayout(700,750)
+        //dialog.window?.setLayout(700,750)
 
     }
 }

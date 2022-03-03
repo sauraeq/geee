@@ -75,7 +75,6 @@ class HomeFragment : Fragment() {
                 .target(LatLng(28.6201514,77.342835))
                 .zoom(12f)
                 .bearing(0f)
-                .tilt(45f)
                 .build()
 
            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null)

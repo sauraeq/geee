@@ -70,7 +70,7 @@
                         android:fontFamily="@font/poppinsmedium"
                         android:gravity="center"
                         android:text="@string/signup"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                         android:gravity="center"
                         android:text="@string/signin"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
 
@@ -149,51 +149,80 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_18sdp"
                     android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/edittext_Name"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/banktname_text_input"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp"
-                        android:background="@drawable/corner_ediitext"
-                        android:hint="@string/name"
-                        android:inputType="textPersonName"
-                        android:padding="@dimen/_10sdp">
+                        android:layout_height="@dimen/_55sdp"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        android:textColorHint="#C3C2C2"
+                        app:boxStrokeColor="#C3C2C2"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_5sdp">
 
-                    </EditText>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/firstname_edit_text"
+                            android:layout_width="match_parent"
+                            android:textSize="@dimen/_15ssp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:layout_marginRight="@dimen/_2sdp"
+                            android:hint="@string/name" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
 
-                    <EditText
-                        android:id="@+id/edittext_Name_mail"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:background="@drawable/corner_ediitext"
-                        android:hint="@string/name_example_com"
-                        android:inputType="textEmailAddress"
-                        android:padding="@dimen/_10sdp">
+                        android:layout_height="@dimen/_55sdp"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        android:textColorHint="#C3C2C2"
+                        app:boxStrokeColor="#C3C2C2"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_5sdp">
 
-                    </EditText>
+                        <com.google.android.material.textfield.TextInputEditText
 
-                    <EditText
-                        android:id="@+id/edittext_Address"
+                            android:layout_width="match_parent"
+                            android:textSize="@dimen/_15ssp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:layout_marginRight="@dimen/_2sdp"
+                            android:hint="@string/name_example_com" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:background="@drawable/corner_ediitext"
-                        android:hint="@string/address"
-                        android:inputType="text"
-                        android:padding="@dimen/_10sdp">
+                        android:layout_height="@dimen/_55sdp"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        android:textColorHint="#C3C2C2"
+                        app:boxStrokeColor="#C3C2C2"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_6sdp">
 
-                    </EditText>
+                        <com.google.android.material.textfield.TextInputEditText
+
+                            android:layout_width="match_parent"
+                            android:textSize="@dimen/_15ssp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:layout_marginRight="@dimen/_2sdp"
+                            android:hint="@string/address" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:layout_margin="@dimen/_8sdp"
-                        android:background="@drawable/corner_ediitext"
+                        android:background="@drawable/corner_edittext2"
                         android:gravity="center_vertical">
 
                         <com.gbksoft.countrycodepickerlib.CountryCodePicker
@@ -282,18 +311,17 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_height="@dimen/_50sdp"
                         android:layout_margin="@dimen/_8sdp"
-                        android:background="@drawable/corner_ediitext"
+                        android:background="@drawable/corner_edittext2"
                         android:gravity="center_vertical">
 
                         <com.gbksoft.countrycodepickerlib.CountryCodePicker
-                            android:id="@+id/ccp1"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <EditText
-                            android:id="@+id/editText_carrierNumber1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"

@@ -16,12 +16,20 @@
        android:layout_width="match_parent"
        android:layout_margin="@dimen/_5sdp"
        android:layout_height="match_parent">
-       <RelativeLayout
+
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_gravity="center"
            android:layout_width="@dimen/_60sdp"
-           android:layout_height="@dimen/_60sdp"
+           android:layout_height="@dimen/_60sdp">
+
+
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
            android:layout_gravity="center"
            android:background="@drawable/paymentround"
-           android:layout_marginTop="@dimen/_20sdp"
            >
 
 
@@ -35,17 +43,26 @@
 
        </ImageView>
        </RelativeLayout>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_margin="@dimen/_10sdp"
+           android:layout_marginTop="@dimen/_10sdp"
+           android:layout_gravity="center"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+
+
        <TextView
            android:text="Payment Successful !"
            android:textColor="@color/black"
            android:fontFamily="@font/poppinsmedium"
-           android:textSize="@dimen/_21sdp"
+           android:textSize="@dimen/_17sdp"
            android:layout_gravity="center"
-           android:layout_marginTop="@dimen/_20sdp"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
        </TextView>
+       </LinearLayout>
        <TextView
            android:text="Your payment has been paid successfully."
            android:textColor="@color/black"

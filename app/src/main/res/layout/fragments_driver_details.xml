@@ -252,7 +252,7 @@
                                 android:paddingTop="@dimen/_4sdp"
                                 app:length="4"
                                 app:otp="0589"
-                                app:otp_text_size="@dimen/_10ssp"
+                                app:otp_text_size="@dimen/_13ssp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 

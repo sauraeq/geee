@@ -26,6 +26,7 @@
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_gravity="center"
+            android:padding="@dimen/_2sdp"
             android:src="@drawable/fgmbckarrow"
 
             />
@@ -34,7 +35,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 
         <!--
@@ -59,7 +59,6 @@
             >
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -71,22 +70,20 @@
                     android:orientation="vertical">
 
 
-
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_22sdp"
-                            android:layout_marginTop="@dimen/_9sdp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/_9sdp"
                             android:fontFamily="@font/poppinsmedium"
-                            android:textSize="@dimen/_9sdp"
-                            android:text="Choose your pick-up spot">
-                        </TextView>
+                            android:text="Choose your pick-up spot"
+                            android:textSize="@dimen/_9sdp"></TextView>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dip"
@@ -96,44 +93,47 @@
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_marginRight="@dimen/_12sdp"
                             android:background="#C8C3C3" />
+
                         <LinearLayout
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_40sdp"
-                            android:weightSum="2"
-                            android:orientation="horizontal">
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
                             <TextView
-                                android:text="105 William St, Chicago, US."
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_8sdp"
                                 android:layout_weight="1"
-                                android:textSize="@dimen/_12sdp"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:paddingLeft="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_height="wrap_content">
+                                android:text="105 William St, Chicago, US."
+                                android:textSize="@dimen/_12sdp">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/tvSignUpTab1"
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_8sdp"
                                 android:layout_weight="1"
                                 android:background="@drawable/rectangle_black"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:gravity="center"
                                 android:text="@string/search"
-                               android:layout_margin="@dimen/_8sdp"
-                                android:textColor="@color/black"
-                               />
+                                android:textColor="@color/black" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/confirm_pick_Up_layout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_50sdp"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/_20sdp"
                             android:layout_marginLeft="@dimen/_18sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
                             android:layout_marginRight="@dimen/_18sdp"
+                            android:orientation="horizontal"
                             android:padding="@dimen/_5sdp">
 
                             <TextView
@@ -153,13 +153,7 @@
                     </LinearLayout>
 
 
-
-
-
-
-
                 </LinearLayout>
-
 
 
             </LinearLayout>

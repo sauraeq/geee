@@ -33,7 +33,7 @@
             android:textSize="@dimen/_17sdp" />
 
         <ImageView
-            android:id="@+id/LeftArrow1"
+            android:id="@+id/leftarrow_fare"
             android:layout_width="@dimen/_10sdp"
             android:layout_height="@dimen/_15sdp"
             android:layout_marginLeft="@dimen/_20sdp"
