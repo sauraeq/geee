@@ -226,8 +226,15 @@
             android:orientation="horizontal"
            >
 
+  <LinearLayout
+      android:id="@+id/Logout_Linear_Layout"
+    android:layout_width="match_parent"
+      android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
 
             <ImageView
+
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
@@ -236,6 +243,7 @@
             </ImageView>
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:fontFamily="@font/poppinsmedium"
@@ -244,6 +252,7 @@
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+    </LinearLayout>
 
         </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -19,9 +20,12 @@ import com.geelong.user.Adapter.NavigationRVAdapter
 import com.example.customnavigationdrawerexample.RecyclerTouchListener
 import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.R
+import com.geelong.user.Util.SharedPreferenceUtils
 
 
 class Search1 : AppCompatActivity() {
+
+    lateinit var logout_btn:LinearLayout
 
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
@@ -58,6 +62,8 @@ class Search1 : AppCompatActivity() {
         var ivMenu=findViewById<ImageView>(R.id.ivMenu1)
         ivClose1=findViewById(R.id.ivClose)
 
+        logout_btn=findViewById(R.id.Logout_Linear_Layout)
+
 
        /* img_prfil.setOnClickListener() {
             intent = Intent(this, ProfileActivity::class.java)
@@ -87,6 +93,12 @@ class Search1 : AppCompatActivity() {
         ivMenu.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
        }
+
+        logout_btn.setOnClickListener {
+            SharedPreferenceUtils.getInstance(this)?.clear()
+            val intent = Intent(this@Search1, Sign_Up::class.java)
+            startActivity(intent)
+        }
 
         // Add Item Touch Listener
         navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this, object : ClickListener {
@@ -231,5 +243,8 @@ class Search1 : AppCompatActivity() {
         val intent = Intent(this, Confirm::class.java)
         startActivity(intent)
     }
+
+
+
 
 }

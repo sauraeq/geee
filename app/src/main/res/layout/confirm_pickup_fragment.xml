@@ -114,7 +114,7 @@
                             </TextView>
 
                             <TextView
-                                android:id="@+id/tvSignUpTab1"
+
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/_8sdp"
