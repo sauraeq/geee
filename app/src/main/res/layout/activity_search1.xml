@@ -257,6 +257,17 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/progress_loader_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="gone">
+        <include layout="@layout/loader_layout"/>
+
+    </RelativeLayout>
+
     <!-- Custom Navigation Drawer End -->
 
 </androidx.drawerlayout.widget.DrawerLayout>

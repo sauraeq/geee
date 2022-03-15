@@ -99,8 +99,9 @@
 
                         </ImageView>
                         <TextView
+                            android:id="@+id/pick_up_user"
                             android:text="7958 Swfit Village"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:layout_marginLeft="@dimen/_12sdp"
@@ -143,15 +144,17 @@
                            >
 
                         </ImageView>
-                        <TextView
-                            android:text="@string/_7958_swfit_village"
-                            android:layout_width="wrap_content"
+                        <AutoCompleteTextView
+                            android:id="@+id/drop_location_user"
+                           android:background="@null"
+                            android:hint="@string/enter_drop_location"
+                            android:layout_width="match_parent"
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:layout_height="wrap_content">
 
-                        </TextView>
+                        </AutoCompleteTextView>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -183,15 +186,16 @@
                             android:paddingTop="@dimen/_2sdp"                            >
 
                         </ImageView>
-                        <TextView
-                            android:text="2"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:hint="2"
+                            android:background="@null"
+                            android:layout_width="match_parent"
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:layout_height="wrap_content">
 
-                        </TextView>
+                        </EditText>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"

@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,13 +15,12 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.GeeLong">
         <activity
             android:name=".Activity.Chat"
             android:exported="false" />
-        <activity
-            android:name=".Activity.MessageAct"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.CallActivity"
             android:exported="false" />
@@ -87,6 +89,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".Util.FetchAddressServices" />
     </application>
 
 </manifest>

@@ -85,7 +85,7 @@ class DriverFragments : Fragment() {
                 .bearing(0f)
                 .build()
 
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null)
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
 
             mMap.addMarker(
                 MarkerOptions()

@@ -1,6 +1,7 @@
 package com.geelong.user.Activity
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -63,9 +64,10 @@ class Sign_Up : AppCompatActivity() {
         var txt_2=findViewById<TextView>(R.id.tvSiginTab2)
         var txt_3=findViewById<TextView>(R.id.tvSignUpTab3)
         var txt_4=findViewById<TextView>(R.id.tvSiginTab4)
-        var sign_in=findViewById<LinearLayout>(R.id.login_linear_next)
-        var sign_up1=findViewById<TextView>(R.id.sign_up_text)
+        var sign_in=findViewById<TextView>(R.id.next_sign_in_btn)
         var sign_up=findViewById<LinearLayout>(R.id.sign_up_linearlayout)
+
+
 
 
         var linear_sign_up=findViewById<LinearLayout>(R.id.singnup_linera)
@@ -76,14 +78,7 @@ class Sign_Up : AppCompatActivity() {
         var Linear_soical_media_icon=findViewById<LinearLayout>(R.id.Social_media_Linear)
         var Linear_terms_condition=findViewById<LinearLayout>(R.id.term_Linear)
 
-        try {
-            val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
-            radioButton = findViewById(intSelectButton)
-            gender=radioButton.text.toString()
-        } catch (e:Exception)
-        {
 
-        }
 
         linear_sign_up.setVisibility(View.GONE)
         linear_sign_up_content.setVisibility(View.GONE)
@@ -114,6 +109,7 @@ class Sign_Up : AppCompatActivity() {
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
         txt_2.setOnClickListener {
+
             linear_sign_in.setVisibility(View.VISIBLE)
             linear_sign_up.setVisibility(View.GONE)
             linear_sign_up_content.setVisibility(View.GONE)
@@ -126,6 +122,7 @@ class Sign_Up : AppCompatActivity() {
 
         }
         txt_3.setOnClickListener {
+
             linear_sign_in.setVisibility(View.GONE)
             linear_sign_up.setVisibility(View.VISIBLE)
             Linear_sign_in_content.setVisibility(View.GONE)
@@ -136,6 +133,8 @@ class Sign_Up : AppCompatActivity() {
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
         sign_in.setOnClickListener {
+
+
             mobile_number_login=user_login_mobile.text.toString()
 
             if (mobile_number_login.isEmpty())
@@ -165,7 +164,7 @@ class Sign_Up : AppCompatActivity() {
             mobile_number=user_mobile.getText().toString()
 
 
-            Toast.makeText(this,name+email+address+mobile_number+gender,Toast.LENGTH_LONG).show()
+           /* Toast.makeText(this,name+email+address+mobile_number+gender,Toast.LENGTH_LONG).show()*/
 
 
               if (name.isEmpty())
@@ -297,17 +296,18 @@ class Sign_Up : AppCompatActivity() {
                         /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.IS_LOGIN,"true")
                          var intent = Intent(this@Signup, DashboardActivity::class.java)
                          startActivity(intent)*/
-                         finishAffinity()
+                         //finishAffinity()
 
                     } else {
                         // Toast.makeText(this@Signup,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
-
+                        Toast.makeText(this@Sign_Up,"Error",Toast.LENGTH_LONG).show()
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
                     //  rlLoader.visibility=View.GONE
                     prgs_loader.visibility=View.GONE
+                    Toast.makeText(this@Sign_Up,e.message,Toast.LENGTH_LONG).show()
 
                 }
 
@@ -317,6 +317,7 @@ class Sign_Up : AppCompatActivity() {
                 Log.e("Saurav", t.message.toString())
                 // rlLoader.visibility=View.GONE
                 prgs_loader.visibility=View.GONE
+                Toast.makeText(this@Sign_Up,t.message,Toast.LENGTH_LONG).show()
 
             }
 

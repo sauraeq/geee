@@ -333,6 +333,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+
                         android:id="@+id/login_linear_next"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
@@ -345,6 +346,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/button_corner"
+                            android:clickable="true"
                             android:fontFamily="@font/poppinsmedium"
                             android:paddingTop="@dimen/_12sdp"
                             android:text="@string/next"

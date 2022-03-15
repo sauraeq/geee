@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.R
@@ -33,13 +34,13 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    var locat:String=""
+    var lati:String=""
+    var longi:String=""
+lateinit var pick_up_user:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -48,6 +49,21 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootview= inflater.inflate(R.layout.fragment_home, container, false)
+
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+            locat=it.getString("Location","")
+            lati=it.getString("Late","")
+            longi=it.getString("Long","")
+
+          /*  Toast.makeText(requireContext(),locat,Toast.LENGTH_LONG).show()*/
+        }
+        pick_up_user=rootview.findViewById(R.id.pick_up_user)
+
+
+        pick_up_user.setText(locat)
+
 
       var search_textt:TextView=rootview.findViewById(R.id.search_text)
         search_textt.setOnClickListener {
@@ -61,6 +77,7 @@ class HomeFragment : Fragment() {
         }
 
 
+
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment!!.getMapAsync { mMap ->
@@ -72,7 +89,7 @@ class HomeFragment : Fragment() {
 
 
             val googlePlex = CameraPosition.builder()
-                .target(LatLng(28.6201514,77.342835))
+                .target(LatLng(lati.toDouble(),longi.toDouble()))
                 .zoom(12f)
                 .bearing(0f)
                 .build()
@@ -81,8 +98,8 @@ class HomeFragment : Fragment() {
 
             mMap.addMarker(
                 MarkerOptions()
-                    .position(LatLng(28.6201514,77.342835))
-                    .title("Spider Man")
+                    .position(LatLng(lati.toDouble(),longi.toDouble()))
+                    .title(locat)
                     .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
             )
 

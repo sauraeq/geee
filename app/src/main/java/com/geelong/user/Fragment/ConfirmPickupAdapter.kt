@@ -79,7 +79,7 @@ class ConfirmPickupAdapter : Fragment() {
                 .bearing(0f)
                 .build()
 
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null)
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
             val height = 90
             val width = 90
             val bitmapdraw = resources.getDrawable(R.drawable.maparroww) as BitmapDrawable
