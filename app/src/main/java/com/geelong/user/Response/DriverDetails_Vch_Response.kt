@@ -1,7 +1,7 @@
 package com.geelong.user.Response
 
-data class SignUpResponse(
-    val `data`: SignUpData,
+data class DriverDetails_Vch_Response(
+    val `data`: List<DriverDetailsData>,
     val error: Int,
     val msg: String,
     val service: String,

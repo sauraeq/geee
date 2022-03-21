@@ -5,11 +5,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -19,10 +21,7 @@ import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.Confirm
 import com.geelong.user.Activity.ConfirmPick_up
-import com.geelong.user.Activity.Otp
 import com.geelong.user.R
-import com.geelong.user.Activity.Search1
-import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Response.Vechail_detailsResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -30,6 +29,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_confirm.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,6 +44,9 @@ class ConfirmFragment : Fragment() {
     private var param2: String? = null
     var lat_user:String=""
     var langi_user:String=""
+    var img_url:String=""
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +65,10 @@ class ConfirmFragment : Fragment() {
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
         var back_linera_layoutt=rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
         var pick_up_confirmm=rootview.findViewById<TextView>(R.id.pick_up_confirm)
+
+
+
+        
 
        lat_user= SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
         langi_user=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
@@ -151,11 +159,14 @@ class ConfirmFragment : Fragment() {
             }
     }
 
+
+
     fun vehlist()
     {
         val request = HashMap<String, String>()
         request.put("latitude",lat_user)
         request.put("longitude",langi_user)
+        request.put("distance","50")
 
 
         // rlLoader.visibility=View.VISIBLE
@@ -170,20 +181,19 @@ class ConfirmFragment : Fragment() {
                     // rlLoader.visibility=View.GONE
                   //  prgs_loader.visibility=View.GONE
                     if (response.body()!!.success.equals("true")) {
-                        Toast.makeText(requireContext(),response.body()!!.msg.toString(),Toast.LENGTH_LONG).show()
-                      /*  var intent=Intent(requireContext(), Otp::class.java)
-                        intent.putExtra("otp",response.body()!!.data.otp.toString())
-                        startActivity(intent)*/
+                        img_url=response.body()!!.data[0].image
+                        driver_name1.setText(response.body()!!.data[0].name)
+                        vch_name.setText(response.body()!!.data[0].vehicle_name)
+                        vch_number.setText(response.body()!!.data[0].vehicle_no)
+                        total_fare.setText("₹"+response.body()!!.data[0].amount)
 
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.USER_ID,response.body()!!.success)
-                        /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.EMAIL_ID,response.body()!!.data.email)*/
-                        /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.IS_LOGIN,"true")
-                         var intent = Intent(this@Signup, DashboardActivity::class.java)
-                         startActivity(intent)*/
-                        //finishAffinity()
+                        val picasso = Picasso.get()
+                        picasso.load(img_url).resize(50,40).into(driver_img_confirm)
+
+
 
                     } else {
-                        // Toast.makeText(this@Signup,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
+
                         Toast.makeText(requireContext(),"Error",Toast.LENGTH_LONG).show()
                     }
 

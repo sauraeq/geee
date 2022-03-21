@@ -90,12 +90,7 @@ class Search1 : AppCompatActivity() {
         logout_btn=findViewById(R.id.Logout_Linear_Layout)
 
 
-       /* img_prfil.setOnClickListener() {
-            intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
 
-        */
 
 
 
@@ -121,12 +116,11 @@ class Search1 : AppCompatActivity() {
 
 
 
-        // Set the toolbar
-        // setSupportActionBar(activity_main_toolbar)
+
         getSupportActionBar()?.setDisplayShowTitleEnabled(false);
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(false);
 
-        // Setup Recyclerview's Layout
+
         navigation_rv.layoutManager = LinearLayoutManager(this)
         navigation_rv.setHasFixedSize(true)
         ivMenu.setOnClickListener {
@@ -139,7 +133,7 @@ class Search1 : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Add Item Touch Listener
+
         navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this, object : ClickListener {
             override fun onClick(view: View, position: Int) {
                 when (position) {
@@ -178,7 +172,7 @@ class Search1 : AppCompatActivity() {
 
                     }
                 }
-                // Don't highlight the 'Profile' and 'Like us on Facebook' item row
+
                 updateAdapter(position)
                 if (position != 6 && position != 4) {
 
@@ -189,13 +183,13 @@ class Search1 : AppCompatActivity() {
             }
         }))
 
-        // Update Adapter with item data and highlight the default menu item ('Home' Fragment)
+
         updateAdapter(0)
 
 
 
 
-        // Close the soft keyboard when you open or close the Drawer
+
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -203,7 +197,7 @@ class Search1 : AppCompatActivity() {
             R.string.navigation_drawer_close
         ) {
             override fun onDrawerClosed(drawerView: View) {
-                // Triggered once the drawer closes
+
                 super.onDrawerClosed(drawerView)
                 try {
                     val inputMethodManager =
@@ -215,7 +209,7 @@ class Search1 : AppCompatActivity() {
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                // Triggered once the drawer opens
+
                 super.onDrawerOpened(drawerView)
                 try {
                     val inputMethodManager =
@@ -231,11 +225,7 @@ class Search1 : AppCompatActivity() {
         toggle.syncState()
 
 
-        // Set Header Image
-        // navigation_header_img.setImageResource(R.drawable.logo)
 
-        // Set background of Drawer
-       // navigation_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
     }
 
     private fun updateAdapter(highlightItemPos: Int) {
@@ -248,7 +238,7 @@ class Search1 : AppCompatActivity() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            // Checking for fragment count on back stack
+
             if (supportFragmentManager.backStackEntryCount > 0) {
                 // Go to the previous fragment
                 supportFragmentManager.popBackStack()
@@ -285,13 +275,7 @@ class Search1 : AppCompatActivity() {
         }
     }
 
-    // TODO: Consider calling
-    //    ActivityCompat#requestPermissions
-    // here to request the missing permissions, and then overriding
-    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-    //                                          int[] grantResults)
-    // to handle the case where the user grants the permission. See the documentation
-    // for ActivityCompat#requestPermissions for more details.
+
     private val currentLocation: Unit
         private get() {
 
@@ -307,13 +291,7 @@ class Search1 : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+
                 return
             }
             LocationServices.getFusedLocationProviderClient(this)

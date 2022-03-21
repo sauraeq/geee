@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.geelong.user.Activity.Confirm
 import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.Activity.Pay_Now
 import com.geelong.user.R
@@ -26,7 +25,7 @@ import com.google.android.gms.maps.model.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class ConfirmPickupAdapter : Fragment() {
+class ConfirmPickupFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -129,4 +128,5 @@ class ConfirmPickupAdapter : Fragment() {
                 }
             }
     }
+
 }

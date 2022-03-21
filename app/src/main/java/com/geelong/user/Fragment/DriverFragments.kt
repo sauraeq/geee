@@ -5,24 +5,28 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.CallActivity
 import com.geelong.user.Activity.Chat
 import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
+import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -49,6 +53,8 @@ class DriverFragments : Fragment() {
 
         var call_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_call)
         var message_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_message)
+
+        DriverDetailss()
 
         call_to_driver.setOnClickListener {
             val intent= Intent(context, CallActivity::class.java)
@@ -129,4 +135,66 @@ class DriverFragments : Fragment() {
                 }
             }
     }
+
+    fun DriverDetailss()
+    {
+        val request = HashMap<String, String>()
+        request.put("pickupAddress","noida")
+        request.put("pickupLatitude","25.878787")
+        request.put("pickupLongitude","77.848475")
+        request.put("dropAddress","ghaziabad")
+        request.put("dropLatitude","28.9898564")
+        request.put("dropLongitude","77.84848")
+        request.put("user_id","20" )
+        request.put("driver_id","55")
+        request.put("amount","55")
+        request.put("time","20")
+
+
+
+
+        // rlLoader.visibility=View.VISIBLE
+        //prgs_loader.visibility=View.VISIBLE
+
+        var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
+
+        driver_vec_details.enqueue(object : Callback<DriverDetails_Vch_Response> {
+            override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
+                try {
+
+                    // rlLoader.visibility=View.GONE
+                    //  prgs_loader.visibility=View.GONE
+                    if (response.body()!!.success.equals("true")) {
+
+                        Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG).show()
+
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    //  rlLoader.visibility=View.GONE
+                    //  prgs_loader.visibility=View.GONE
+                    Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                // rlLoader.visibility=View.GONE
+                // prgs_loader.visibility=View.GONE
+                Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
+
+            }
+
+        })
+    }
+
+
 }

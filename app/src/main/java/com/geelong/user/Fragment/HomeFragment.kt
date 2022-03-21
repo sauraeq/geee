@@ -12,24 +12,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.geelong.user.R
 import com.geelong.user.Activity.Search1
+import com.geelong.user.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import java.lang.Math.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -37,6 +33,9 @@ class HomeFragment : Fragment() {
     var locat:String=""
     var lati:String=""
     var longi:String=""
+    var lati_drop:String="28.6280"
+    var langit_drop:String="77.3649"
+
 lateinit var pick_up_user:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +46,7 @@ lateinit var pick_up_user:TextView
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val rootview= inflater.inflate(R.layout.fragment_home, container, false)
 
         arguments?.let {
@@ -64,6 +63,10 @@ lateinit var pick_up_user:TextView
 
         pick_up_user.setText(locat)
 
+
+var toatal_distance=getKilometers(lati.toDouble(),longi.toDouble(),lati_drop.toDouble(),langit_drop.toDouble())
+        var toatlkm=toatal_distance.toFloat()
+        Toast.makeText(context,toatlkm.toString(),Toast.LENGTH_LONG).show()
 
       var search_textt:TextView=rootview.findViewById(R.id.search_text)
         search_textt.setOnClickListener {
@@ -83,7 +86,7 @@ lateinit var pick_up_user:TextView
         mapFragment!!.getMapAsync { mMap ->
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-            mMap.clear() //clear old markers
+            mMap.clear()
 
 
 
@@ -120,15 +123,7 @@ lateinit var pick_up_user:TextView
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
@@ -137,5 +132,14 @@ lateinit var pick_up_user:TextView
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun getKilometers(lat1: Double, long1: Double, lat2: Double, long2: Double): Double {
+        val PI_RAD = Math.PI / 180.0
+        val phi1 = lat1 * PI_RAD
+        val phi2 = lat2 * PI_RAD
+        val lam1 = long1 * PI_RAD
+        val lam2 = long2 * PI_RAD
+        return 6371.01 * acos(sin(phi1) * sin(phi2) + cos(phi1) * cos(phi2) * cos(lam2 - lam1))
     }
 }

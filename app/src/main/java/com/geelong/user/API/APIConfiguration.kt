@@ -38,4 +38,10 @@ interface APIConfiguration {
     ): Call<Vechail_detailsResponse>
 
 
+    @POST("booking")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun Driver_details(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<DriverDetails_Vch_Response>
+
 }

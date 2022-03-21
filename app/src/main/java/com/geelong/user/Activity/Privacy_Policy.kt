@@ -1,19 +1,17 @@
 package com.geelong.user.Activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Adapter.PrivacyAdapter
 import com.geelong.user.R
-import com.geelong.user.Response.DataX
+import com.geelong.user.Response.PivacyData
 import com.geelong.user.Response.PrivacyResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +22,7 @@ import java.util.HashMap
 class Privacy_Policy : AppCompatActivity() {
 
     lateinit var recycler_privacy:RecyclerView
-    private var mlist: List<DataX> = ArrayList()
+    private var mlist: List<PivacyData> = ArrayList()
     lateinit var privacy_progress:RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {

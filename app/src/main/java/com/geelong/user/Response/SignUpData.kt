@@ -1,6 +1,6 @@
 package com.geelong.user.Response
 
-data class DataXXX(
+data class SignUpData(
     val address: String,
     val email: String,
     val gender: String,

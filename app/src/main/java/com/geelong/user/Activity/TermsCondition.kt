@@ -1,6 +1,5 @@
 package com.geelong.user.Activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,12 +9,9 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
-import com.geelong.user.Adapter.PrivacyAdapter
 import com.geelong.user.Adapter.TermsAdapetr
 import com.geelong.user.R
-import com.geelong.user.Response.DataX
 import com.geelong.user.Response.DataXX
-import com.geelong.user.Response.PrivacyResponse
 import com.geelong.user.Response.TermsResponse
 import retrofit2.Call
 import retrofit2.Callback

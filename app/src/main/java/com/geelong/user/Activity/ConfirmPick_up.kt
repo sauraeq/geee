@@ -3,7 +3,8 @@ package com.geelong.user.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.geelong.user.Fragment.ConfirmPickupAdapter
+
+import com.geelong.user.Fragment.ConfirmPickupFragment
 import com.geelong.user.R
 
 class ConfirmPick_up : AppCompatActivity() {
@@ -14,7 +15,7 @@ class ConfirmPick_up : AppCompatActivity() {
 
         val bundle = Bundle()
         bundle.putString("fragmentName", "Settings Fragment")
-        val settingsFragment = ConfirmPickupAdapter()
+        val settingsFragment = ConfirmPickupFragment()
         settingsFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.activity_main_content_id11, settingsFragment).commit()

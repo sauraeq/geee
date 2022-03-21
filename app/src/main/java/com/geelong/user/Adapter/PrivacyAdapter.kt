@@ -2,16 +2,14 @@ package com.geelong.user.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.geelong.user.Activity.Privacy_Policy
 import com.geelong.user.R
-import com.geelong.user.Response.DataX
+import com.geelong.user.Response.PivacyData
 
-class PrivacyAdapter(var mContext: Context,var mlist: List<DataX>) : RecyclerView.Adapter<PrivacyAdapter.ViewHolder>() {
+class PrivacyAdapter(var mContext: Context,var mlist: List<PivacyData>) : RecyclerView.Adapter<PrivacyAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
