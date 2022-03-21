@@ -21,7 +21,8 @@ class ConfirmPick_up : AppCompatActivity() {
     }
     fun inte()
     {
-        val intent = Intent(this, Confirm::class.java)
-        startActivity(intent)
+       /* val intent = Intent(this, Confirm::class.java)
+        startActivity(intent)*/
+        onBackPressed()
     }
 }

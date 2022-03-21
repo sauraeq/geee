@@ -24,8 +24,8 @@ class Notification : AppCompatActivity() {
         recyclerview.adapter = adapter
 
         back_activity.setOnClickListener {
-            val intent = Intent(this, Search1::class.java)
-            startActivity(intent)
+
+            onBackPressed()
         }
 
     }

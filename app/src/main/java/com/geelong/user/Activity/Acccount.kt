@@ -21,8 +21,7 @@ class Acccount : AppCompatActivity() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         back_act.setOnClickListener {
-            val intent = Intent(this, Search1::class.java)
-            startActivity(intent)
+           onBackPressed()
         }
 
     }

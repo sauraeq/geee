@@ -12,7 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.geelong.user.R
-
+import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.SharedPreferenceUtils
 
 
 class Otp : AppCompatActivity() {
@@ -51,7 +52,7 @@ class Otp : AppCompatActivity() {
 
 
                 Toast.makeText(this@Otp,"OTP Verified SUccessfully", Toast.LENGTH_SHORT).show()
-
+                SharedPreferenceUtils.getInstance(this)?.setStringValue(ConstantUtils.OTP,get_otp)
                 var intent= Intent(this, Search1::class.java)
                 startActivity(intent)
                 prgss_loader.visibility=View.GONE

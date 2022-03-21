@@ -1,10 +1,7 @@
 package com.geelong.user.API
 
 
-import com.geelong.user.Response.LoginResponse
-import com.geelong.user.Response.PrivacyResponse
-import com.geelong.user.Response.SignUpResponse
-import com.geelong.user.Response.TermsResponse
+import com.geelong.user.Response.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -25,15 +22,20 @@ interface APIConfiguration {
 
     @POST("privacypolicy")
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    fun privacy(
+    fun privacy(): Call<PrivacyResponse>
 
-    ): Call<PrivacyResponse>
+
     @POST("termsconditions")
     @Headers("Content-Type:application/x-www-form-urlencoded")
     fun terms(
 
     ): Call<TermsResponse>
 
+    @POST("vehiclelist")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun vech_details(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<Vechail_detailsResponse>
 
 
 }

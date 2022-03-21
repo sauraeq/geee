@@ -19,8 +19,9 @@ class FareDetails : AppCompatActivity() {
         }
         var back_activity_privacy=findViewById<ImageView>(R.id.leftarrow_fare)
         back_activity_privacy.setOnClickListener {
-            val intent = Intent(this, Pay_Now::class.java)
-            startActivity(intent)
+       /*     val intent = Intent(this, Pay_Now::class.java)
+            startActivity(intent)*/
+            onBackPressed()
         }
 
 

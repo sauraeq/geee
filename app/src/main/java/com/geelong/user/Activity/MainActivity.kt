@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import android.widget.Toast
 import com.geelong.user.R
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -18,8 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         Handler().postDelayed(Runnable {
           var str:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()
+            var str_otp:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.OTP,"").toString()
 
-            if (str.equals("true"))
+            
+
+            if (str_otp.length>=3)
             {
                 val intent = Intent(this@MainActivity, Search1::class.java)
                 startActivity(intent)

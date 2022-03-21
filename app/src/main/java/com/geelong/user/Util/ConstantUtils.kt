@@ -13,6 +13,10 @@ object ConstantUtils {
     const val ABOUT="about"
     const val IS_TOURGUIDE="tourguide"
     const val PROFILE_IMAGE="image"
+    const val LATITUDE="latitude"
+    const val LONGITUDE="longitude"
+    const val OTP="otp"
+
 
 
 }

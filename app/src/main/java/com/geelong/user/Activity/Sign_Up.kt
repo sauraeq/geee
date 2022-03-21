@@ -16,13 +16,19 @@ import com.geelong.user.Response.SignUpResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.textfield.TextInputEditText
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.HashMap
 
-class Sign_Up : AppCompatActivity() {
+class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener {
 
     var radioGroup: RadioGroup ?=null
     lateinit var radioButton: RadioButton
@@ -41,6 +47,11 @@ class Sign_Up : AppCompatActivity() {
 
     lateinit var prgs_loader:RelativeLayout
 
+    private var googleApiClient: GoogleApiClient? = null
+    var RC_SIGN_IN=100
+    lateinit var btn_gogle:ImageView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +67,7 @@ class Sign_Up : AppCompatActivity() {
          user_login_mobile=findViewById(R.id.login_edittext_mobile)
 
         prgs_loader=findViewById(R.id.progress_loader)
+        btn_gogle=findViewById(R.id.img_gogle_sign_in)
 
 
 
@@ -132,6 +144,22 @@ class Sign_Up : AppCompatActivity() {
             Linear_sign_Up_Text.setVisibility(View.VISIBLE)
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
+
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        googleApiClient = GoogleApiClient.Builder(this)
+            .enableAutoManage(this, this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+        btn_gogle.setOnClickListener {
+            val intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient!!)
+            startActivityForResult(intent, RC_SIGN_IN)
+        }
+
+
+
         sign_in.setOnClickListener {
 
 
@@ -206,6 +234,39 @@ class Sign_Up : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {}
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data!!)
+            handleSignInResult(result)
+        }
+    }
+
+    private fun handleSignInResult(result: GoogleSignInResult?) {
+        if (result!!.isSuccess) {
+            if (result.isSuccess) {
+                val account = result.signInAccount
+                //   name.setText(account!!.displayName)
+                // email.setText(account!!.email)
+                // userId!!.text = account.id
+                //  ToastUtil.toast_Long(this,account!!.email)
+                Toast.makeText(applicationContext, account!!.email, Toast.LENGTH_LONG).show()
+            } else {
+//                ToastUtil.toast_Long(this,"Please try again later")
+                Toast.makeText(applicationContext," Please try again later", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(applicationContext, "Sign in cancel", Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+
+    companion object {
+        private const val RC_SIGN_IN = 1
     }
 
     fun signup()
@@ -336,4 +397,6 @@ class Sign_Up : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
+
+
 }

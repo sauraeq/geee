@@ -25,8 +25,7 @@ class AccountEdit : AppCompatActivity() {
             startActivity(intent)
         }
         back_act.setOnClickListener {
-            val intent = Intent(this, Acccount::class.java)
-            startActivity(intent)
+           onBackPressed()
         }
     }
 }

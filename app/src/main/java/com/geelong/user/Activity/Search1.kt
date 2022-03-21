@@ -29,6 +29,7 @@ import com.geelong.user.Adapter.NavigationRVAdapter
 import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
+import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -330,6 +331,10 @@ class Search1 : AppCompatActivity() {
                                     String.format("Latitude : %s\n Longitude: %s", lati, longi)*/
                                 latii=lati.toString()
                                 lan=longi.toString()
+                                SharedPreferenceUtils.getInstance(this@Search1)?.setStringValue(
+                                    ConstantUtils.LATITUDE,latii)
+                                SharedPreferenceUtils.getInstance(this@Search1)?.setStringValue(
+                                    ConstantUtils.LONGITUDE,lan)
                                // Toast.makeText(this@Search1,lati.toString()+longi.toString(),Toast.LENGTH_LONG).show()
                                 val location = Location("providerNA")
                                 location.longitude = longi

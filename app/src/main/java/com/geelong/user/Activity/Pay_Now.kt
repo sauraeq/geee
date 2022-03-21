@@ -21,8 +21,9 @@ class Pay_Now : AppCompatActivity() {
         }
         var back_activity_privacy=findViewById<ImageView>(R.id.leftarrow_paynow)
         back_activity_privacy.setOnClickListener {
-            val intent = Intent(this, ConfirmPick_up::class.java)
-            startActivity(intent)
+            /*val intent = Intent(this, ConfirmPick_up::class.java)
+            startActivity(intent)*/
+            onBackPressed()
         }
 
     }

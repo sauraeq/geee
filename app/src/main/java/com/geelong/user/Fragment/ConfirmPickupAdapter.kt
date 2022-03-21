@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.Activity.Confirm
+import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.Activity.Pay_Now
 import com.geelong.user.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -49,8 +50,10 @@ class ConfirmPickupAdapter : Fragment() {
         var  confirm_pick_up=rootview.findViewById<LinearLayout>(R.id.confirm_pick_Up_layout)
 
         back_go_activityy.setOnClickListener {
-            val intent = Intent(requireContext(), Confirm::class.java)
-            startActivity(intent)
+           /* val intent = Intent(requireContext(), Confirm::class.java)
+            startActivity(intent)*/
+            (activity as ConfirmPick_up)?.inte()
+
         }
         confirm_pick_up.setOnClickListener {
             val intent = Intent(requireContext(), Pay_Now::class.java)

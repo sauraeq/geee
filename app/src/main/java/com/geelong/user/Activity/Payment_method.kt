@@ -38,8 +38,9 @@ class Payment_method : AppCompatActivity() {
         }
         var back_activity_privacy=findViewById<ImageView>(R.id.Left_paymentmethod)
         back_activity_privacy.setOnClickListener {
-            val intent = Intent(this, FareDetails::class.java)
-            startActivity(intent)
+           /* val intent = Intent(this, FareDetails::class.java)
+            startActivity(intent)*/
+            onBackPressed()
         }
 
     }

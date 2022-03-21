@@ -29,7 +29,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
+    buildFeatures{
+        dataBinding = true
         viewBinding = true
     }
 }
@@ -56,4 +57,5 @@ dependencies {
 
     implementation 'com.google.android.libraries.places:places:2.5.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 }

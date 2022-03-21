@@ -22,8 +22,9 @@ class TripDetails : AppCompatActivity() {
         val adapter = TripAdapter()
         recyclerview.adapter = adapter
         back_activity.setOnClickListener {
-            val intent = Intent(this, Search1::class.java)
-            startActivity(intent)
+          /*  val intent = Intent(this, Search1::class.java)
+            startActivity(intent)*/
+            onBackPressed()
         }
 
     }
