@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Handler().postDelayed(Runnable {
-          var str:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()
+          var str:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Success,"").toString()
             var str_otp:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.OTP,"").toString()
 
             

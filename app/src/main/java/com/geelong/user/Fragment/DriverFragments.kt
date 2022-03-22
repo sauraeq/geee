@@ -1,5 +1,7 @@
 package com.geelong.user.Fragment
 
+import `in`.aabhasjindal.otptextview.OtpTextView
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -19,10 +21,15 @@ import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
 import com.geelong.user.Response.DriverDetails_Vch_Response
+import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_confirm.*
+import kotlinx.android.synthetic.main.fragments_driver_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +42,17 @@ class DriverFragments : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    lateinit var otp:OtpTextView
+
+    var user_id:String=""
+    var driver_id:String=""
+    var Current_lati:String=""
+    var Current_longi:String=""
+    var amount:String=""
+    var current_loca:String=""
+    lateinit var customprogress:Dialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +71,21 @@ class DriverFragments : Fragment() {
 
         var call_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_call)
         var message_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_message)
+        otp=rootview.findViewById(R.id.otp_drvFrg)
+        customprogress= Dialog(requireContext())
+        customprogress.setContentView(R.layout.loader_layout)
+
+        user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
+        driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
+        Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+        Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+        amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
+        current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
+
+
 
         DriverDetailss()
+        customprogress.show()
 
         call_to_driver.setOnClickListener {
             val intent= Intent(context, CallActivity::class.java)
@@ -139,15 +170,15 @@ class DriverFragments : Fragment() {
     fun DriverDetailss()
     {
         val request = HashMap<String, String>()
-        request.put("pickupAddress","noida")
-        request.put("pickupLatitude","25.878787")
-        request.put("pickupLongitude","77.848475")
+        request.put("pickupAddress",current_loca)
+        request.put("pickupLatitude",Current_longi)
+        request.put("pickupLongitude",Current_lati)
         request.put("dropAddress","ghaziabad")
         request.put("dropLatitude","28.9898564")
         request.put("dropLongitude","77.84848")
-        request.put("user_id","20" )
-        request.put("driver_id","55")
-        request.put("amount","55")
+        request.put("user_id",user_id )
+        request.put("driver_id",driver_id)
+        request.put("amount",amount)
         request.put("time","20")
 
 
@@ -166,13 +197,25 @@ class DriverFragments : Fragment() {
                     //  prgs_loader.visibility=View.GONE
                     if (response.body()!!.success.equals("true")) {
 
+                        Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
                         Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG).show()
+                        val pro_img_url=response.body()!!.data[0].profile_photo
+                        val vch_img_url=response.body()!!.data[0].vehicle_image
 
+                        val picasso = Picasso.get()
+                        picasso.load(pro_img_url).resize(50,40).into(driver_img_drvFrg)
+                        picasso.load(vch_img_url).into(vch_img_drvFrg)
+                        driver_nmae_drvFrg.text=response.body()!!.data[0].name
+                        vch_name_drvFrg.text=response.body()!!.data[0].vehicle_name
+                        otp.setOTP(response.body()!!.data[0].otp.toString())
+
+                        customprogress.hide()
 
 
                     } else {
 
                         Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
+                        customprogress.hide()
                     }
 
                 }  catch (e: Exception) {
@@ -180,6 +223,7 @@ class DriverFragments : Fragment() {
                     //  rlLoader.visibility=View.GONE
                     //  prgs_loader.visibility=View.GONE
                     Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
 
                 }
 
@@ -190,6 +234,7 @@ class DriverFragments : Fragment() {
                 // rlLoader.visibility=View.GONE
                 // prgs_loader.visibility=View.GONE
                 Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
+                customprogress.hide()
 
             }
 

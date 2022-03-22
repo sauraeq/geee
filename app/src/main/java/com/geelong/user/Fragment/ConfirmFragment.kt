@@ -1,5 +1,6 @@
 package com.geelong.user.Fragment
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -45,6 +46,7 @@ class ConfirmFragment : Fragment() {
     var lat_user:String=""
     var langi_user:String=""
     var img_url:String=""
+    lateinit var customprogress:Dialog
 
 
 
@@ -65,6 +67,8 @@ class ConfirmFragment : Fragment() {
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
         var back_linera_layoutt=rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
         var pick_up_confirmm=rootview.findViewById<TextView>(R.id.pick_up_confirm)
+        customprogress= Dialog(requireContext())
+        customprogress.setContentView(R.layout.loader_layout)
 
 
 
@@ -163,6 +167,7 @@ class ConfirmFragment : Fragment() {
 
     fun vehlist()
     {
+        customprogress.show()
         val request = HashMap<String, String>()
         request.put("latitude",lat_user)
         request.put("longitude",langi_user)
@@ -190,11 +195,16 @@ class ConfirmFragment : Fragment() {
                         val picasso = Picasso.get()
                         picasso.load(img_url).resize(50,40).into(driver_img_confirm)
 
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].driver_id)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
 
+
+                        customprogress.hide()
 
                     } else {
 
                         Toast.makeText(requireContext(),"Error",Toast.LENGTH_LONG).show()
+                        customprogress.hide()
                     }
 
                 }  catch (e: Exception) {
@@ -202,6 +212,7 @@ class ConfirmFragment : Fragment() {
                     //  rlLoader.visibility=View.GONE
                   //  prgs_loader.visibility=View.GONE
                     Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+                    customprogress.hide()
 
                 }
 
@@ -212,6 +223,7 @@ class ConfirmFragment : Fragment() {
                 // rlLoader.visibility=View.GONE
                // prgs_loader.visibility=View.GONE
                 Toast.makeText(requireContext(),t.message,Toast.LENGTH_LONG).show()
+                customprogress.hide()
 
             }
 

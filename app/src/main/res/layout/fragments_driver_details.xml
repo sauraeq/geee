@@ -71,14 +71,25 @@
                     android:weightSum="3"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <!--<ImageView
+                        android:id="@+id/driver_img_drvFrg"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:src="@drawable/driverimg">
 
-                    </ImageView>
+                    </ImageView>-->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/driver_img_drvFrg"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:src="@drawable/driverimg"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:civ_border_width="2dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:civ_border_color="#FF000000"/>
 
                     <LinearLayout
 
@@ -89,6 +100,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/driver_nmae_drvFrg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinsmedium"
@@ -126,7 +138,7 @@
                      android:orientation="horizontal"
                         android:weightSum="2"
                         android:layout_width="wrap_content"
-                        android:layout_marginLeft="@dimen/_80sdp"
+                        android:layout_marginLeft="@dimen/_90sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_height="wrap_content">
                         <RelativeLayout
@@ -195,6 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/vch_name_drvFrg"
                             android:text="Mercedes Benz"
                             android:textSize="@dimen/_14ssp"
                             android:textColor="#3E3E3E"
@@ -205,6 +218,7 @@
 
                         </TextView>
                         <TextView
+                            android:id="@+id/vechile_number_drvFrg"
                             android:text="VD 128 235"
                             android:textSize="@dimen/_11ssp"
                             android:textColor="#3E3E3E"
@@ -243,10 +257,12 @@
                             android:layout_width="@dimen/_105sdp"
                             android:gravity="center"
                             android:layout_height="@dimen/_40sdp">
+
                             <in.aabhasjindal.otptextview.OtpTextView
+                                android:id="@+id/otp_drvFrg"
                                 android:textColor="#000"
-                                app:height="20dp"
-                                app:width="20dp"
+                                app:height="@dimen/_20sdp"
+                                app:width="@dimen/_20sdp"
                                 app:bar_enabled="false"
                                 app:bar_height="2dp"
                                 android:paddingTop="@dimen/_4sdp"
@@ -308,6 +324,7 @@
 
 
                         <ImageView
+                            android:id="@+id/vch_img_drvFrg"
                             android:layout_marginTop="@dimen/_4sdp"
                             android:src="@drawable/carimage"
                             android:layout_width="@dimen/_100sdp"

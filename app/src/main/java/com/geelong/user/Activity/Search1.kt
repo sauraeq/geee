@@ -1,6 +1,7 @@
 package com.geelong.user.Activity
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.ResultReceiver
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -25,10 +27,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customnavigationdrawerexample.ClickListener
 import com.example.customnavigationdrawerexample.RecyclerTouchListener
+import com.geelong.user.API.APIUtils
 import com.geelong.user.Adapter.NavigationRVAdapter
 import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
+import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
@@ -37,6 +41,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_acccount.*
+import kotlinx.android.synthetic.main.activity_search1.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 
 class Search1 : AppCompatActivity() {
@@ -50,6 +61,7 @@ class Search1 : AppCompatActivity() {
     lateinit var navigation_rv: RecyclerView
     lateinit var ivClose1:ImageView
     var textLatLong: TextView? = null
+    lateinit var customProgress:Dialog
 
 
 
@@ -86,11 +98,12 @@ class Search1 : AppCompatActivity() {
         resultReceiver = AddressResultReceiver(Handler())
 
 
-
+        login()
         logout_btn=findViewById(R.id.Logout_Linear_Layout)
 
 
-
+    customProgress= Dialog(this)
+        customProgress.setContentView(R.layout.loader_layout)
 
 
 
@@ -187,7 +200,7 @@ class Search1 : AppCompatActivity() {
         updateAdapter(0)
 
 
-
+        customProgress.show()
 
 
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
@@ -346,6 +359,7 @@ class Search1 : AppCompatActivity() {
                 settingsFragment.arguments = bundle
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.activity_main_content_id, settingsFragment).commit()
+                customProgress.hide()
 
                // Toast.makeText(this@Search1,address+locaity+state+district+district+country,Toast.LENGTH_LONG).show()
 
@@ -375,6 +389,66 @@ class Search1 : AppCompatActivity() {
 
     companion object {
         private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    fun login()
+    {
+      /*  customprogress.show()*/
+        var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_MOBILE_No,"").toString()
+        Toast.makeText(this@Search1,mobi_num, Toast.LENGTH_LONG).show()
+        val request = HashMap<String, String>()
+        request.put("mobile",mobi_num)
+
+
+
+        var login_in: Call<LoginResponse> = APIUtils.getServiceAPI()!!.Login(request)
+
+        login_in.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        Toast.makeText(this@Search1,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
+                      /*  User_name.text=response.body()!!.data[0].name
+                        User_mobile.text=response.body()!!.data[0].phone
+                        User_email.text=response.body()!!.data[0].email
+                        User_Address.text=response.body()!!.data[0].address
+                        User_gender.text=response.body()!!.data[0].gender*/
+                        var img_url=response.body()!!.data[0].profile_photo
+                        val picasso= Picasso.get()
+                        picasso.load(img_url).into(navigation_user_pic)
+                       /* customprogress.hide()*/
+
+
+                    } else {
+
+                        Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
+/*
+                        customprogress.hide()
+*/
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    Toast.makeText(this@Search1,e.message, Toast.LENGTH_LONG).show()
+                   /* customprogress.hide()*/
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                Toast.makeText(this@Search1,t.message, Toast.LENGTH_LONG).show()
+/*
+                customprogress.hide()
+*/
+            }
+
+        })
     }
 
 }

@@ -2,10 +2,10 @@ package com.geelong.user.API
 
 
 import com.geelong.user.Response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface APIConfiguration {
     @POST("usersignup")
@@ -43,5 +43,12 @@ interface APIConfiguration {
     fun Driver_details(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<DriverDetails_Vch_Response>
+
+    @Multipart
+    @POST("edituser")
+    fun profileupdate(
+        @Part("user_id") driver_id: RequestBody,
+        @Part image: MultipartBody.Part?,
+    ): Call<EditProfileResponse>
 
 }

@@ -2,6 +2,7 @@ package com.geelong.user.Activity
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +20,7 @@ import com.geelong.user.Util.SharedPreferenceUtils
 class Otp : AppCompatActivity() {
     var  get_otp:String=""
     var otp_value:String=""
+    lateinit var customProgress:Dialog
     lateinit var prgss_loader: RelativeLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,8 @@ class Otp : AppCompatActivity() {
         var otp_edittext=findViewById<OtpTextView>(R.id.otp_view)
 
         prgss_loader=findViewById(R.id.progress_loader_otp)
+        customProgress= Dialog(this)
+        customProgress.setContentView(R.layout.loader_layout)
 
         get_otp= intent.getStringExtra("otp").toString()
         Toast.makeText(this,get_otp,Toast.LENGTH_LONG).show()
@@ -46,7 +50,8 @@ class Otp : AppCompatActivity() {
 
 
         verify_txt.setOnClickListener {
-            prgss_loader.visibility=View.VISIBLE
+            customProgress.show()
+
             if (otp_value==get_otp)
             {
 
@@ -55,12 +60,13 @@ class Otp : AppCompatActivity() {
                 SharedPreferenceUtils.getInstance(this)?.setStringValue(ConstantUtils.OTP,get_otp)
                 var intent= Intent(this, Search1::class.java)
                 startActivity(intent)
-                prgss_loader.visibility=View.GONE
+                customProgress.hide()
 
 
             }
             else
-            {  prgss_loader.visibility=View.GONE
+            {
+                customProgress.hide()
                 Toast.makeText(this@Otp,"Please Enter Correct OTP", Toast.LENGTH_SHORT).show()
             }
 

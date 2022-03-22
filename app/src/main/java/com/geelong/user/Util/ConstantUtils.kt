@@ -2,8 +2,13 @@ package com.geelong.user.Util
 
 object ConstantUtils {
     const val USER_ID="userid"
+    const val Success="success"
+    const val Amount="amount"
+    const val User_Mobile_Number="user_mobile-number"
 
     const val USER_MOBILE_No="mobileno"
+    const val Driver_Id="driver_id"
+    const val CurrentL="current_location"
     const val COUNTRY_CODE="countrycode"
     const val USER_TYPE="usertype"
     const val EMAIL_ID="emailid"

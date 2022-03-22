@@ -102,6 +102,7 @@
                             android:weightSum="2">
 
                             <TextView
+                                android:id="@+id/current_loc_textview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_8sdp"

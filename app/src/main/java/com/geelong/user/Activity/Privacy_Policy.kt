@@ -1,5 +1,6 @@
 package com.geelong.user.Activity
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,6 +25,8 @@ class Privacy_Policy : AppCompatActivity() {
     lateinit var recycler_privacy:RecyclerView
     private var mlist: List<PivacyData> = ArrayList()
     lateinit var privacy_progress:RelativeLayout
+    lateinit var customprogress:Dialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,10 @@ class Privacy_Policy : AppCompatActivity() {
         var back_activity_privacy=findViewById<ImageView>(R.id.LeftArrow2)
          privacy_progress=findViewById<RelativeLayout>(R.id.progress_loader_privacy)
         recycler_privacy=findViewById(R.id.recycler_privacy_policy)
+
+        customprogress= Dialog(this)
+        customprogress.setContentView(R.layout.loader_layout)
+
         back_activity_privacy.setOnClickListener {
           onBackPressed()
         }
@@ -45,7 +52,7 @@ class Privacy_Policy : AppCompatActivity() {
     {
         val request = HashMap<String, String>()
 
-        privacy_progress.visibility=View.VISIBLE
+    customprogress.show()
 
         var privacy: Call<PrivacyResponse> = APIUtils.getServiceAPI()!!.privacy()
 
@@ -60,7 +67,8 @@ class Privacy_Policy : AppCompatActivity() {
                         recycler_privacy.layoutManager= LinearLayoutManager(this@Privacy_Policy)
                         recycler_privacy.adapter=PrivacyAdapter(this@Privacy_Policy,mlist)
 
-                        privacy_progress.visibility=View.GONE
+
+                        customprogress.hide()
 
 
 
@@ -74,7 +82,8 @@ class Privacy_Policy : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    privacy_progress.visibility=View.GONE
+
+                    customprogress.hide()
 
 
                 }
@@ -83,7 +92,8 @@ class Privacy_Policy : AppCompatActivity() {
 
             override fun onFailure(call: Call<PrivacyResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                privacy_progress.visibility=View.GONE
+
+                customprogress.hide()
 
 
             }

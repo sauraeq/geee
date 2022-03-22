@@ -1,7 +1,6 @@
 package com.geelong.user.Response
 
-data class LoginResponse(
-    val `data`: List<LoginData>,
+data class EditProfileResponse(
     val error: Int,
     val msg: String,
     val service: String,
