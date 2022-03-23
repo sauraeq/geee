@@ -51,7 +51,7 @@ class ConfirmPick_up : AppCompatActivity() {
         ) {
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                ConfirmPick_up.LOCATION_PERMISSION_REQUEST_CODE
+                LOCATION_PERMISSION_REQUEST_CODE
             )
         } else {
             currentLocation
@@ -118,23 +118,18 @@ class ConfirmPick_up : AppCompatActivity() {
                                 val latestlocIndex = locationResult.locations.size - 1
                                 val lati = locationResult.locations[latestlocIndex].latitude
                                 val longi = locationResult.locations[latestlocIndex].longitude
-                                /* textLatLong!!.text =
-                                     String.format("Latitude : %s\n Longitude: %s", lati, longi)*/
+
                                 latii=lati.toString()
                                 lan=longi.toString()
-
-                              //  Toast.makeText(this@ConfirmPick_up,latii+lan,Toast.LENGTH_LONG).show()
                                 SharedPreferenceUtils.getInstance(this@ConfirmPick_up)?.setStringValue(
                                     ConstantUtils.LATITUDE,latii)
                                 SharedPreferenceUtils.getInstance(this@ConfirmPick_up)?.setStringValue(
                                     ConstantUtils.LONGITUDE,lan)
-                                // Toast.makeText(this@Search1,lati.toString()+longi.toString(),Toast.LENGTH_LONG).show()
                                 val location = Location("providerNA")
                                 location.longitude = longi
                                 location.latitude = lati
                                 fetchaddressfromlocation(location)
                             } else {
-                                /* progressBar!!.visibility = View.GONE*/
                             }
                         }
                     }
@@ -151,9 +146,6 @@ class ConfirmPick_up : AppCompatActivity() {
                 var  district: String? =resultData.getString(Constants.DISTRICT)
                 var  country: String? =resultData.getString(Constants.ADDRESS)
                 locat=address+","+locaity+","+state
-
-               // Toast.makeText(this@ConfirmPick_up,locat,Toast.LENGTH_LONG).show()
-
                 val bundle = Bundle()
                 bundle.putString("fragmentName", "Settings Fragment")
                 bundle.putString("Location",locat)
@@ -164,8 +156,6 @@ class ConfirmPick_up : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.activity_main_content_id11, settingsFragment).commit()
                 customprogress.hide()
-
-                // Toast.makeText(this@Search1,address+locaity+state+district+district+country,Toast.LENGTH_LONG).show()
 
                 /* address!!.text = resultData.getString(Constants.ADDRESS)
                  locaity!!.text = resultData.getString(Constants.LOCAITY)
@@ -180,7 +170,7 @@ class ConfirmPick_up : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            /*  progressBar!!.visibility = View.GONE*/
+
         }
     }
 

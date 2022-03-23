@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.R
 import com.geelong.user.Response.DataXX
 
-class TermsAdapetr (var mContext: Context,var mlist: List<DataXX>) : RecyclerView.Adapter<TermsAdapetr.ViewHolder>() {
+
+class TermsAdapetr(var mContext: Context, var mlist: List<DataXX>) : RecyclerView.Adapter<TermsAdapetr.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

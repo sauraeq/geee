@@ -1,5 +1,6 @@
 package com.geelong.user.Activity
 
+import android.accounts.Account
 import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
@@ -8,23 +9,26 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.Acccount
 import com.geelong.user.R
+import com.geelong.user.Response.EditPResponse
 import com.geelong.user.Response.EditProfileResponse
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
 import kotlinx.android.synthetic.main.activity_account_edit.*
+import kotlinx.android.synthetic.main.activity_search1.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -44,6 +48,13 @@ class AccountEdit : AppCompatActivity() {
     private val pickImage = 100
     lateinit var imagepath:String
     lateinit var customprogress:Dialog
+    var user_name_et:String=""
+    var user_email_et:String=""
+    var user_gender_et:String=""
+    var user_address_et:String=""
+    var img_url:String=""
+    var selectedItem:String=""
+
 
 
 
@@ -51,32 +62,81 @@ class AccountEdit : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_edit)
         var  save=findViewById<TextView>(R.id.edit_profile_save)
-
         var back_act=findViewById<ImageView>(R.id.back_activity1)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
-
+        img_url=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Image_Url,"").toString()
+        var picasso=Picasso.get()
+        picasso.load(img_url).into(userProfile_edit_img)
         supportActionBar?.hide()
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        save.setOnClickListener {
-           /* val intent = Intent(this, Acccount::class.java)
-            startActivity(intent)*/
+        var lang=ArrayList<String>()
+        lang.add("Select")
+        lang.add("Male")
+        lang.add("Female")
+
+        if (gender_spinner != null) {
+            val adapter = ArrayAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item, lang)
+            gender_spinner.adapter = adapter
 
         }
-        back_act.setOnClickListener {
-           onBackPressed()
+
+        gender_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                 selectedItem = parent?.getItemAtPosition(position).toString()
+
+            }
+
+        }
+
+
+        save.setOnClickListener {
+
+            user_name_et=user_name_edittext.text.toString()
+            user_email_et=user_email_edittext.text.toString()
+            user_address_et=user_address_edittext.text.toString()
+
+            if (selectedItem.equals("Select"))
+            {
+                Toast.makeText(this,"Please Select gender",Toast.LENGTH_LONG).show()
+            }
+            else if (user_name_et.isEmpty())
+            {
+                Toast.makeText(this,"Please Enter gender",Toast.LENGTH_LONG).show()
+            }
+            else if (user_email_et.isEmpty())
+            {
+                Toast.makeText(this,"Please Enter Email",Toast.LENGTH_LONG).show()
+            }
+            else if (user_address_et.isEmpty())
+            {
+                Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                if (NetworkUtils.checkInternetConnection(this))
+                {
+                    EditProfile()
+                    customprogress.show()
+                }
+
+
+            }
+
+        }
+          back_act.setOnClickListener {
+            onBackPressed()
         }
         change_profile_img.setOnClickListener {
             val i = Intent()
             i.type = "image/*"
             i.action = Intent.ACTION_GET_CONTENT
-
-            // pass the constant to compare it
-            // with the returned requestCode
-
-            // pass the constant to compare it
-            // with the returned requestCode
             startActivityForResult(Intent.createChooser(i, "Select Picture"), pickImage)
         }
     }
@@ -122,24 +182,17 @@ class AccountEdit : AppCompatActivity() {
         imagepath = file.absolutePath
         Toast.makeText(this,imagepath,Toast.LENGTH_LONG).show()
         Log.d("saurav",imagepath)
+
         editprofileimg()
-
         return Uri.parse(file.absolutePath)
-
-
 
     }
 
     private  fun editprofileimg() {
-       /* progress_loader_edit_profile.visibility= View.VISIBLE*/
-        //val dialog: ProgressDialog = ProgressDialog.show(this, null, "Please Wait")
         val multiPartRepeatString = "application/image"
 
         var facility_image: MultipartBody.Part? = null
-
-
         val file1 = File(imagepath)
-
         val signPicBody1 = file1.asRequestBody(multiPartRepeatString.toMediaTypeOrNull())
         facility_image =
             MultipartBody.Part.createFormData("profile_photo", file1.name, signPicBody1)
@@ -164,17 +217,10 @@ class AccountEdit : AppCompatActivity() {
                     if (response.code() == 200) {
 
                         if (response.body()!!.success.equals("true")) {
-                            /*  dialog.dismiss()*/
-                           /* progress_loader_edit_profile.visibility= View.GONE
-                            shrp.setStringPreference("profile_photo",response.body()!!.image)
-                            Toast.makeText(this@Profile_Edit, response.body()!!.msg, Toast.LENGTH_SHORT)
-                                .show()*/
+
 
                         } else {
-                            /*  dialog.dismiss()*/
-                          /*  progress_loader_edit_profile.visibility= View.GONE
-                            Toast.makeText(this@Profile_Edit, response.body()!!.msg, Toast.LENGTH_SHORT)
-                                .show()*/
+
                         }
                     }
                 } catch (e: Exception) {
@@ -184,71 +230,78 @@ class AccountEdit : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
-                /* dialog.dismiss()*/
-               /* progress_loader_edit_profile.visibility= View.GONE
-                *//*
-                 Utils.showToast(this@Profile_Edit, t.message.toString())
-                 startActivity(Intent(this@Profile_Edit, HomeActivity::class.java))
-                 finishAffinity()*//*
-                Toast.makeText(this@Profile_Edit, t.toString(), Toast.LENGTH_SHORT).show()*/
+
             }
 
         })
 
 
     }
- /* fun editProfile()
-  {
-      customprogress.show()
-      val request = HashMap<String, String>()
-      request.put("user_id","92")
-      request.put("profile_photo",imagepath)
+
+    fun EditProfile()
+    {
+
+        var user_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()
+        val request = HashMap<String, String>()
+        request.put("name",user_name_et)
+        request.put("email",user_email_et)
+        request.put("address",user_address_et)
+        request.put("gender",selectedItem)
+        request.put("user_id",user_id)
 
 
 
-      var edit_profile: Call<EditProfileResponse> = APIUtils.getServiceAPI()!!.Edit_p(request)
+        var edit_profile: Call<EditPResponse> = APIUtils.getServiceAPI()!!.Editprofile(request)
 
-      edit_profile.enqueue(object : Callback<EditProfileResponse> {
-          override fun onResponse(call: Call<EditProfileResponse>, response: Response<EditProfileResponse>) {
-              try {
-
-
-                  if (response.body()!!.success.equals("true")) {
-                      Toast.makeText(this@AccountEdit,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
-                     *//* User_name.text=response.body()!!.data[0].name
-                      User_mobile.text=response.body()!!.data[0].phone
-                      User_email.text=response.body()!!.data[0].email
-                      User_Address.text=response.body()!!.data[0].address
-                      User_gender.text=response.body()!!.data[0].gender
-                      var img_url=response.body()!!.data[0].profile_photo
-                      val picasso= Picasso.get()
-                      picasso.load(img_url).into(User_profile_pic)*//*
-                      customprogress.hide()
+        edit_profile.enqueue(object : Callback<EditPResponse> {
+            override fun onResponse(call: Call<EditPResponse>, response: Response<EditPResponse>) {
+                try {
 
 
-                  } else {
+                    if (response.body()!!.success.equals("true")) {
+                        var intent=Intent(this@AccountEdit,Search1::class.java)
+                        startActivity(intent)
+                        customprogress.hide()
+               finishAffinity()
 
-                      Toast.makeText(this@AccountEdit,"Error", Toast.LENGTH_LONG).show()
-                      customprogress.hide()
-                  }
+                    } else {
 
-              }  catch (e: Exception) {
-                  Log.e("saurav", e.toString())
+                         Toast.makeText(this@AccountEdit,"Error", Toast.LENGTH_LONG).show()
+                        customprogress.hide()
+                    }
 
-                  Toast.makeText(this@AccountEdit,e.message, Toast.LENGTH_LONG).show()
-                  customprogress.hide()
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
 
-              }
+                    Toast.makeText(this@AccountEdit,e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
 
-          }
+                }
 
-          override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
-              Log.e("Saurav", t.message.toString())
+            }
 
-              Toast.makeText(this@AccountEdit,t.message, Toast.LENGTH_LONG).show()
-              customprogress.hide()
-          }
+            override fun onFailure(call: Call<EditPResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
 
-      })
-  }*/
+                Toast.makeText(this@AccountEdit,t.message, Toast.LENGTH_LONG).show()
+
+               customprogress.hide()
+
+            }
+
+        })
+    }
+
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
 }

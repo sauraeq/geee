@@ -33,10 +33,8 @@ import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
-import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.*
 import com.geelong.user.Util.Constants
-import com.geelong.user.Util.FetchAddressServices
-import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -98,13 +96,18 @@ class Search1 : AppCompatActivity() {
         resultReceiver = AddressResultReceiver(Handler())
 
 
-        login()
+
+
         logout_btn=findViewById(R.id.Logout_Linear_Layout)
 
 
     customProgress= Dialog(this)
         customProgress.setContentView(R.layout.loader_layout)
-
+        if (NetworkUtils.checkInternetConnection(this))
+        {
+            login()
+            customProgress.show()
+        }
 
 
         ivClose1.setOnClickListener() {
@@ -350,6 +353,7 @@ class Search1 : AppCompatActivity() {
                 var  country: String? =resultData.getString(Constants.ADDRESS)
                 locat=address+","+locaity+","+state
 
+
                 val bundle = Bundle()
                 bundle.putString("fragmentName", "Settings Fragment")
                 bundle.putString("Location",locat)
@@ -394,8 +398,7 @@ class Search1 : AppCompatActivity() {
     fun login()
     {
       /*  customprogress.show()*/
-        var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_MOBILE_No,"").toString()
-        Toast.makeText(this@Search1,mobi_num, Toast.LENGTH_LONG).show()
+        var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
         val request = HashMap<String, String>()
         request.put("mobile",mobi_num)
 
@@ -409,31 +412,32 @@ class Search1 : AppCompatActivity() {
 
 
                     if (response.body()!!.success.equals("true")) {
-                        Toast.makeText(this@Search1,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
+                      //  Toast.makeText(this@Search1,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
                       /*  User_name.text=response.body()!!.data[0].name
                         User_mobile.text=response.body()!!.data[0].phone
                         User_email.text=response.body()!!.data[0].email
                         User_Address.text=response.body()!!.data[0].address
                         User_gender.text=response.body()!!.data[0].gender*/
+
                         var img_url=response.body()!!.data[0].profile_photo
+                        username_sidebar.text=response.body()!!.data[0].name
+                        user_location_sidebar.text=response.body()!!.data[0].address
                         val picasso= Picasso.get()
                         picasso.load(img_url).into(navigation_user_pic)
-                       /* customprogress.hide()*/
+                        customProgress.hide()
 
 
                     } else {
 
-                        Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
-/*
-                        customprogress.hide()
-*/
+                      //  Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
+                        customProgress.hide()
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
                     Toast.makeText(this@Search1,e.message, Toast.LENGTH_LONG).show()
-                   /* customprogress.hide()*/
+                    customProgress.hide()
 
                 }
 
@@ -443,9 +447,7 @@ class Search1 : AppCompatActivity() {
                 Log.e("Saurav", t.message.toString())
 
                 Toast.makeText(this@Search1,t.message, Toast.LENGTH_LONG).show()
-/*
-                customprogress.hide()
-*/
+                customProgress.hide()
             }
 
         })

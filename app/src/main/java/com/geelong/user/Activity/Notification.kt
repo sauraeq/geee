@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.Adapter.NotificationAdapter
-import com.geelong.user.Adapter.TripAdapter
 import com.geelong.user.R
 
 class Notification : AppCompatActivity() {

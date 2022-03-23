@@ -51,4 +51,16 @@ interface APIConfiguration {
         @Part image: MultipartBody.Part?,
     ): Call<EditProfileResponse>
 
+
+    @POST("usereditprofile")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun Editprofile(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<EditPResponse>
+
+    @POST("triphistory")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun TripHistory(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<TripHistoryResponse>
 }

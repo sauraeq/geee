@@ -13,6 +13,7 @@ import com.geelong.user.API.APIUtils
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
@@ -40,7 +41,11 @@ class Acccount : AppCompatActivity() {
             val intent = Intent(this, AccountEdit::class.java)
             startActivity(intent)
         }
-        login()
+        if (NetworkUtils.checkInternetConnection(this))
+        {
+            profile()
+        }
+
         supportActionBar?.hide()
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
@@ -50,7 +55,7 @@ class Acccount : AppCompatActivity() {
 
     }
 
-    fun login()
+    fun profile()
     {
         customprogress.show()
         val request = HashMap<String, String>()
@@ -66,13 +71,14 @@ class Acccount : AppCompatActivity() {
 
 
                     if (response.body()!!.success.equals("true")) {
-                        Toast.makeText(this@Acccount,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
+
                         User_name.text=response.body()!!.data[0].name
                         User_mobile.text=response.body()!!.data[0].phone
                         User_email.text=response.body()!!.data[0].email
                         User_Address.text=response.body()!!.data[0].address
                         User_gender.text=response.body()!!.data[0].gender
                         var img_url=response.body()!!.data[0].profile_photo
+                        SharedPreferenceUtils.getInstance(this@Acccount)?.setStringValue(ConstantUtils.Image_Url,img_url)
                         val picasso=Picasso.get()
                         picasso.load(img_url).into(User_profile_pic)
                         customprogress.hide()
@@ -86,7 +92,6 @@ class Acccount : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-
                     Toast.makeText(this@Acccount,e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
@@ -96,11 +101,12 @@ class Acccount : AppCompatActivity() {
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-
                 Toast.makeText(this@Acccount,t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
             }
 
         })
     }
+
+
 }

@@ -5,8 +5,10 @@ object ConstantUtils {
     const val Success="success"
     const val Amount="amount"
     const val User_Mobile_Number="user_mobile-number"
+    const val User_Name="user_name"
 
     const val USER_MOBILE_No="mobileno"
+    const val Image_Url="image_url"
     const val Driver_Id="driver_id"
     const val CurrentL="current_location"
     const val COUNTRY_CODE="countrycode"

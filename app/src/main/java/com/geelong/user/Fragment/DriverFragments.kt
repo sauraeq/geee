@@ -22,6 +22,7 @@ import com.geelong.user.Activity.Search1
 import com.geelong.user.R
 import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -66,7 +67,7 @@ class DriverFragments : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val rootview= inflater.inflate(R.layout.fragments_driver_details, container, false)
 
         var call_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_call)
@@ -83,9 +84,13 @@ class DriverFragments : Fragment() {
         current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
 
 
+        if (NetworkUtils.checkInternetConnection(requireContext()))
+        {
+            DriverDetailss()
 
-        DriverDetailss()
-        customprogress.show()
+        }
+
+
 
         call_to_driver.setOnClickListener {
             val intent= Intent(context, CallActivity::class.java)
@@ -148,14 +153,7 @@ class DriverFragments : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
+
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -178,14 +176,14 @@ class DriverFragments : Fragment() {
         request.put("dropLongitude","77.84848")
         request.put("user_id",user_id )
         request.put("driver_id",driver_id)
-        request.put("amount",amount)
+            request.put("amount",amount)
         request.put("time","20")
+        request.put("distance","20")
 
 
 
 
-        // rlLoader.visibility=View.VISIBLE
-        //prgs_loader.visibility=View.VISIBLE
+
 
         var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
 
@@ -193,12 +191,10 @@ class DriverFragments : Fragment() {
             override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
                 try {
 
-                    // rlLoader.visibility=View.GONE
-                    //  prgs_loader.visibility=View.GONE
+                    customprogress.show()
                     if (response.body()!!.success.equals("true")) {
 
                         Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
-                        Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG).show()
                         val pro_img_url=response.body()!!.data[0].profile_photo
                         val vch_img_url=response.body()!!.data[0].vehicle_image
 
@@ -220,8 +216,6 @@ class DriverFragments : Fragment() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    //  rlLoader.visibility=View.GONE
-                    //  prgs_loader.visibility=View.GONE
                     Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
@@ -231,8 +225,6 @@ class DriverFragments : Fragment() {
 
             override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                // rlLoader.visibility=View.GONE
-                // prgs_loader.visibility=View.GONE
                 Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
 

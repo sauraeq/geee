@@ -87,9 +87,9 @@
                         android:layout_height="@dimen/_40sdp"
                         android:src="@drawable/driverimg"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        app:civ_border_width="2dp"
+                        app:civ_border_width="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        app:civ_border_color="#FF000000"/>
+                        app:civ_border_color="@color/yellow"/>
 
                     <LinearLayout
 

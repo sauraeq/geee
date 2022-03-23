@@ -109,8 +109,8 @@
             <RelativeLayout
                 android:id="@+id/activity_main_content_id"
                 android:layout_width="match_parent"
-                android:background="@color/white"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:clipToPadding="false">
 
 
@@ -161,12 +161,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/navigation_header_img"
-                android:layout_width="@dimen/_76sdp"
-                android:layout_height="@dimen/_76sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:layout_marginLeft="@dimen/_22sdp"
-                android:src="@drawable/profilepic" />
+                android:src="@drawable/driverimg"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/yellow"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,10 +188,13 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
                 <TextView
+                    android:id="@+id/user_location_se"
                     android:text="London, UK"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_29sdp"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content">
                 </TextView>
                 <View
@@ -219,6 +225,7 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
+            android:id="@+id/logout_driver_details_linear"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="50dp"
             android:weightSum="3"

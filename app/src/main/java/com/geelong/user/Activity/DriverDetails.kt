@@ -1,14 +1,17 @@
 package com.geelong.user.Activity
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,11 +19,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customnavigationdrawerexample.ClickListener
 import com.example.customnavigationdrawerexample.RecyclerTouchListener
+import com.geelong.user.API.APIUtils
 import com.geelong.user.Adapter.NavigationRVAdapter
 import com.geelong.user.Fragment.DriverFragments
 
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
+import com.geelong.user.Response.LoginResponse
+import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
+import com.geelong.user.Util.SharedPreferenceUtils
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_driver_details.*
+import kotlinx.android.synthetic.main.activity_search1.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 class DriverDetails : AppCompatActivity() {
 
@@ -28,6 +43,7 @@ class DriverDetails : AppCompatActivity() {
     private lateinit var adapter: NavigationRVAdapter
     lateinit var navigation_rv: RecyclerView
     lateinit var ivClose1: ImageView
+    lateinit var customprogress:Dialog
 
 
     private var items = arrayListOf(
@@ -36,8 +52,7 @@ class DriverDetails : AppCompatActivity() {
         NavigationItemModel(R.drawable.noti, "Notifications"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
-        // NavigationItemModel(R.drawable.home, "Profile"),
-        // NavigationItemModel(R.drawable.back, "Like us on facebook")
+
     )
     private var items1 = arrayListOf(
         NavigationItemModel(R.drawable.home, "Account"),
@@ -45,8 +60,7 @@ class DriverDetails : AppCompatActivity() {
         NavigationItemModel(R.drawable.noti, "Notifications"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
-        // NavigationItemModel(R.drawable.home, "Profile"),
-        // NavigationItemModel(R.drawable.back, "Like us on facebook")
+
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,16 +71,22 @@ class DriverDetails : AppCompatActivity() {
        navigation_rv=findViewById(R.id.navigation_rv11)
 
        ivClose1=findViewById(R.id.ivClose)
+        customprogress= Dialog(this)
+        customprogress.setContentView(R.layout.loader_layout)
+
+        logout_driver_details_linear.setOnClickListener {
+            SharedPreferenceUtils.getInstance(this)?.clear()
+            val intent = Intent(this, Sign_Up::class.java)
+            startActivity(intent)
+        }
+
+  if (NetworkUtils.checkInternetConnection(this))
+  {
+      progilepic()
+      customprogress.show()
+  }
 
 
-
-
-    /* img_prfil.setOnClickListener() {
-         intent = Intent(this, ProfileActivity::class.java)
-         startActivity(intent)
-     }
-
-     */
     val bundle = Bundle()
     bundle.putString("fragmentName", "Settings Fragment")
     val settingsFragment = DriverFragments()
@@ -79,19 +99,18 @@ class DriverDetails : AppCompatActivity() {
     }
 
 
-    // Set the toolbar
-    // setSupportActionBar(activity_main_toolbar)
+
     getSupportActionBar()?.setDisplayShowTitleEnabled(false);
     getSupportActionBar()?.setDisplayHomeAsUpEnabled(false);
 
-    // Setup Recyclerview's Layout
+
     navigation_rv.layoutManager = LinearLayoutManager(this)
     navigation_rv.setHasFixedSize(true)
     ivMenu.setOnClickListener {
         drawerLayout.openDrawer(GravityCompat.START)
     }
 
-    // Add Item Touch Listener
+
     navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this, object : ClickListener {
         override fun onClick(view: View, position: Int) {
             when (position) {
@@ -101,7 +120,7 @@ class DriverDetails : AppCompatActivity() {
 
                 }
                 1 -> {
-                    //  drawerLayout.closeDrawer(GravityCompat.START)
+
                     val intent = Intent(this@DriverDetails, TripDetails::class.java)
                     startActivity(intent)
                 }
@@ -112,11 +131,10 @@ class DriverDetails : AppCompatActivity() {
                 3 -> {
                     val intent = Intent(this@DriverDetails, TermsCondition::class.java)
                     startActivity(intent)
-                    // # Books Fragment
 
                 }
                 4 -> {
-                    // # Profile Activity
+
                     val intent = Intent(this@DriverDetails, Privacy_Policy::class.java)
                     startActivity(intent)
                 }
@@ -138,7 +156,7 @@ class DriverDetails : AppCompatActivity() {
 
                 }
             }
-            // Don't highlight the 'Profile' and 'Like us on Facebook' item row
+
             updateAdapter(position)
             if (position != 6 && position != 4) {
 
@@ -149,19 +167,9 @@ class DriverDetails : AppCompatActivity() {
         }
     }))
 
-    // Update Adapter with item data and highlight the default menu item ('Home' Fragment)
+
     updateAdapter(0)
 
-    // Set 'Home' as the default fragment when the app starts
-    /*  val bundle = Bundle()
-      bundle.putString("fragmentName", "Home Fragment")
-      val homeFragment = DemoFragment()
-      homeFragment.arguments = bundle
-      supportFragmentManager.beginTransaction()
-          .replace(R.id.activity_main_content_id, homeFragment).commit()*/
-
-
-    // Close the soft keyboard when you open or close the Drawer
     val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
         this,
         drawerLayout,
@@ -169,7 +177,7 @@ class DriverDetails : AppCompatActivity() {
         R.string.navigation_drawer_close
     ) {
         override fun onDrawerClosed(drawerView: View) {
-            // Triggered once the drawer closes
+
             super.onDrawerClosed(drawerView)
             try {
                 val inputMethodManager =
@@ -181,7 +189,7 @@ class DriverDetails : AppCompatActivity() {
         }
 
         override fun onDrawerOpened(drawerView: View) {
-            // Triggered once the drawer opens
+
             super.onDrawerOpened(drawerView)
             try {
                 val inputMethodManager =
@@ -196,12 +204,6 @@ class DriverDetails : AppCompatActivity() {
 
     toggle.syncState()
 
-
-    // Set Header Image
-    // navigation_header_img.setImageResource(R.drawable.logo)
-
-    // Set background of Drawer
-    // navigation_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
 }
 
 private fun updateAdapter(highlightItemPos: Int) {
@@ -214,12 +216,12 @@ override fun onBackPressed() {
     if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
         drawerLayout.closeDrawer(GravityCompat.START)
     } else {
-        // Checking for fragment count on back stack
+
         if (supportFragmentManager.backStackEntryCount > 0) {
-            // Go to the previous fragment
+
             supportFragmentManager.popBackStack()
         } else {
-            // Exit the app
+
             super.onBackPressed()
         }
     }
@@ -234,5 +236,56 @@ fun inte()
     val intent = Intent(this, Confirm::class.java)
     startActivity(intent)
 }
+
+    fun progilepic()
+    {
+
+        var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
+        val request = HashMap<String, String>()
+        request.put("mobile",mobi_num)
+
+
+
+        var login_in: Call<LoginResponse> = APIUtils.getServiceAPI()!!.Login(request)
+
+        login_in.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                try {
+
+                           customprogress.hide()
+                    if (response.body()!!.success.equals("true")) {
+
+
+                        var img_url=response.body()!!.data[0].profile_photo
+                        tvName_sidebar.text=response.body()!!.data[0].name
+                        user_location_se.text=response.body()!!.data[0].address
+                        val picasso= Picasso.get()
+                        picasso.load(img_url).into(navigation_header_img)
+                        customprogress.hide()
+
+
+                    } else {
+
+                        customprogress.hide()
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                customprogress.hide()
+            }
+
+        })
+    }
 
 }

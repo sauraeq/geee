@@ -361,6 +361,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
                          SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.success)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.data[0].id)
+                        SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Name,response.body()!!.data[0].name)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Mobile_Number,mobile_number_login)
                         /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.EMAIL_ID,response.body()!!.data.email)*/
                         /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.IS_LOGIN,"true")

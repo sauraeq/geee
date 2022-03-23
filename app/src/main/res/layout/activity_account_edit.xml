@@ -36,16 +36,14 @@
             android:visibility="gone"
             android:src="@drawable/profilepic" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/userProfile_edit_img"
             android:layout_width="@dimen/_76sdp"
             android:layout_height="@dimen/_76sdp"
             android:layout_marginLeft="@dimen/_28sdp"
             android:layout_marginTop="@dimen/_59sdp"
             android:src="@drawable/driverimg"
-            app:civ_border_color="#FF000000"
-
+            app:civ_border_color="@color/yellow"
             app:civ_border_width="1dp" />
         <LinearLayout
             android:id="@+id/change_profile_img"
@@ -76,7 +74,7 @@
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
-
+             android:id="@+id/user_name_edittext"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -103,7 +101,7 @@
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
-
+            android:id="@+id/user_email_edittext"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -121,7 +119,7 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginRight="@dimen/_12sdp"
             android:background="#000" />
-        <TextView
+        <!--<TextView
             android:text="Phone Number"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -130,7 +128,7 @@
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
-
+            android:id="@+id/user_phone_edittext"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -139,15 +137,15 @@
             android:background="@null"
             android:inputType="number"
             android:layout_height="@dimen/_19sdp">
-        </EditText>
-        <View
+        </EditText>-->
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginRight="@dimen/_12sdp"
-            android:background="#000" />
+            android:background="#000" />-->
         <TextView
             android:text="Address"
             android:layout_width="match_parent"
@@ -157,7 +155,7 @@
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
-
+            android:id="@+id/user_address_edittext"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -186,12 +184,12 @@
        <LinearLayout
            android:orientation="horizontal"
            android:layout_width="match_parent"
-           android:weightSum="5"
+           android:weightSum="4"
            android:layout_height="@dimen/_19sdp">
 
 
         <EditText
-
+            android:id="@+id/user_gender_edittext"
             android:layout_marginTop="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
@@ -199,14 +197,15 @@
             android:textSize="@dimen/_15ssp"
             android:background="@null"
             android:inputType="text"
-            android:layout_weight="4"
+            android:visibility="gone"
+            android:layout_weight="2"
             android:layout_height="@dimen/_19sdp">
         </EditText>
            <Spinner
-
-               android:layout_weight="1"
-               android:layout_width="wrap_content"
-               android:layout_marginRight="@dimen/_10sdp"
+                android:id="@+id/gender_spinner"
+               android:layout_weight="2"
+               android:layout_width="match_parent"
+               android:layout_marginRight="@dimen/_20sdp"
                android:layout_height="wrap_content">
 
            </Spinner>
