@@ -21,7 +21,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.messaging.FirebaseMessaging
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +41,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     var mobile_number:String=""
     var mobile_number_login:String=""
     var gender:String=""
+    var token_id:String=""
     lateinit var user_name:TextInputEditText
     lateinit var user_email:TextInputEditText
     lateinit var user_address:TextInputEditText
@@ -147,7 +150,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             Linear_sign_Up_Text.setVisibility(View.VISIBLE)
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
-
+        Generatetoken()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -280,8 +283,6 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         request.put("mobile",mobile_number)
         request.put("address",address)
         request.put("gender","Male")
-      // rlLoader.visibility=View.VISIBLE
-       /* prgs_loader.visibility=View.VISIBLE*//**/
 
 
 
@@ -291,7 +292,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 try {
 
-                   /* prgs_loader.visibility=View.GONE*/
+
 
                     if (response.body()!!.success.equals("true")) {
 
@@ -303,22 +304,17 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                          var intent = Intent(this@Sign_Up, Sign_Up::class.java)
 
                           startActivity(intent)
-                       /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.data.user_id)
-                        SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.EMAIL_ID,response.body()!!.data.email)
-                        SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.IS_LOGIN,"true")
-                        var intent = Intent(this@Signup, DashboardActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()*/
+
                         custom_progress.hide()
 
                     } else {
-                       // Toast.makeText(this@Signup,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
+
                         Toast.makeText(this@Sign_Up,"ERror",Toast.LENGTH_LONG).show()
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    /*prgs_loader.visibility=View.GONE*/
+
                     Toast.makeText(this@Sign_Up,e.message,Toast.LENGTH_LONG).show()
                     custom_progress.hide()
 
@@ -328,7 +324,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-               /* prgs_loader.visibility=View.GONE*/
+
                 Toast.makeText(this@Sign_Up,t.message,Toast.LENGTH_LONG).show()
                 custom_progress.hide()
 
@@ -342,8 +338,6 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         request.put("mobile",mobile_number_login)
 
 
-        // rlLoader.visibility=View.VISIBLE
-       /* prgs_loader.visibility=View.VISIBLE*/
 
         var login_in: Call<LoginResponse> = APIUtils.getServiceAPI()!!.Login(request)
 
@@ -351,10 +345,9 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 try {
 
-                    // rlLoader.visibility=View.GONE
-                   /* prgs_loader.visibility=View.GONE*/
+
                     if (response.body()!!.success.equals("true")) {
-                        Toast.makeText(this@Sign_Up,response.body()!!.msg.toString(),Toast.LENGTH_LONG).show()
+                       // Toast.makeText(this@Sign_Up,response.body()!!.msg.toString(),Toast.LENGTH_LONG).show()
                         var intent=Intent(this@Sign_Up, Otp::class.java)
                         intent.putExtra("otp",response.body()!!.data[0].otp)
                         startActivity(intent)
@@ -363,11 +356,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.data[0].id)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Name,response.body()!!.data[0].name)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Mobile_Number,mobile_number_login)
-                        /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.EMAIL_ID,response.body()!!.data.email)*/
-                        /* SharedPreferenceUtils.getInstance(this@Signup)?.setStringValue(ConstantUtils.IS_LOGIN,"true")
-                         var intent = Intent(this@Signup, DashboardActivity::class.java)
-                         startActivity(intent)*/
-                         //finishAffinity()
+
                         custom_progress.hide()
 
                     } else {
@@ -378,8 +367,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    //  rlLoader.visibility=View.GONE
-                   /* prgs_loader.visibility=View.GONE*/
+
                     Toast.makeText(this@Sign_Up,e.message,Toast.LENGTH_LONG).show()
                     custom_progress.hide()
 
@@ -389,8 +377,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                // rlLoader.visibility=View.GONE
-              /*  prgs_loader.visibility=View.GONE*/
+
                 Toast.makeText(this@Sign_Up,t.message,Toast.LENGTH_LONG).show()
                 custom_progress.hide()
 
@@ -410,6 +397,18 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+    private fun Generatetoken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                //Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            val token = task.result
+            token_id=token
+            Log.e("TAG", token)
+        })
     }
 
 

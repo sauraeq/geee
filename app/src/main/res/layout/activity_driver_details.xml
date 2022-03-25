@@ -183,15 +183,14 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppinsmedium"
                     android:text="Alexis Enache"
-                    android:padding="5dp"
-                    android:layout_marginLeft="@dimen/_19sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/_13ssp" />
                 <TextView
                     android:id="@+id/user_location_se"
                     android:text="London, UK"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginLeft="@dimen/_29sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_width="wrap_content"
                     android:textColor="@color/black"
                     android:textStyle="bold"

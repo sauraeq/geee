@@ -82,7 +82,7 @@
             android:textSize="@dimen/_15ssp"
             android:background="@null"
             android:inputType="textPersonName"
-            android:layout_height="@dimen/_19sdp">
+            android:layout_height="wrap_content">
         </EditText>
         <View
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             android:textSize="@dimen/_15ssp"
             android:background="@null"
             android:inputType="textEmailAddress"
-            android:layout_height="@dimen/_19sdp">
+            android:layout_height="wrap_content">
         </EditText>
         <View
             android:layout_width="match_parent"
@@ -163,7 +163,7 @@
             android:textSize="@dimen/_15ssp"
             android:background="@null"
             android:inputType="textPostalAddress"
-            android:layout_height="@dimen/_19sdp">
+            android:layout_height="wrap_content">
         </EditText>
         <View
             android:layout_width="match_parent"

@@ -7,19 +7,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.Activity.Search1
+import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Math.*
-
+import java.util.*
 
 
 private const val ARG_PARAM1 = "param1"
@@ -33,8 +38,14 @@ class HomeFragment : Fragment() {
     var locat:String=""
     var lati:String=""
     var longi:String=""
+    var pick_up_location:String=""
+    var drop_location:String=""
+    var n_of_passenger:String=""
     var lati_drop:String="28.6280"
     var langit_drop:String="77.3649"
+    var placesClient: PlacesClient? = null
+    var autoCompleteTextView: AutoCompleteTextView? = null
+    var adapter: AutoCompleteAdapter? = null
 
 lateinit var pick_up_user:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +69,7 @@ lateinit var pick_up_user:TextView
 
           /*  Toast.makeText(requireContext(),locat,Toast.LENGTH_LONG).show()*/
         }
-        pick_up_user=rootview.findViewById(R.id.pick_up_user)
+        pick_up_user=rootview.findViewById(R.id.pickup_location_user)
 
 
         pick_up_user.setText(locat)
@@ -66,12 +77,56 @@ lateinit var pick_up_user:TextView
 
 var toatal_distance=getKilometers(lati.toDouble(),longi.toDouble(),lati_drop.toDouble(),langit_drop.toDouble())
         var toatlkm=toatal_distance.toFloat()
-        Toast.makeText(context,toatlkm.toString(),Toast.LENGTH_LONG).show()
+      //  Toast.makeText(context,toatlkm.toString(),Toast.LENGTH_LONG).show()
+
+        val apiKey = getString(R.string.api_key)
+        /* if (apiKey.isEmpty()) {
+             responseView.setText(getString(R.string.error))
+             return
+         }*/
+
+        // Setup Places Client
+
+        // Setup Places Client
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), apiKey)
+        }
+
+        placesClient = Places.createClient(requireContext())
+        autoCompleteTextView = rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
+
+
+        initAutoCompleteTextView()
+
 
       var search_textt:TextView=rootview.findViewById(R.id.search_text)
         search_textt.setOnClickListener {
 
-            (activity as Search1?)?.inte()
+            pick_up_location=pickup_location_user.text.toString()
+            drop_location=drop_location_user.text.toString()
+            n_of_passenger=no_passenger.text.toString()
+
+
+
+
+
+            if (pick_up_location.isEmpty())
+            {
+                Toast.makeText(requireContext(),"Please select pickup location",Toast.LENGTH_LONG).show()
+            }
+            else if(drop_location.isEmpty())
+            {
+                Toast.makeText(requireContext(),"Please select drop location",Toast.LENGTH_LONG).show()
+            }
+
+            else if(n_of_passenger.isEmpty())
+            {
+                Toast.makeText(requireContext(),"Please fill no of passenger",Toast.LENGTH_LONG).show()
+            }
+            else{
+                (activity as Search1?)?.inte()
+            }
+
         }
 
         var ivMenu1:ImageView=rootview.findViewById(R.id.ivMenu_home)
@@ -142,4 +197,53 @@ var toatal_distance=getKilometers(lati.toDouble(),longi.toDouble(),lati_drop.toD
         val lam2 = long2 * PI_RAD
         return 6371.01 * acos(sin(phi1) * sin(phi2) + cos(phi1) * cos(phi2) * cos(lam2 - lam1))
     }
+
+    private fun initAutoCompleteTextView() {
+        autoCompleteTextView?.setThreshold(1)
+        autoCompleteTextView?.setOnItemClickListener(autocompleteClickListener)
+        adapter = AutoCompleteAdapter(requireContext(), placesClient)
+        autoCompleteTextView?.setAdapter(adapter)
+    }
+
+    private val autocompleteClickListener =
+        AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            try {
+                val item: AutocompletePrediction = adapter?.getItem(i)!!
+                var placeID: String? = null
+                if (item != null) {
+                    placeID = item.placeId
+                }
+
+                //                To specify which data types to return, pass an array of Place.Fields in your FetchPlaceRequest
+                //                Use only those fields which are required.
+                val placeFields = Arrays.asList(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS,
+                    Place.Field.LAT_LNG
+                )
+                var request: FetchPlaceRequest? = null
+                if (placeID != null) {
+                    request = FetchPlaceRequest.builder(placeID, placeFields)
+                        .build()
+                }
+                if (request != null) {
+                    placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
+/*
+                        responseView.setText(
+                            """
+                                    ${task.place.name}
+                                    ${task.place.address}
+                                    """.trimIndent()
+                        )
+*/
+                    }.addOnFailureListener { e ->
+                        e.printStackTrace()
+                        //  responseView.setText(e.message)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 }

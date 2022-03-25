@@ -65,7 +65,7 @@ class ConfirmPickupFragment : Fragment() {
             longi=it.getString("Long","")
         }
 
-        Toast.makeText(context,locat+lati+longi,Toast.LENGTH_LONG).show()
+       // Toast.makeText(context,locat+lati+longi,Toast.LENGTH_LONG).show()
        // current_loc_textview.setText(locat)
         current_location.text=locat
 

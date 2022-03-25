@@ -194,7 +194,7 @@ class DriverFragments : Fragment() {
                     customprogress.show()
                     if (response.body()!!.success.equals("true")) {
 
-                        Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
                         val pro_img_url=response.body()!!.data[0].profile_photo
                         val vch_img_url=response.body()!!.data[0].vehicle_image
 
@@ -204,6 +204,12 @@ class DriverFragments : Fragment() {
                         driver_nmae_drvFrg.text=response.body()!!.data[0].name
                         vch_name_drvFrg.text=response.body()!!.data[0].vehicle_name
                         otp.setOTP(response.body()!!.data[0].otp.toString())
+
+                        val booking_id=response.body()!!.data[0].booking_id.toString()
+                        val driver_rating=response.body()!!.data[0].rating
+
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Booking_id,booking_id)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Rating,driver_rating)
 
                         customprogress.hide()
 

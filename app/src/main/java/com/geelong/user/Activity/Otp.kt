@@ -34,7 +34,7 @@ class Otp : AppCompatActivity() {
         customProgress.setContentView(R.layout.loader_layout)
 
         get_otp= intent.getStringExtra("otp").toString()
-        Toast.makeText(this,get_otp,Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"OTP:-"+get_otp,Toast.LENGTH_LONG).show()
 
         otp_edittext?.otpListener = object : OTPListener {
             override fun onInteractionListener() {

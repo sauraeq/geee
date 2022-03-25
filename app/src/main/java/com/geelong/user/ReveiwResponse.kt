@@ -1,7 +1,7 @@
-package com.geelong.user.Response
+package com.geelong.user
 
-data class SignUpResponse(
-    val `data`: Data,
+data class ReveiwResponse(
+    val `data`: List<Any>,
     val error: Int,
     val msg: String,
     val service: String,

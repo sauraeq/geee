@@ -2,6 +2,7 @@ package com.geelong.user.API
 
 
 import com.geelong.user.Response.*
+import com.geelong.user.ReveiwResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -63,4 +64,10 @@ interface APIConfiguration {
     fun TripHistory(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<TripHistoryResponse>
+
+    @POST("addreview")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun Review(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<ReveiwResponse>
 }

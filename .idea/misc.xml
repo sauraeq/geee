@@ -7,9 +7,11 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_black.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_white.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/back_corner.xml" value="0.1465" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/backgroundcorner.xml" value="0.149" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/bckarrow.xml" value="0.1695" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/button_corner.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/cancel.xml" value="0.1695" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/charge_layout_background.xml" value="0.149" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/circlebackblack.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/circlebck.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/corner_ediitext.xml" value="0.119" />
@@ -38,6 +40,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_pay_now.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_payment_method.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_privacy_policy.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search1.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
@@ -50,7 +53,9 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragments_driver_details.xml" value="0.25" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/loader_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/popup_write_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/privacy_adapter_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/row_nav_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/successalertdialog.xml" value="0.20416666666666666" />

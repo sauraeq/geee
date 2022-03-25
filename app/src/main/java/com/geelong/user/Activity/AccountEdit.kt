@@ -66,8 +66,16 @@ class AccountEdit : AppCompatActivity() {
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
         img_url=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Image_Url,"").toString()
-        var picasso=Picasso.get()
-        picasso.load(img_url).into(userProfile_edit_img)
+        if(img_url.isEmpty())
+            {
+
+            }
+            else
+        {
+            var picasso=Picasso.get()
+            picasso.load(img_url).into(userProfile_edit_img)
+        }
+
         supportActionBar?.hide()
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
