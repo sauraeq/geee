@@ -5,14 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -35,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_confirm.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -46,7 +45,10 @@ class ConfirmFragment : Fragment() {
     var lat_user:String=""
     var langi_user:String=""
     var img_url:String=""
+    var distance:String=""
     lateinit var customprogress:Dialog
+    var NewCastle = LatLng(28.6201514, 77.342835)
+    var Brisbane = LatLng(28.5747, 77.3560)
 
 
 
@@ -76,6 +78,7 @@ class ConfirmFragment : Fragment() {
 
        lat_user= SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
         langi_user=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+        distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
 
         /*Toast.makeText(requireContext(),lat_user+langi_user,Toast.LENGTH_LONG).show()*/
 
@@ -105,7 +108,10 @@ class ConfirmFragment : Fragment() {
         mapFragment!!.getMapAsync { mMap ->
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+
+
             mMap.clear() //clear old markers
+
 
             val googlePlex = CameraPosition.builder()
                 .target(LatLng(28.6201514,77.342835))
@@ -125,7 +131,10 @@ class ConfirmFragment : Fragment() {
                     .title("Spider Man")
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
-
+            mMap.addPolyline(PolylineOptions().add(NewCastle,Brisbane)
+                    .width(20f)
+                    .color(Color.RED)
+                    .geodesic(true))
 
 
         }
@@ -171,7 +180,7 @@ class ConfirmFragment : Fragment() {
         val request = HashMap<String, String>()
         request.put("latitude",lat_user)
         request.put("longitude",langi_user)
-        request.put("distance","50")
+        request.put("distance",distance)
 
 
         // rlLoader.visibility=View.VISIBLE

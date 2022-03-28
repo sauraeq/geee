@@ -88,7 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_13sdp"
-                        android:layout_height="@dimen/_25sdp">
+                        android:layout_height="@dimen/_30sdp">
                         <ImageView
                             android:src="@drawable/pick"
                             android:layout_width="@dimen/_12sdp"
@@ -114,6 +114,7 @@
                     </LinearLayout>
 
 
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
@@ -136,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_13sdp"
-                        android:layout_height="@dimen/_25sdp">
+                        android:layout_height="@dimen/_30sdp">
                         <ImageView
                             android:src="@drawable/drop"
                             android:layout_width="@dimen/_12sdp"
@@ -154,7 +155,7 @@
                             android:textColor="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:layout_marginLeft="@dimen/_12sdp"
-                            android:layout_height="match_parent">
+                            android:layout_height="wrap_content">
 
                         </AutoCompleteTextView>
                     </LinearLayout>

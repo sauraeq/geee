@@ -14,6 +14,7 @@ object ConstantUtils {
     const val LATITUDE="latitude"
     const val LONGITUDE="longitude"
     const val OTP="otp"
+    const val Distance="distance"
 
 
 

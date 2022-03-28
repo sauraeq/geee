@@ -1,14 +1,12 @@
 package com.geelong.user.Activity
 
-import android.Manifest
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.os.ResultReceiver
 import android.util.Log
 import android.view.View
@@ -19,8 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,18 +30,19 @@ import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Util.*
-import com.geelong.user.Util.Constants
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
 import kotlinx.android.synthetic.main.activity_search1.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+import java.io.IOException
+import java.util.*
 
 
 class Search1 : AppCompatActivity() {
@@ -93,7 +90,7 @@ class Search1 : AppCompatActivity() {
         var ivMenu=findViewById<ImageView>(R.id.ivMenu1)
         ivClose1=findViewById(R.id.ivClose)
 
-        resultReceiver = AddressResultReceiver(Handler())
+       // resultReceiver = AddressResultReceiver(Handler())
 
 
 
@@ -115,7 +112,7 @@ class Search1 : AppCompatActivity() {
         }
 
 
-            if ((ContextCompat.checkSelfPermission(
+           /* if ((ContextCompat.checkSelfPermission(
                     applicationContext,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
@@ -127,10 +124,21 @@ class Search1 : AppCompatActivity() {
                 )
             } else {
                 currentLocation
-            }
+            }*/
+        val bundle = Bundle()
+        bundle.putString("fragmentName", "Settings Fragment")
+       /* bundle.putString("Location",locat)
+        bundle.putString("Late",latii)
+        bundle.putString("Long",lan)*/
+        val settingsFragment = HomeFragment()
+        settingsFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.activity_main_content_id, settingsFragment).commit()
+        customProgress.hide()
 
+     //   getLocationFromAddress("noida")
 
-
+      //  getLocationFromAddress("noida")
 
 
         getSupportActionBar()?.setDisplayShowTitleEnabled(false);
@@ -275,7 +283,7 @@ class Search1 : AppCompatActivity() {
         startActivity(intent)
     }
 
-
+/*
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -321,8 +329,8 @@ class Search1 : AppCompatActivity() {
                                 val latestlocIndex = locationResult.locations.size - 1
                                 val lati = locationResult.locations[latestlocIndex].latitude
                                 val longi = locationResult.locations[latestlocIndex].longitude
-                               /* textLatLong!!.text =
-                                    String.format("Latitude : %s\n Longitude: %s", lati, longi)*/
+                               *//* textLatLong!!.text =
+                                    String.format("Latitude : %s\n Longitude: %s", lati, longi)*//*
                                 latii=lati.toString()
                                 lan=longi.toString()
                                 SharedPreferenceUtils.getInstance(this@Search1)?.setStringValue(
@@ -335,7 +343,7 @@ class Search1 : AppCompatActivity() {
                                 location.latitude = lati
                                 fetchaddressfromlocation(location)
                             } else {
-                                /* progressBar!!.visibility = View.GONE*/
+                                *//* progressBar!!.visibility = View.GONE*//*
                             }
                         }
                     }
@@ -367,12 +375,12 @@ class Search1 : AppCompatActivity() {
 
                // Toast.makeText(this@Search1,address+locaity+state+district+district+country,Toast.LENGTH_LONG).show()
 
-               /* address!!.text = resultData.getString(Constants.ADDRESS)
+               *//* address!!.text = resultData.getString(Constants.ADDRESS)
                 locaity!!.text = resultData.getString(Constants.LOCAITY)
                 state!!.text = resultData.getString(Constants.STATE)
                 district!!.text = resultData.getString(Constants.DISTRICT)
                 country!!.text = resultData.getString(Constants.COUNTRY)
-                postcode!!.text = resultData.getString(Constants.POST_CODE)*/
+                postcode!!.text = resultData.getString(Constants.POST_CODE)*//*
             } else {
                 Toast.makeText(
                     this@Search1,
@@ -380,7 +388,7 @@ class Search1 : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-          /*  progressBar!!.visibility = View.GONE*/
+          *//*  progressBar!!.visibility = View.GONE*//*
         }
     }
 
@@ -393,7 +401,7 @@ class Search1 : AppCompatActivity() {
 
     companion object {
         private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    }
+    }*/
 
     fun login()
     {
@@ -452,5 +460,53 @@ class Search1 : AppCompatActivity() {
 
         })
     }
+
+   /* fun getLatLongFromGivenAddress(address: String?) {
+        var lat = 0.0
+        var lng = 0.0
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        try {
+            val addresses: List<Address> = geoCoder.getFromLocationName(address, 1)
+            if (addresses.size > 0) {
+                val p = GeoPoint(
+                    ((addresses[0].getLatitude() * 1E6) as Int).toDouble(),
+                    ((addresses[0].getLongitude() * 1E6) as Int).toDouble()
+                )
+               // lat = p.getLatitudeE6() / 1E6
+                lat=p.latitude/1E6
+                lng = p.longitude/ 1E6
+                Log.d("Latitude", "" + lat)
+                Log.d("Longitude", "" + lng)
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }*/
+
+  /*  fun getLocationFromAddress(strAddress: String?): GeoPoint? {
+        val coder = Geocoder(this)
+        val address: List<Address>?
+        var p1: GeoPoint? = null
+        try {
+            address = coder.getFromLocationName(strAddress, 5)
+            if (address == null) {
+                return null
+            }
+            val location = address[0]
+            location.latitude
+            location.longitude
+            p1 = GeoPoint(
+                (location.latitude * 1E6),
+                (location.longitude * 1E6)
+            )
+            Toast.makeText(this,p1.toString(),Toast.LENGTH_LONG).show()
+            return p1
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }*/
+
+
 
 }
