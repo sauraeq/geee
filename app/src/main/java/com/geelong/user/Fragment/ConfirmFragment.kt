@@ -46,9 +46,15 @@ class ConfirmFragment : Fragment() {
     var langi_user:String=""
     var img_url:String=""
     var distance:String=""
+    var latitude_drop:String=""
+    var longitude_drop:String=""
     lateinit var customprogress:Dialog
-    var NewCastle = LatLng(28.6201514, 77.342835)
-    var Brisbane = LatLng(28.5747, 77.3560)
+    var toatal_time_taken:String=""
+
+    lateinit var pickuplatlang:LatLng
+    lateinit var dropuplatlang:LatLng
+    lateinit var toatal_distance_txtview:TextView
+    lateinit var toatal_time_txtview:TextView
 
 
 
@@ -69,6 +75,8 @@ class ConfirmFragment : Fragment() {
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
         var back_linera_layoutt=rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
         var pick_up_confirmm=rootview.findViewById<TextView>(R.id.pick_up_confirm)
+        toatal_distance_txtview=rootview.findViewById(R.id.toatl_distance_trip)
+        toatal_time_txtview=rootview.findViewById(R.id.total_time_trip)
         customprogress= Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
 
@@ -79,10 +87,30 @@ class ConfirmFragment : Fragment() {
        lat_user= SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
         langi_user=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
         distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
+       latitude_drop=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
+        longitude_drop=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Longi_Drop,"").toString()
 
         /*Toast.makeText(requireContext(),lat_user+langi_user,Toast.LENGTH_LONG).show()*/
 
         vehlist()
+
+        pickuplatlang = LatLng(lat_user.toDouble(), langi_user.toDouble())
+        dropuplatlang = LatLng(latitude_drop.toDouble(), longitude_drop.toDouble())
+        loadmap(pickuplatlang,dropuplatlang)
+        Totaltimetaken(distance.toDouble())
+        if (distance.isEmpty())
+        {
+
+        }
+        else
+        {
+            toatal_distance_txtview.text=distance+" "+"KM"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                    .Toatal_dis, distance)
+
+        }
+
+       // total_time_trip.text=toatal_time_taken
 
         pick_up_confirmm.setOnClickListener {
             val intent = Intent(requireContext(), ConfirmPick_up::class.java)
@@ -103,41 +131,7 @@ class ConfirmFragment : Fragment() {
         */
 
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
-        mapFragment!!.getMapAsync { mMap ->
-            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-
-
-            mMap.clear() //clear old markers
-
-
-            val googlePlex = CameraPosition.builder()
-                .target(LatLng(28.6201514,77.342835))
-                .zoom(12f)
-                .bearing(0f)
-                .build()
-
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
-            val height = 90
-            val width = 90
-            val bitmapdraw = resources.getDrawable(R.drawable.maparroww) as BitmapDrawable
-            val b = bitmapdraw.bitmap
-            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(28.6201514,77.342835))
-                    .title("Spider Man")
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-            )
-            mMap.addPolyline(PolylineOptions().add(NewCastle,Brisbane)
-                    .width(20f)
-                    .color(Color.RED)
-                    .geodesic(true))
-
-
-        }
 
         return rootview
     }
@@ -195,14 +189,17 @@ class ConfirmFragment : Fragment() {
                     // rlLoader.visibility=View.GONE
                   //  prgs_loader.visibility=View.GONE
                     if (response.body()!!.success.equals("true")) {
+
+                        Log.d("response",response.body().toString())
                         img_url=response.body()!!.data[0].image
                         driver_name1.setText(response.body()!!.data[0].name)
                         vch_name.setText(response.body()!!.data[0].vehicle_name)
                         vch_number.setText(response.body()!!.data[0].vehicle_no)
                         total_fare.setText("₹"+response.body()!!.data[0].amount)
+                     //   var lat_driver=response.body().data[0].
 
                         val picasso = Picasso.get()
-                        picasso.load(img_url).resize(50,40).into(driver_img_confirm)
+                        picasso.load(img_url).into(driver_img_confirm)
 
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].driver_id)
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
@@ -238,4 +235,79 @@ class ConfirmFragment : Fragment() {
 
         })
     }
+    fun  loadmap(pickup_latlang:LatLng,drop_latlang:LatLng)
+    {
+
+        customprogress.show()
+        val mapFragment =
+                childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+        mapFragment!!.getMapAsync { mMap ->
+            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+
+
+            mMap.clear() //clear old markers
+
+
+            val googlePlex = CameraPosition.builder()
+                    .target(LatLng(latitude_drop.toDouble(),longitude_drop.toDouble()))
+                    .zoom(8f)
+                    .bearing(0f)
+                    .build()
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+            val height = 90
+            val width = 90
+            val bitmapdraw = resources.getDrawable(R.drawable.placeholder) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+            mMap.addMarker(
+                    MarkerOptions()
+                            .position(LatLng(latitude_drop.toDouble(),longitude_drop.toDouble()))
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+            mMap.addMarker(
+                    MarkerOptions()
+                            .position(LatLng(lat_user.toDouble(),langi_user.toDouble()))
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+            mMap.addPolyline(PolylineOptions().add(pickup_latlang,drop_latlang)
+                    .width(12f)
+                    .color(Color.RED)
+                    .geodesic(true))
+            customprogress.hide()
+
+
+        }
+    }
+    fun Totaltimetaken(distance_km:Double)
+    {
+      val km=distance_km.toInt()
+        val kms_per_min = 0.5
+        val mins_taken = km/kms_per_min
+        val totalMinutes = mins_taken.toInt()
+        if (totalMinutes < 60) {
+
+            toatal_time_taken=totalMinutes.toString()+" "+"Mins"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                    .Toatal_time, toatal_time_taken)
+            toatal_time_txtview.text=toatal_time_taken
+           // total_time_trip.setText(toatal_time_taken)
+
+        } else {
+            var minutes = Integer.toString(totalMinutes % 60)
+            minutes = if (minutes.length == 1) "0$minutes" else minutes
+            (totalMinutes / 60).toString() + " hour " + minutes + "mins"
+            toatal_time_taken=minutes.toString()
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                    .Toatal_time, toatal_time_taken)
+            toatal_time_txtview.text=toatal_time_taken
+            //total_time_trip.setText(toatal_time_taken)
+        }
+
+
+    }
+
 }
+
+

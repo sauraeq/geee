@@ -57,6 +57,7 @@ class Search1 : AppCompatActivity() {
     lateinit var ivClose1:ImageView
     var textLatLong: TextView? = null
     lateinit var customProgress:Dialog
+    var token_id:String=""
 
 
 
@@ -407,8 +408,11 @@ class Search1 : AppCompatActivity() {
     {
       /*  customprogress.show()*/
         var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
+        token_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.TokenId,"")
+                .toString()
         val request = HashMap<String, String>()
         request.put("mobile",mobi_num)
+        request.put("device_tokanid",token_id)
 
 
 
@@ -430,8 +434,17 @@ class Search1 : AppCompatActivity() {
                         var img_url=response.body()!!.data[0].profile_photo
                         username_sidebar.text=response.body()!!.data[0].name
                         user_location_sidebar.text=response.body()!!.data[0].address
-                        val picasso= Picasso.get()
-                        picasso.load(img_url).into(navigation_user_pic)
+
+                        if(img_url.isEmpty())
+                        {
+                            /*val picasso=Picasso.get()
+                            picasso.load(img_url).into(User_profile_pic)*/
+                        }
+                        else{
+                            val picasso= Picasso.get()
+                            picasso.load(img_url).into(navigation_user_pic)
+                        }
+
                         customProgress.hide()
 
 

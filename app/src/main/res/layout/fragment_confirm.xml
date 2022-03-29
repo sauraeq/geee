@@ -49,9 +49,8 @@
         <androidx.cardview.widget.CardView
 
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_350sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-8dp"
             android:elevation="2dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
@@ -62,7 +61,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -75,16 +75,26 @@
 
 
 
-                 <de.hdodenhof.circleimageview.CircleImageView
+                 <!--<de.hdodenhof.circleimageview.CircleImageView
                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                     android:id="@+id/driver_img_confirm"
+                     android:id="@+id/driver_img_confirm1"
                      android:layout_width="@dimen/_55sdp"
                      android:layout_height="@dimen/_55sdp"
                      android:src="@drawable/driverimg"
                      app:civ_border_width="1dp"
                      android:layout_marginTop="@dimen/_15sdp"
                      android:layout_gravity="center"
-                     app:civ_border_color="@color/yellow"/>
+                     android:visibility="gone"
+                     app:civ_border_color="@color/yellow"/>-->
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/driver_img_confirm"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:src="@drawable/driverimg"
+                        android:layout_gravity="center"
+                        app:civ_border_color="@color/yellow"
+                        app:civ_border_width="1dp" />
 
 
 
@@ -134,6 +144,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/total_time_trip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppinsmedium"
@@ -155,7 +166,9 @@
                                 android:paddingRight="@dimen/_8sdp"
                                 android:text="Seadan"
                                 android:textColor="@color/black"
-                                android:textStyle="bold"></TextView>
+                                android:textStyle="bold">
+
+                            </TextView>
                         </RelativeLayout>
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -192,6 +205,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/toatl_distance_trip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppinsmedium"

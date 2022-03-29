@@ -13,8 +13,14 @@ object ConstantUtils {
     const val CurrentL="current_location"
     const val LATITUDE="latitude"
     const val LONGITUDE="longitude"
+    const val Lati_Drop="latitude_drop"
+    const val Toatal_time="toatal_time"
+    const val Toatal_dis="total_distance"
+    const val Longi_Drop="longitude_drop"
     const val OTP="otp"
     const val Distance="distance"
+    const val TokenId="token_id"
+    const val Drop_location="drop_location"
 
 
 

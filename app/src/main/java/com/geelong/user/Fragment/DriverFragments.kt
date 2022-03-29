@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -53,6 +55,15 @@ class DriverFragments : Fragment() {
     var amount:String=""
     var current_loca:String=""
     lateinit var customprogress:Dialog
+    var drop_lati:String=""
+    var drop_longi:String=""
+    var drop_location:String=""
+    var driver_lati:String=""
+    var driver_longi:String=""
+    var total_time:String=""
+    var total_distance:String=""
+    lateinit var pickuplatlang:LatLng
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,13 +86,30 @@ class DriverFragments : Fragment() {
         otp=rootview.findViewById(R.id.otp_drvFrg)
         customprogress= Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
+        try {
+            total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                    .Toatal_time,"").toString()
+            total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
+            user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
+            driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
+            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
+            current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
+            drop_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
+            drop_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                    .Longi_Drop,"").toString()
+            drop_location=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                    .Drop_location,"").toString()
 
-        user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
-        driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
-        Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-        Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
-        amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
-        current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
+            pickuplatlang= LatLng(Current_lati.toDouble(),Current_longi.toDouble())
+
+
+        }
+        catch (e:Exception)
+        {
+
+        }
 
 
         if (NetworkUtils.checkInternetConnection(requireContext()))
@@ -89,6 +117,8 @@ class DriverFragments : Fragment() {
             DriverDetailss()
 
         }
+
+
 
 
 
@@ -111,33 +141,7 @@ class DriverFragments : Fragment() {
         }
 
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
-        mapFragment!!.getMapAsync { mMap ->
-            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-            mMap.clear() //clear old markers
-
-
-
-
-            val googlePlex = CameraPosition.builder()
-                .target(LatLng(28.6201514,77.342835))
-                .zoom(12f)
-                .bearing(0f)
-                .build()
-
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
-
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(28.6201514,77.342835))
-                    .title("Spider Man")
-                    .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
-            )
-
-
-        }
 
         return rootview
     }
@@ -169,16 +173,16 @@ class DriverFragments : Fragment() {
     {
         val request = HashMap<String, String>()
         request.put("pickupAddress",current_loca)
-        request.put("pickupLatitude",Current_longi)
-        request.put("pickupLongitude",Current_lati)
-        request.put("dropAddress","ghaziabad")
-        request.put("dropLatitude","28.9898564")
-        request.put("dropLongitude","77.84848")
+        request.put("pickupLatitude",Current_lati)
+        request.put("pickupLongitude",Current_longi)
+        request.put("dropAddress",drop_location)
+        request.put("dropLatitude",drop_lati)
+        request.put("dropLongitude",drop_longi)
         request.put("user_id",user_id )
         request.put("driver_id",driver_id)
-            request.put("amount",amount)
-        request.put("time","20")
-        request.put("distance","20")
+        request.put("amount",amount)
+        request.put("time",total_time)
+        request.put("distance",total_distance)
 
 
 
@@ -199,7 +203,7 @@ class DriverFragments : Fragment() {
                         val vch_img_url=response.body()!!.data[0].vehicle_image
 
                         val picasso = Picasso.get()
-                        picasso.load(pro_img_url).resize(50,40).into(driver_img_drvFrg)
+                        picasso.load(pro_img_url).into(driver_img_drvFrg)
                         picasso.load(vch_img_url).into(vch_img_drvFrg)
                         driver_nmae_drvFrg.text=response.body()!!.data[0].name
                         vch_name_drvFrg.text=response.body()!!.data[0].vehicle_name
@@ -207,6 +211,10 @@ class DriverFragments : Fragment() {
 
                         val booking_id=response.body()!!.data[0].booking_id.toString()
                         val driver_rating=response.body()!!.data[0].rating
+                        driver_lati=response.body()!!.data[0].latitude
+                        driver_longi=response.body()!!.data[0].longitude
+
+                      loadmap()
 
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Booking_id,booking_id)
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Rating,driver_rating)
@@ -237,6 +245,58 @@ class DriverFragments : Fragment() {
             }
 
         })
+    }
+
+    fun loadmap()
+    {
+        Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+        Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+        customprogress.show()
+    var drivrlatlong=LatLng(driver_lati.toDouble(),driver_longi.toDouble())
+
+        val mapFragment =
+                childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+        mapFragment!!.getMapAsync { mMap ->
+            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+
+
+            mMap.clear() //clear old markers
+
+
+            val googlePlex = CameraPosition.builder()
+                    .target(LatLng(driver_lati.toDouble(),driver_longi.toDouble()))
+                    .zoom(22f)
+                    .bearing(0f)
+                    .build()
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+            val height = 90
+            val width = 90
+            val bitmapdraw = resources.getDrawable(R.drawable.placeholder) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+           // Toast.makeText(requireContext(),driver_lati+driver_longi,Toast.LENGTH_LONG).show()
+            Log.d("loc",driver_lati+driver_longi+Current_lati+Current_longi)
+            mMap.addMarker(
+                    MarkerOptions()
+                            .position(LatLng(driver_lati.toDouble(),driver_longi.toDouble()))
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+          //  Toast.makeText(requireContext(),Current_lati+Current_longi,Toast.LENGTH_LONG).show()
+            mMap.addMarker(
+                    MarkerOptions()
+                            .position(LatLng(Current_lati.toDouble(),Current_longi.toDouble()))
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+            mMap.addPolyline(PolylineOptions().add(drivrlatlong,pickuplatlang)
+                    .width(12f)
+                    .color(Color.RED)
+                    .geodesic(true))
+            customprogress.hide()
+
+
+        }
     }
 
 

@@ -196,6 +196,18 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             email=user_email.getText().toString()
             address=user_address.getText().toString()
             mobile_number=user_mobile.getText().toString()
+            try {
+                val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
+                radioButton = findViewById(intSelectButton)
+                gender=radioButton.text.toString()
+            }
+            catch (e:Exception)
+            {
+
+            }
+
+
+
 
 
            /* Toast.makeText(this,name+email+address+mobile_number+gender,Toast.LENGTH_LONG).show()*/
@@ -216,6 +228,10 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               else if(mobile_number.isEmpty())
               {
                   Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
+              }
+              else if(gender.isEmpty())
+              {
+                  Toast.makeText(this,"Please Enter Gender",Toast.LENGTH_LONG).show()
               }
 
               else {
@@ -282,7 +298,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         request.put("email",email)
         request.put("mobile",mobile_number)
         request.put("address",address)
-        request.put("gender","Male")
+        request.put("gender",gender)
 
 
 
@@ -336,6 +352,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     {
         val request = HashMap<String, String>()
         request.put("mobile",mobile_number_login)
+        request.put("device_tokanid",token_id)
 
 
 
@@ -407,6 +424,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             }
             val token = task.result
             token_id=token
+            SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.TokenId,token)
             Log.e("TAG", token)
         })
     }

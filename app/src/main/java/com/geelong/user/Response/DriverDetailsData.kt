@@ -9,5 +9,7 @@ data class DriverDetailsData(
     val vehicle_image: String,
     val vehicle_name: String,
     val vehicle_no: String,
-    val booking_id:Int
+    val booking_id:Int,
+    val latitude:String,
+    val longitude:String
 )

@@ -6,4 +6,5 @@ data class DriverDetails_Vch_Response(
     val msg: String,
     val service: String,
     val success: String
+
 )

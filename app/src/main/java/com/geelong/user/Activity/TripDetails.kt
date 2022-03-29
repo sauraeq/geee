@@ -70,13 +70,23 @@ class TripDetails : AppCompatActivity() {
             override fun onResponse(call: Call<TripHistoryResponse>, response: Response<TripHistoryResponse>) {
                 try {
 
-
+                        customprogress.hide()
                     if (response.body()!!.success.equals("true")) {
+                        Log.d("response",response.body().toString())
+                        if (response.body()!!.data.isEmpty())
+                        {
+                            Toast.makeText(this@TripDetails,"DATA Not Found",Toast.LENGTH_LONG).show()
+                            customprogress.hide()
+                        }
+                        else
+                        {
+                            mlist= response.body()!!.data
+                            recyclerview.layoutManager= LinearLayoutManager(this@TripDetails)
+                            recyclerview.adapter= TripAdapter(this@TripDetails,mlist)
+                        }
 
 
-                        mlist= response.body()!!.data
-                        recyclerview.layoutManager= LinearLayoutManager(this@TripDetails)
-                        recyclerview.adapter= TripAdapter(this@TripDetails,mlist)
+
 
                         customprogress.hide()
                     } else {

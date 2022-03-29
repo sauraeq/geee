@@ -1,5 +1,6 @@
 package com.geelong.user.Activity
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -73,6 +74,15 @@ class DriverDetails : AppCompatActivity() {
        ivClose1=findViewById(R.id.ivClose)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
+
+        val intent = intent
+        val message = intent.getStringExtra("message")
+        if(!message.isNullOrEmpty()) {
+            AlertDialog.Builder(this)
+                    .setTitle("Notification")
+                    .setMessage(message)
+                    .setPositiveButton("Ok", { dialog, which -> }).show()
+        }
 
         logout_driver_details_linear.setOnClickListener {
             SharedPreferenceUtils.getInstance(this)?.clear()
@@ -239,10 +249,13 @@ fun inte()
 
     fun progilepic()
     {
-
+       var token_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+               .TokenId,"")
+                .toString()
         var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
         val request = HashMap<String, String>()
         request.put("mobile",mobi_num)
+        request.put("device_tokanid",token_id)
 
 
 
@@ -254,13 +267,31 @@ fun inte()
 
                            customprogress.hide()
                     if (response.body()!!.success.equals("true")) {
+                        if (response.body()!!.data.isEmpty())
+                        {
+                            Toast.makeText(this@DriverDetails,"DATA Not Found",Toast.LENGTH_LONG).show()
+
+                        }
+                        else
+                        {
+                            var img_url=response.body()!!.data[0].profile_photo
+                            tvName_sidebar.text=response.body()!!.data[0].name
+                            user_location_se.text=response.body()!!.data[0].address
+
+                            if(img_url.isEmpty())
+                            {
+                                /*val picasso=Picasso.get()
+                                picasso.load(img_url).into(User_profile_pic)*/
+                            }
+                            else{
+                                val picasso= Picasso.get()
+                                picasso.load(img_url).into(navigation_header_img)
+                            }
+                        }
 
 
-                        var img_url=response.body()!!.data[0].profile_photo
-                        tvName_sidebar.text=response.body()!!.data[0].name
-                        user_location_se.text=response.body()!!.data[0].address
-                        val picasso= Picasso.get()
-                        picasso.load(img_url).into(navigation_header_img)
+
+
                         customprogress.hide()
 
 

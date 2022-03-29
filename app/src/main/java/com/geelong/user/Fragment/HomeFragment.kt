@@ -45,6 +45,8 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.IOException
 import java.lang.Math.*
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 
@@ -142,6 +144,7 @@ class HomeFragment : Fragment() {
             n_of_passenger = no_passenger.text.toString()
 
 
+
             //  getLocationFromAddress(drop_location)
 
 
@@ -153,9 +156,12 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG).show()
             } else {
                 var toatal_distance = getKilometers(lati_curr.toDouble(), longi_current.toDouble(), lati_drop.toDouble(), langit_drop.toDouble())
+                var total_distance_apprx=roundOffDecimal(toatal_distance.toDouble())
                 SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                        ConstantUtils.Distance, toatal_distance.toString())
-                Toast.makeText(requireContext(), toatal_distance.toString(), Toast.LENGTH_LONG).show()
+                        ConstantUtils.Distance, total_distance_apprx.toString())
+                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                        ConstantUtils.Drop_location,drop_location)
+
                 (activity as Search1?)?.inte()
             }
 
@@ -405,6 +411,11 @@ var toatlkm=toatal_distance.toFloat()*/
             var la_longArr = latLng.toString().split(",", "(", ")")
             lati_drop = la_longArr[1]
             langit_drop = la_longArr[2]
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                    ConstantUtils.Lati_Drop, lati_drop)
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                    ConstantUtils.Longi_Drop, langit_drop)
+
             Log.d("daad", lati_drop + langit_drop)
             if (strAddress != null) {
                 loadMap(lati_drop, langit_drop,strAddress)
@@ -433,6 +444,12 @@ mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
         val lam1 = long1 * PI_RAD
         val lam2 = long2 * PI_RAD
         return 6371.01 * acos(sin(phi1) * sin(phi2) + cos(phi1) * cos(phi2) * cos(lam2 - lam1))
+    }
+
+    fun roundOffDecimal(number: Double): Double? {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
     }
 
 

@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -28,11 +29,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             generateNotification(remoteMessage.notification!!.title!!,remoteMessage.notification!!.body!!)
 
         }
+        val intent = Intent(this@MyFirebaseMessagingService, DriverDetails::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("message", remoteMessage.notification?.body!!)
+        startActivity(intent)
     }
 
     @SuppressLint("RemoteViewLayout")
     fun getRemoteview(title: String,message: String): RemoteViews {
-        val remoteView= RemoteViews("com.geelong.taxi_driver",R.layout.notification)
+        val remoteView= RemoteViews("com.geelong.user",R.layout.notification)
         remoteView.setTextViewText(R.id.title,title)
         remoteView.setTextViewText(R.id.message,message)
         remoteView.setImageViewResource(R.id.icon_notification,R.drawable.appicon)
@@ -70,9 +75,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         }
         notificationManager.notify(0,builder.build())
-        /*val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val mp: MediaPlayer = MediaPlayer.create(this, notification)
-        mp.start()*/
+        mp.start()
 
     }
 

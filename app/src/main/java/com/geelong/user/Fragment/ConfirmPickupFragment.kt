@@ -91,34 +91,8 @@ class ConfirmPickupFragment : Fragment() {
 
          */
 
+        loadmap()
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
-        mapFragment!!.getMapAsync { mMap ->
-            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-
-            mMap.clear() //clear old markers
-
-            val googlePlex = CameraPosition.builder()
-                .target(LatLng(lati.toDouble(),longi.toDouble()))
-                .zoom(20f)
-                .bearing(0f)
-                .build()
-
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
-            val height = 90
-            val width = 90
-            val bitmapdraw = resources.getDrawable(R.drawable.maparroww) as BitmapDrawable
-            val b = bitmapdraw.bitmap
-            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(lati.toDouble(),longi.toDouble()))
-                    .title(locat)
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-            )
-
-        }
 
         return rootview
     }
@@ -151,6 +125,37 @@ class ConfirmPickupFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun loadmap()
+    {
+        val mapFragment =
+                childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+        mapFragment!!.getMapAsync { mMap ->
+            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+            mMap.clear() //clear old markers
+
+            val googlePlex = CameraPosition.builder()
+                    .target(LatLng(lati.toDouble(),longi.toDouble()))
+                    .zoom(20f)
+                    .bearing(0f)
+                    .build()
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+            val height = 90
+            val width = 90
+            val bitmapdraw = resources.getDrawable(R.drawable.placeholder) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+            mMap.addMarker(
+                    MarkerOptions()
+                            .position(LatLng(lati.toDouble(),longi.toDouble()))
+                            .title(locat)
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+
+        }
     }
 
 }

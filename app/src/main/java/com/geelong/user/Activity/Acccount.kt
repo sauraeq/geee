@@ -17,6 +17,7 @@ import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
+import kotlinx.android.synthetic.main.activity_driver_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +26,7 @@ import java.util.HashMap
 class Acccount : AppCompatActivity() {
      var mobile_number_account:String=""
     lateinit var customprogress:Dialog
+    var token_id:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,8 @@ class Acccount : AppCompatActivity() {
 
 
         mobile_number_account=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
+        token_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.TokenId,"")
+                .toString()
 
         edit_profile.setOnClickListener {
             val intent = Intent(this, AccountEdit::class.java)
@@ -60,6 +64,7 @@ class Acccount : AppCompatActivity() {
         customprogress.show()
         val request = HashMap<String, String>()
         request.put("mobile",mobile_number_account)
+        request.put("device_tokanid",token_id)
 
 
 
@@ -72,15 +77,34 @@ class Acccount : AppCompatActivity() {
 
                     if (response.body()!!.success.equals("true")) {
 
-                        User_name.text=response.body()!!.data[0].name
-                        User_mobile.text=response.body()!!.data[0].phone
-                        User_email.text=response.body()!!.data[0].email
-                        User_Address.text=response.body()!!.data[0].address
-                        User_gender.text=response.body()!!.data[0].gender
-                        var img_url=response.body()!!.data[0].profile_photo
-                        SharedPreferenceUtils.getInstance(this@Acccount)?.setStringValue(ConstantUtils.Image_Url,img_url)
-                        val picasso=Picasso.get()
-                        picasso.load(img_url).into(User_profile_pic)
+                        if (response.body()!!.data.isEmpty())
+                        {
+                            Toast.makeText(this@Acccount,"DATA Not Found",Toast.LENGTH_LONG).show()
+
+                        }
+                        else
+                        {
+                            User_name.text=response.body()!!.data[0].name
+                            User_mobile.text=response.body()!!.data[0].phone
+                            User_email.text=response.body()!!.data[0].email
+                            User_Address.text=response.body()!!.data[0].address
+                            User_gender.text=response.body()!!.data[0].gender
+                            var img_url=response.body()!!.data[0].profile_photo
+                            SharedPreferenceUtils.getInstance(this@Acccount)?.setStringValue(ConstantUtils.Image_Url,img_url)
+                            if(img_url.isEmpty())
+                            {
+                                /*val picasso=Picasso.get()
+                                picasso.load(img_url).into(User_profile_pic)*/
+                            }
+                            else{
+                                val picasso=Picasso.get()
+                                picasso.load(img_url).into(User_profile_pic)
+                            }
+
+                        }
+
+
+
                         customprogress.hide()
 
 
