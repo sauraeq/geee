@@ -63,6 +63,7 @@ class DriverFragments : Fragment() {
     var total_time:String=""
     var total_distance:String=""
     lateinit var pickuplatlang:LatLng
+    lateinit var Cancel_booking_btnn:TextView
 
 
 
@@ -86,6 +87,7 @@ class DriverFragments : Fragment() {
         otp=rootview.findViewById(R.id.otp_drvFrg)
         customprogress= Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
+        Cancel_booking_btnn=rootview.findViewById(R.id.Cancel_booking_btn)
         try {
             total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
                     .Toatal_time,"").toString()
@@ -139,7 +141,9 @@ class DriverFragments : Fragment() {
         ivMenu_driver.setOnClickListener {
             (activity as DriverDetails?)?.click()
         }
-
+        Cancel_booking_btnn.setOnClickListener {
+            (activity as DriverDetails?)?.GoTo()
+        }
 
 
 

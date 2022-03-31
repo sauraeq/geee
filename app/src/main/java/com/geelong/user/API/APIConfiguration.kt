@@ -70,4 +70,21 @@ interface APIConfiguration {
     fun Review(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<ReveiwResponse>
+
+    @POST("notification")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun Noti(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<NotificationResponse>
+
+    @POST("cancelreasondata")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun CancelReason(
+
+    ): Call<CancelTripReasonResponse>
+    @POST("cancelride")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun CancelResultSubmission(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<CancelSubmitResponse>
 }

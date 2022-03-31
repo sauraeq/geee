@@ -439,13 +439,13 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:id="@+id/pick_up_confirm"
+                                android:id="@+id/Cancel_booking_btn"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/button_corner"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:paddingTop="@dimen/_12sdp"
-                                android:text="Arriving"
+                                android:text="@string/cancel_trip"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_13sdp"

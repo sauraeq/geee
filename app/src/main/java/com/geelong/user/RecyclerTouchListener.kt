@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerTouchListener internal constructor(
     context: Context,
-    private val clickListener: ClickListener?
+    private val clickListener: ClickListener
 ) : RecyclerView.OnItemTouchListener {
 
     private val gestureDetector: GestureDetector =

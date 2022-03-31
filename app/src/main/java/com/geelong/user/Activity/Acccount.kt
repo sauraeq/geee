@@ -18,6 +18,7 @@ import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
 import kotlinx.android.synthetic.main.activity_driver_details.*
+import kotlinx.android.synthetic.main.fragment_confirm.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,8 +94,8 @@ class Acccount : AppCompatActivity() {
                             SharedPreferenceUtils.getInstance(this@Acccount)?.setStringValue(ConstantUtils.Image_Url,img_url)
                             if(img_url.isEmpty())
                             {
-                                /*val picasso=Picasso.get()
-                                picasso.load(img_url).into(User_profile_pic)*/
+                                val picasso=Picasso.get()
+                                picasso.load(R.drawable.defaultt).into(User_profile_pic)
                             }
                             else{
                                 val picasso=Picasso.get()

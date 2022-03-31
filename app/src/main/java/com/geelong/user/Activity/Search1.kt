@@ -3,8 +3,6 @@ package com.geelong.user.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
@@ -30,18 +28,11 @@ import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Util.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_acccount.*
 import kotlinx.android.synthetic.main.activity_search1.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.util.*
 
 
@@ -437,8 +428,8 @@ class Search1 : AppCompatActivity() {
 
                         if(img_url.isEmpty())
                         {
-                            /*val picasso=Picasso.get()
-                            picasso.load(img_url).into(User_profile_pic)*/
+                            val picasso=Picasso.get()
+                            picasso.load(R.drawable.defaultt).into(navigation_user_pic)
                         }
                         else{
                             val picasso= Picasso.get()

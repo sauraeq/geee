@@ -19,6 +19,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
+import com.geelong.user.Activity.CancelTrip
 import com.geelong.user.Activity.Confirm
 import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.R
@@ -136,6 +137,42 @@ class ConfirmFragment : Fragment() {
         return rootview
     }
 
+   /* override fun onPostExecute(result: List<List<java.util.HashMap<String, String>>>?) {
+        var points: java.util.ArrayList<LatLng?>
+        var lineOptions: PolylineOptions? = null
+        Log.e("map", "onPostExecute1")
+        for (i in result!!.indices) {
+            points = java.util.ArrayList()
+            lineOptions = PolylineOptions()
+            val path = result[i]
+            for (j in path.indices) {
+                val point = path[j]
+                val lat = point["lat"]!!.toDouble()
+                val lng = point["lng"]!!.toDouble()
+                val position = LatLng(lat, lng)
+                points.add(position)
+            }
+            lineOptions.addAll(points)
+            lineOptions.width(8f)
+            lineOptions.color(Color.BLACK)
+            // lineOptions.color(activity!!.resources.getColor(R.color.orange))
+            Log.d("onPostExecute", "onPostExecute lineoptions decoded")
+        }
+        if (lineOptions != null) {
+            activity!!.mMap.addPolyline(lineOptions)
+            var sourcelatLng: LatLng = LatLng(activity!!.sourlat, activity!!.sourlng)
+            var deslatLng: LatLng = LatLng(activity!!.deslat, activity!!.deslng)
+            val builder = LatLngBounds.Builder()
+            builder.include(sourcelatLng)
+            builder.include(deslatLng)
+            val bound = builder.build()
+            activity!!.mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bound, 40));
+        } else {
+            Log.d("onPostExecute", "without Polylines drawn")
+        }
+
+    }*/
+
     private fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorResId)
         vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
@@ -198,8 +235,18 @@ class ConfirmFragment : Fragment() {
                         total_fare.setText("₹"+response.body()!!.data[0].amount)
                      //   var lat_driver=response.body().data[0].
 
-                        val picasso = Picasso.get()
-                        picasso.load(img_url).into(driver_img_confirm)
+                        if (img_url.isEmpty())
+                        {
+                            var pica=Picasso.get()
+                            pica.load(R.drawable.profilepic).into(driver_img_confirm)
+                        }
+                        else
+                        {
+                            var pica=Picasso.get()
+                            pica.load(img_url).into(driver_img_confirm)
+                        }
+
+
 
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].driver_id)
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
@@ -238,6 +285,10 @@ class ConfirmFragment : Fragment() {
     fun  loadmap(pickup_latlang:LatLng,drop_latlang:LatLng)
     {
 
+
+        var latlanglist:ArrayList<LatLng>?=null
+        latlanglist?.add(pickup_latlang)
+        latlanglist?.add(drop_latlang)
         customprogress.show()
         val mapFragment =
                 childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
@@ -271,6 +322,8 @@ class ConfirmFragment : Fragment() {
                             .position(LatLng(lat_user.toDouble(),langi_user.toDouble()))
                             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
+
+
             mMap.addPolyline(PolylineOptions().add(pickup_latlang,drop_latlang)
                     .width(12f)
                     .color(Color.RED)
@@ -282,6 +335,8 @@ class ConfirmFragment : Fragment() {
     }
     fun Totaltimetaken(distance_km:Double)
     {
+
+
       val km=distance_km.toInt()
         val kms_per_min = 0.5
         val mins_taken = km/kms_per_min
@@ -307,6 +362,26 @@ class ConfirmFragment : Fragment() {
 
 
     }
+
+    /*fun drawPolyLineOnMap(list: List<LatLng?>) {
+        val polyOptions = PolylineOptions()
+        polyOptions.color(Color.RED)
+        polyOptions.width(5f)
+        polyOptions.addAll(list)
+        googleMap.clear()
+        googleMap.addPolyline(polyOptions)
+        val builder = LatLngBounds.Builder()
+        for (latLng in list) {
+            builder.include(latLng!!)
+        }
+        val bounds = builder.build()
+
+        //BOUND_PADDING is an int to specify padding of bound.. try 100.
+        val cu = CameraUpdateFactory.newLatLngBounds(bounds, BOUND_PADDING)
+        googleMap.animateCamera(cu)
+    }
+*/
+
 
 }
 

@@ -1,6 +1,7 @@
 package com.geelong.user.API
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.view.ViewGroup
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.geelong.user.Activity.DriverDetails
@@ -78,6 +80,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val mp: MediaPlayer = MediaPlayer.create(this, notification)
         mp.start()
+
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(baseContext)
+
+        dialog.getWindow()!!
+            .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_write_review)
+
+        dialog.show()
 
     }
 

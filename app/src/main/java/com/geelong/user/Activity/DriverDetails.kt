@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -32,7 +31,6 @@ import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_driver_details.*
-import kotlinx.android.synthetic.main.activity_search1.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -280,8 +278,8 @@ fun inte()
 
                             if(img_url.isEmpty())
                             {
-                                /*val picasso=Picasso.get()
-                                picasso.load(img_url).into(User_profile_pic)*/
+                                val picasso=Picasso.get()
+                                picasso.load(R.drawable.driverimg).into(navigation_header_img)
                             }
                             else{
                                 val picasso= Picasso.get()
@@ -318,5 +316,12 @@ fun inte()
 
         })
     }
+
+    fun GoTo()
+    {
+        var intent=Intent(this,CancelTrip::class.java)
+        startActivity(intent)
+    }
+
 
 }

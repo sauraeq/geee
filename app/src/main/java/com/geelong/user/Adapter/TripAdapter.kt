@@ -86,8 +86,17 @@ class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : Recy
         holder.user_trip_time.text=mlist[position].created_date
         holder.user_pick_up_pick.text=mlist[position].pickup_address
         holder.user_drop_location.text=mlist[position].drop_address
-        var pica=Picasso.get()
-        pica.load(img_url).into(holder.user_image)
+        if (img_url.isEmpty())
+        {
+            var pica=Picasso.get()
+            pica.load(R.drawable.defaultt).into(holder.user_image)
+        }
+        else
+        {
+            var pica=Picasso.get()
+            pica.load(img_url).into(holder.user_image)
+        }
+
         holder.wr_a_reveiw.setOnClickListener {
           showDialog(holder.booking_id,holder.driver_id_id,holder.user_idd)
 
