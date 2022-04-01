@@ -392,6 +392,7 @@
                                     android:weightSum="3">
 
                                     <TextView
+                                        android:id="@+id/total_distancee"
                                         android:layout_width="@dimen/_20sdp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -403,6 +404,7 @@
                                     </TextView>
 
                                     <TextView
+                                        android:id="@+id/total_timee"
                                         android:layout_width="@dimen/_20sdp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -414,6 +416,7 @@
                                     </TextView>
 
                                     <TextView
+                                        android:id="@+id/total_pricee"
                                         android:layout_width="@dimen/_20sdp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"

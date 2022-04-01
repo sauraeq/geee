@@ -38,6 +38,7 @@
     <string name="you_will_be_charged_an_additional_25_15_cancellation_fee_on_your_next_trip">You will be charged an additional $25.15 cancellation fee on your next trip.</string>
     <string name="are_you_sure_you_want_to_cancel_this_trip">Are you sure you want to cancel this trip?</string>
     <string name="cancel_trip">Cancel Trip</string>
+    <string name="no_driver_found">No Driver Found</string>
     >
 
 </resources>

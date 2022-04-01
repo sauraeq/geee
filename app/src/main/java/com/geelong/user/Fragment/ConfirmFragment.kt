@@ -19,7 +19,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
-import com.geelong.user.Activity.CancelTrip
 import com.geelong.user.Activity.Confirm
 import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.R
@@ -184,15 +183,7 @@ class ConfirmFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
@@ -290,6 +281,19 @@ class ConfirmFragment : Fragment() {
         latlanglist?.add(pickup_latlang)
         latlanglist?.add(drop_latlang)
         customprogress.show()
+        var locationList = mutableListOf<LatLng>()
+        locationList.add(pickup_latlang)
+        locationList.add(drop_latlang)
+
+        var locationlists4 =  mutableListOf<LatLng>()
+        locationlists4.addAll(locationList)
+     /*  // Toast.makeText(requireContext(),locationList.toString()+" "+" "+locationlists4.toString
+        (),Toast
+            .LENGTH_LONG).show()
+*/
+
+
+
         val mapFragment =
                 childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment!!.getMapAsync { mMap ->
@@ -298,6 +302,33 @@ class ConfirmFragment : Fragment() {
 
 
             mMap.clear() //clear old markers
+            var points: java.util.ArrayList<LatLng?>
+            var lineOptions: PolylineOptions? = null
+            Log.e("map", "onPostExecute1")
+            for (i in locationList!!.indices) {
+                points = java.util.ArrayList()
+                lineOptions = PolylineOptions()
+                val path = locationList[i]
+                for (j in 0..1) {
+                    val point = path
+                    val lat = point.latitude
+                    val lng = point.longitude
+                    val position = LatLng(lat, lng)
+                    points.add(position)
+             //       Toast.makeText(requireContext(),points.toString(),Toast.LENGTH_LONG).show()
+                }
+                lineOptions.addAll(points)
+                lineOptions.width(8f)
+                lineOptions.color(Color.BLACK)
+                lineOptions.color(resources.getColor(R.color.yellow))
+
+                mMap.addPolyline(PolylineOptions().addAll(locationList)
+                    .width(12f)
+                    .color(Color.RED)
+                    .geodesic(true))
+                customprogress.hide()
+            }
+
 
 
             val googlePlex = CameraPosition.builder()
@@ -322,13 +353,20 @@ class ConfirmFragment : Fragment() {
                             .position(LatLng(lat_user.toDouble(),langi_user.toDouble()))
                             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
+           /* if (lineOptions != null) {
+                mMap.addPolyline(lineOptions)
+                var sourcelatLng: LatLng = LatLng(lat_user.toDouble(),langi_user.toDouble())
+                var deslatLng: LatLng = LatLng(latitude_drop.toDouble(),longitude_drop.toDouble())
+                val builder = LatLngBounds.Builder()
+                builder.include(sourcelatLng)
+                builder.include(deslatLng)
+                val bound = builder.build()
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bound, 40));
+            } else {
+                Log.d("onPostExecute", "without Polylines drawn")
+            }*/
 
-
-            mMap.addPolyline(PolylineOptions().add(pickup_latlang,drop_latlang)
-                    .width(12f)
-                    .color(Color.RED)
-                    .geodesic(true))
-            customprogress.hide()
+           /* */
 
 
         }
@@ -381,6 +419,9 @@ class ConfirmFragment : Fragment() {
         googleMap.animateCamera(cu)
     }
 */
+
+
+
 
 
 }
