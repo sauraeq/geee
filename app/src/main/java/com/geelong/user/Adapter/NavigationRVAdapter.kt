@@ -1,14 +1,24 @@
 package com.geelong.user.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.geelong.user.API.APIUtils
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
+import com.geelong.user.Response.NewNotificationResponse
+import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.SharedPreferenceUtils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 
 class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, private var items1: ArrayList<NavigationItemModel>, private var currentPos: Int) :RecyclerView.Adapter<NavigationRVAdapter.NavigationItemViewHolder>() {
@@ -16,6 +26,8 @@ class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, pri
     private lateinit var context: Context
     lateinit var navigation_icon:ImageView
     lateinit var navigation_title1:TextView
+    lateinit var notification_countt:ImageView
+    var notification_cnt:String=""
 
     class NavigationItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -24,6 +36,7 @@ class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, pri
         val navItem = LayoutInflater.from(parent.context).inflate(R.layout.row_nav_drawer, parent, false)
         navigation_icon=navItem.findViewById(R.id.navigation_icon1)
         navigation_title1=navItem.findViewById(R.id.navigation_title1)
+        notification_countt=navItem.findViewById(R.id.red_notication)
         return NavigationItemViewHolder(navItem)
     }
 
@@ -34,6 +47,28 @@ class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, pri
     override fun onBindViewHolder(holder: NavigationItemViewHolder, position: Int) {
         // To highlight the selected Item, show different background color
        // navigation_icon=holder.itemId(R.id.navigation_icon1)
+
+        if(position==2) {
+            try {
+                notification_cnt = SharedPreferenceUtils.getInstance(context)
+                    ?.getStringValue(ConstantUtils.Total_notificat_count, "").toString()
+                // Toast.makeText(context,notification_cnt.toString(),Toast.LENGTH_LONG).show( )
+                if (notification_cnt.toInt() != 0) {
+                    notification_countt.visibility = View.VISIBLE
+                } else {
+                    notification_countt.visibility = View.GONE
+                }
+
+
+            } catch (e: Exception) {
+
+            }
+        }
+        else
+        {
+            notification_countt.visibility=View.GONE
+        }
+
 
         if (position == currentPos) {
             holder.itemView.setBackgroundResource(R.drawable.back_corner)
@@ -55,4 +90,5 @@ class NavigationRVAdapter(private var items: ArrayList<NavigationItemModel>, pri
 
 
     }
+
 }

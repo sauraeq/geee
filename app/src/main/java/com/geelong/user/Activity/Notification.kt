@@ -18,6 +18,7 @@ import com.geelong.user.R
 import com.geelong.user.Response.NotificationData
 import com.geelong.user.Response.NotificationResponse
 import com.geelong.user.Response.TripHistoryResponse
+import com.geelong.user.Response.ViewNotificationResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import retrofit2.Call
@@ -84,6 +85,7 @@ class Notification : AppCompatActivity() {
                             mlist= response.body()!!.data
                             recyclervieww.layoutManager= LinearLayoutManager(this@Notification)
                             recyclervieww.adapter= NotificationAdapter(this@Notification,mlist)
+                            ViewNotification()
                         }
 
 
@@ -110,4 +112,55 @@ class Notification : AppCompatActivity() {
 
         })
     }
+
+    fun ViewNotification()
+    {
+
+        var user_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+            .USER_ID,"")
+            .toString()
+
+        val request = HashMap<String, String>()
+        request.put("user_id",user_id)
+
+
+
+
+        var view_Noti: Call<ViewNotificationResponse> = APIUtils.getServiceAPI()!!.ViewNotification(request)
+
+        view_Noti.enqueue(object : Callback<ViewNotificationResponse> {
+            override fun onResponse(call: Call<ViewNotificationResponse>, response: Response<ViewNotificationResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        Toast.makeText(this@Notification,response.body()!!.msg,Toast
+                            .LENGTH_LONG)
+                            .show()
+
+
+                    } else {
+
+
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    Toast.makeText(this@Notification,e.message, Toast.LENGTH_LONG).show()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<ViewNotificationResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                Toast.makeText(this@Notification,t.message, Toast.LENGTH_LONG).show()
+
+            }
+
+        })
+    }
+
 }

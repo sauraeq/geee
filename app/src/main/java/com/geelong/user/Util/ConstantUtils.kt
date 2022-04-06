@@ -12,6 +12,9 @@ object ConstantUtils {
     const val Driver_Id="driver_id"
     const val CurrentL="current_location"
     const val LATITUDE="latitude"
+    const val LOCATION_PERMISSION_REQUEST_CODE=1
+    const val Total_notificat_count="total_notification_count"
+
     const val LONGITUDE="longitude"
     const val Lati_Drop="latitude_drop"
     const val Toatal_time="toatal_time"

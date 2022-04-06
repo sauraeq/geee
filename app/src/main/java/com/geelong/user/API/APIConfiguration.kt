@@ -79,12 +79,30 @@ interface APIConfiguration {
 
     @POST("cancelreasondata")
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    fun CancelReason(
+    fun CancelReason(): Call<CancelTripReasonResponse>
 
-    ): Call<CancelTripReasonResponse>
     @POST("cancelride")
     @Headers("Content-Type:application/x-www-form-urlencoded")
     fun CancelResultSubmission(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<CancelSubmitResponse>
+
+
+    @POST("subscription")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun payment(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<PyMentResp>
+
+    @POST("newnotification")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun NewNotification(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<NewNotificationResponse>
+
+    @POST("viewnotification")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun ViewNotification(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<ViewNotificationResponse>
 }

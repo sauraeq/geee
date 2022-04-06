@@ -42,20 +42,20 @@ class ConfirmFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    var lat_user:String=""
-    var langi_user:String=""
-    var img_url:String=""
-    var distance:String=""
-    var latitude_drop:String=""
-    var longitude_drop:String=""
-    lateinit var customprogress:Dialog
-    var toatal_time_taken:String=""
+    var lat_user: String = ""
+    var langi_user: String = ""
+    var img_url: String = ""
+    var distance: String = ""
+    var latitude_drop: String = ""
+    var longitude_drop: String = ""
+    lateinit var customprogress: Dialog
+    var toatal_time_taken: String = ""
 
-    lateinit var pickuplatlang:LatLng
-    lateinit var dropuplatlang:LatLng
-    lateinit var toatal_distance_txtview:TextView
-    lateinit var toatal_time_txtview:TextView
-
+    lateinit var pickuplatlang: LatLng
+    lateinit var dropuplatlang: LatLng
+    lateinit var toatal_distance_txtview: TextView
+    lateinit var toatal_time_txtview: TextView
+    var BOUND_PADDING = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,24 +71,29 @@ class ConfirmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootview= inflater.inflate(R.layout.fragment_confirm, container, false)
-        var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
-        var back_linera_layoutt=rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
-        var pick_up_confirmm=rootview.findViewById<TextView>(R.id.pick_up_confirm)
-        toatal_distance_txtview=rootview.findViewById(R.id.toatl_distance_trip)
-        toatal_time_txtview=rootview.findViewById(R.id.total_time_trip)
-        customprogress= Dialog(requireContext())
+        val rootview = inflater.inflate(R.layout.fragment_confirm, container, false)
+        var cardview11 = rootview.findViewById<CardView>(R.id.cardview11)
+        var back_linera_layoutt = rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
+        var pick_up_confirmm = rootview.findViewById<TextView>(R.id.pick_up_confirm)
+        toatal_distance_txtview = rootview.findViewById(R.id.toatl_distance_trip)
+        toatal_time_txtview = rootview.findViewById(R.id.total_time_trip)
+        customprogress = Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
 
 
 
-        
 
-       lat_user= SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-        langi_user=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
-        distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
-       latitude_drop=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
-        longitude_drop=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Longi_Drop,"").toString()
+
+        lat_user = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.LATITUDE, "").toString()
+        langi_user = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.LONGITUDE, "").toString()
+        distance = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.Distance, "").toString()
+        latitude_drop = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.Lati_Drop, "").toString()
+        longitude_drop = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.Longi_Drop, "").toString()
 
         /*Toast.makeText(requireContext(),lat_user+langi_user,Toast.LENGTH_LONG).show()*/
 
@@ -96,21 +101,20 @@ class ConfirmFragment : Fragment() {
 
         pickuplatlang = LatLng(lat_user.toDouble(), langi_user.toDouble())
         dropuplatlang = LatLng(latitude_drop.toDouble(), longitude_drop.toDouble())
-        loadmap(pickuplatlang,dropuplatlang)
+        loadmap(pickuplatlang, dropuplatlang)
         Totaltimetaken(distance.toDouble())
-        if (distance.isEmpty())
-        {
+        if (distance.isEmpty()) {
+
+        } else {
+            toatal_distance_txtview.text = distance + " " + "KM"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_dis, distance
+            )
 
         }
-        else
-        {
-            toatal_distance_txtview.text=distance+" "+"KM"
-            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                    .Toatal_dis, distance)
 
-        }
-
-       // total_time_trip.text=toatal_time_taken
+        // total_time_trip.text=toatal_time_taken
 
         pick_up_confirmm.setOnClickListener {
             val intent = Intent(requireContext(), ConfirmPick_up::class.java)
@@ -123,7 +127,7 @@ class ConfirmFragment : Fragment() {
         }
 
 
-       /* var ivMenu1: ImageView =rootview.findViewById(R.id.ivMenu1)
+        /* var ivMenu1: ImageView =rootview.findViewById(R.id.ivMenu1)
         ivMenu1.setOnClickListener {
             (activity as Search1?)?.click()
         }
@@ -136,7 +140,7 @@ class ConfirmFragment : Fragment() {
         return rootview
     }
 
-   /* override fun onPostExecute(result: List<List<java.util.HashMap<String, String>>>?) {
+    /* override fun onPostExecute(result: List<List<java.util.HashMap<String, String>>>?) {
         var points: java.util.ArrayList<LatLng?>
         var lineOptions: PolylineOptions? = null
         Log.e("map", "onPostExecute1")
@@ -174,9 +178,18 @@ class ConfirmFragment : Fragment() {
 
     private fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorResId)
-        vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
         val bitmap =
-            Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(
+                vectorDrawable.intrinsicWidth,
+                vectorDrawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
@@ -195,67 +208,77 @@ class ConfirmFragment : Fragment() {
     }
 
 
-
-    fun vehlist()
-    {
+    fun vehlist() {
         customprogress.show()
         val request = HashMap<String, String>()
-        request.put("latitude",lat_user)
-        request.put("longitude",langi_user)
-        request.put("distance",distance)
+        request.put("latitude", lat_user)
+        request.put("longitude", langi_user)
+        request.put("distance", distance)
 
 
         // rlLoader.visibility=View.VISIBLE
         //prgs_loader.visibility=View.VISIBLE
 
-        var veh_list: Call<Vechail_detailsResponse> = APIUtils.getServiceAPI()!!.vech_details(request)
+        var veh_list: Call<Vechail_detailsResponse> =
+            APIUtils.getServiceAPI()!!.vech_details(request)
 
         veh_list.enqueue(object : Callback<Vechail_detailsResponse> {
-            override fun onResponse(call: Call<Vechail_detailsResponse>, response: Response<Vechail_detailsResponse>) {
+            override fun onResponse(
+                call: Call<Vechail_detailsResponse>,
+                response: Response<Vechail_detailsResponse>
+            ) {
                 try {
 
                     // rlLoader.visibility=View.GONE
-                  //  prgs_loader.visibility=View.GONE
+                    //  prgs_loader.visibility=View.GONE
                     if (response.body()!!.success.equals("true")) {
 
-                        Log.d("response",response.body().toString())
-                        img_url=response.body()!!.data[0].image
+
+                        Log.d("response", response.body().toString())
+                        img_url = response.body()!!.data[0].image
                         driver_name1.setText(response.body()!!.data[0].name)
                         vch_name.setText(response.body()!!.data[0].vehicle_name)
                         vch_number.setText(response.body()!!.data[0].vehicle_no)
-                        total_fare.setText("₹"+response.body()!!.data[0].amount)
-                     //   var lat_driver=response.body().data[0].
+                        total_fare.setText("₹" + response.body()!!.data[0].amount)
+                        //   var lat_driver=response.body().data[0].
 
-                        if (img_url.isEmpty())
-                        {
-                            var pica=Picasso.get()
+                        if (img_url.isEmpty()) {
+                            var pica = Picasso.get()
                             pica.load(R.drawable.profilepic).into(driver_img_confirm)
-                        }
-                        else
-                        {
-                            var pica=Picasso.get()
+                        } else {
+                            var pica = Picasso.get()
                             pica.load(img_url).into(driver_img_confirm)
                         }
 
 
 
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].driver_id)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(
+                            ConstantUtils.Driver_Id,
+                            response.body()!!.data[0].driver_id
+                        )
+                        SharedPreferenceUtils.getInstance(requireContext())
+                            ?.setStringValue(ConstantUtils.Amount, response.body()!!.data[0].amount)
 
 
                         customprogress.hide()
 
                     } else {
 
-                        Toast.makeText(requireContext(),"Error",Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(), response.body()!!.msg.toString(), Toast
+                                .LENGTH_LONG
+                        )
+                            .show()
+                        confirm_trip_linearlayout.visibility = View.GONE
+                        no_driver_found_txtview.visibility = View.VISIBLE
                         customprogress.hide()
                     }
 
-                }  catch (e: Exception) {
+                } catch (e: Exception) {
                     Log.e("saurav", e.toString())
                     //  rlLoader.visibility=View.GONE
-                  //  prgs_loader.visibility=View.GONE
-                    Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+                    //  prgs_loader.visibility=View.GONE
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -264,45 +287,44 @@ class ConfirmFragment : Fragment() {
 
             override fun onFailure(call: Call<Vechail_detailsResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                // rlLoader.visibility=View.GONE
-               // prgs_loader.visibility=View.GONE
-                Toast.makeText(requireContext(),t.message,Toast.LENGTH_LONG).show()
+                confirm_trip_linearlayout.visibility = View.GONE
+                no_driver_found_txtview.visibility = View.VISIBLE
+                //Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
             }
 
         })
     }
-    fun  loadmap(pickup_latlang:LatLng,drop_latlang:LatLng)
-    {
+
+    fun loadmap(pickup_latlang: LatLng, drop_latlang: LatLng) {
 
 
-        var latlanglist:ArrayList<LatLng>?=null
+        var latlanglist: ArrayList<LatLng>? = null
         latlanglist?.add(pickup_latlang)
         latlanglist?.add(drop_latlang)
+
+
         customprogress.show()
+
+
         var locationList = mutableListOf<LatLng>()
         locationList.add(pickup_latlang)
         locationList.add(drop_latlang)
 
-        var locationlists4 =  mutableListOf<LatLng>()
+        var locationlists4 = mutableListOf<LatLng>()
         locationlists4.addAll(locationList)
-     /*  // Toast.makeText(requireContext(),locationList.toString()+" "+" "+locationlists4.toString
-        (),Toast
-            .LENGTH_LONG).show()
-*/
-
 
 
         val mapFragment =
-                childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment!!.getMapAsync { mMap ->
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+            mMap.clear()
 
 
-            mMap.clear() //clear old markers
-            var points: java.util.ArrayList<LatLng?>
+            /*var points: java.util.ArrayList<LatLng?>
             var lineOptions: PolylineOptions? = null
             Log.e("map", "onPostExecute1")
             for (i in locationList!!.indices) {
@@ -327,15 +349,15 @@ class ConfirmFragment : Fragment() {
                     .color(Color.RED)
                     .geodesic(true))
                 customprogress.hide()
-            }
-
+            }*/
+            drawPolyLineOnMap(locationlists4)
 
 
             val googlePlex = CameraPosition.builder()
-                    .target(LatLng(latitude_drop.toDouble(),longitude_drop.toDouble()))
-                    .zoom(8f)
-                    .bearing(0f)
-                    .build()
+                .target(LatLng(latitude_drop.toDouble(), longitude_drop.toDouble()))
+                .zoom(8f)
+                .bearing(0f)
+                .build()
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
             val height = 90
@@ -344,86 +366,87 @@ class ConfirmFragment : Fragment() {
             val b = bitmapdraw.bitmap
             val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             mMap.addMarker(
-                    MarkerOptions()
-                            .position(LatLng(latitude_drop.toDouble(),longitude_drop.toDouble()))
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                MarkerOptions()
+                    .position(LatLng(latitude_drop.toDouble(), longitude_drop.toDouble()))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
             mMap.addMarker(
-                    MarkerOptions()
-                            .position(LatLng(lat_user.toDouble(),langi_user.toDouble()))
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                MarkerOptions()
+                    .position(LatLng(lat_user.toDouble(), langi_user.toDouble()))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
-           /* if (lineOptions != null) {
-                mMap.addPolyline(lineOptions)
-                var sourcelatLng: LatLng = LatLng(lat_user.toDouble(),langi_user.toDouble())
-                var deslatLng: LatLng = LatLng(latitude_drop.toDouble(),longitude_drop.toDouble())
-                val builder = LatLngBounds.Builder()
-                builder.include(sourcelatLng)
-                builder.include(deslatLng)
-                val bound = builder.build()
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bound, 40));
-            } else {
-                Log.d("onPostExecute", "without Polylines drawn")
-            }*/
-
-           /* */
 
 
         }
     }
-    fun Totaltimetaken(distance_km:Double)
-    {
+
+    fun Totaltimetaken(distance_km: Double) {
 
 
-      val km=distance_km.toInt()
+        val km = distance_km.toInt()
         val kms_per_min = 0.5
-        val mins_taken = km/kms_per_min
+        val mins_taken = km / kms_per_min
         val totalMinutes = mins_taken.toInt()
         if (totalMinutes < 60) {
 
-            toatal_time_taken=totalMinutes.toString()+" "+"Mins"
-            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                    .Toatal_time, toatal_time_taken)
-            toatal_time_txtview.text=toatal_time_taken
-           // total_time_trip.setText(toatal_time_taken)
+            toatal_time_taken = totalMinutes.toString() + " " + "Mins"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+            toatal_time_txtview.text = toatal_time_taken
+
 
         } else {
             var minutes = Integer.toString(totalMinutes % 60)
             minutes = if (minutes.length == 1) "0$minutes" else minutes
             (totalMinutes / 60).toString() + " hour " + minutes + "mins"
-            toatal_time_taken=minutes.toString()
-            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                    .Toatal_time, toatal_time_taken)
-            toatal_time_txtview.text=toatal_time_taken
-            //total_time_trip.setText(toatal_time_taken)
+            toatal_time_taken = minutes.toString()
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+            toatal_time_txtview.text = toatal_time_taken
+
         }
 
 
     }
 
-    /*fun drawPolyLineOnMap(list: List<LatLng?>) {
-        val polyOptions = PolylineOptions()
-        polyOptions.color(Color.RED)
-        polyOptions.width(5f)
-        polyOptions.addAll(list)
-        googleMap.clear()
-        googleMap.addPolyline(polyOptions)
-        val builder = LatLngBounds.Builder()
-        for (latLng in list) {
-            builder.include(latLng!!)
-        }
-        val bounds = builder.build()
 
-        //BOUND_PADDING is an int to specify padding of bound.. try 100.
-        val cu = CameraUpdateFactory.newLatLngBounds(bounds, BOUND_PADDING)
-        googleMap.animateCamera(cu)
+    private fun getURL(from: LatLng, to: LatLng): String {
+        val origin = "origin=" + from.latitude + "," + from.longitude
+        val dest = "destination=" + to.latitude + "," + to.longitude
+        val sensor = "sensor=false"
+        val params = "$origin&$dest&$sensor"
+        return "https://maps.googleapis.com/maps/api/directions/json?$params"
     }
-*/
+
+    fun drawPolyLineOnMap(list: List<LatLng?>) {
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+        mapFragment!!.getMapAsync { mMap ->
+            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+            mMap.clear()
+            val polyOptions = PolylineOptions()
+            polyOptions.color(Color.RED)
+            polyOptions.width(5f)
+            polyOptions.addAll(list)
+            mMap.addPolyline(polyOptions)
+            val builder = LatLngBounds.Builder()
+            for (latLng in list) {
+                builder.include(latLng!!)
+            }
+            val bounds = builder.build()
+
+            //BOUND_PADDING is an int to specify padding of bound.. try 100.
+            val cu = CameraUpdateFactory.newLatLngBounds(bounds, BOUND_PADDING)
+            mMap.animateCamera(cu)
+        }
 
 
-
-
-
+    }
 }
 
 

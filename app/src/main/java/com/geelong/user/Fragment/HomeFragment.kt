@@ -116,6 +116,8 @@ class HomeFragment : Fragment() {
                     requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
             )
+
+            Toast.makeText(requireContext(),"Permission",Toast.LENGTH_LONG).show()
         } else {
             currentLocation
         }
@@ -155,14 +157,20 @@ class HomeFragment : Fragment() {
             } else if (n_of_passenger.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG).show()
             } else {
-                var toatal_distance = getKilometers(lati_curr.toDouble(), longi_current.toDouble(), lati_drop.toDouble(), langit_drop.toDouble())
-                var total_distance_apprx=roundOffDecimal(toatal_distance.toDouble())
-                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                        ConstantUtils.Distance, total_distance_apprx.toString())
-                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                        ConstantUtils.Drop_location,drop_location)
+                if ( lati_curr.isEmpty()|| longi_current.isEmpty()|| lati_drop.isEmpty()
+                    ||langit_drop.isEmpty())
+                {
 
-                (activity as Search1?)?.inte()
+                }
+                else{
+                    var toatal_distance = getKilometers(lati_curr.toDouble(), longi_current.toDouble(), lati_drop.toDouble(), langit_drop.toDouble())
+                    var total_distance_apprx=roundOffDecimal(toatal_distance.toDouble())
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils.Distance, total_distance_apprx.toString())
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils.Drop_location,drop_location)
+
+                    (activity as Search1?)?.inte()
+                }
+
             }
 
         }

@@ -188,7 +188,7 @@ class AccountEdit : AppCompatActivity() {
 
 
         imagepath = file.absolutePath
-        Toast.makeText(this,imagepath,Toast.LENGTH_LONG).show()
+        ///Toast.makeText(this,imagepath,Toast.LENGTH_LONG).show()
         Log.d("saurav",imagepath)
 
         editprofileimg()

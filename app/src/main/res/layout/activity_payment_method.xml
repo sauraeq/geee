@@ -41,10 +41,29 @@
                 android:src="@drawable/fgmbckarrow" />
         </RelativeLayout>
     </LinearLayout>
+
+
         <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <WebView
+                android:id="@+id/webview_payement"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_height="match_parent">
+
+            </WebView>
+
+        </LinearLayout>
+      <!--  <LinearLayout
             android:id="@+id/linear_gpay"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/_25sdp"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
@@ -90,6 +109,8 @@
             android:id="@+id/linear_paytm"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/_25sdp"
+
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
@@ -225,6 +246,7 @@
             android:layout_marginLeft="@dimen/_14sdp"
             android:layout_marginRight="@dimen/_14sdp"
             android:background="#C8C3C3" />
+    </LinearLayout>-->
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/add_success_popup"

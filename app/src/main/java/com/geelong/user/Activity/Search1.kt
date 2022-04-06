@@ -1,10 +1,14 @@
 package com.geelong.user.Activity
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.ResultReceiver
 import android.util.Log
 import android.view.View
@@ -15,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +32,11 @@ import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
+import com.geelong.user.Response.NewNotificationResponse
+import com.geelong.user.Response.ViewNotificationResponse
 import com.geelong.user.Util.*
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.tasks.OnSuccessListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_search1.*
 import retrofit2.Call
@@ -49,6 +58,7 @@ class Search1 : AppCompatActivity() {
     var textLatLong: TextView? = null
     lateinit var customProgress:Dialog
     var token_id:String=""
+    var REQUEST_CODE=1
 
 
 
@@ -81,6 +91,8 @@ class Search1 : AppCompatActivity() {
         navigation_rv=findViewById(R.id.navigation_rv1)
         var ivMenu=findViewById<ImageView>(R.id.ivMenu1)
         ivClose1=findViewById(R.id.ivClose)
+        NewNotification()
+        //ViewNotification()
 
        // resultReceiver = AddressResultReceiver(Handler())
 
@@ -95,6 +107,7 @@ class Search1 : AppCompatActivity() {
         if (NetworkUtils.checkInternetConnection(this))
         {
             login()
+           // NewNotification()
             customProgress.show()
         }
 
@@ -415,12 +428,7 @@ class Search1 : AppCompatActivity() {
 
 
                     if (response.body()!!.success.equals("true")) {
-                      //  Toast.makeText(this@Search1,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
-                      /*  User_name.text=response.body()!!.data[0].name
-                        User_mobile.text=response.body()!!.data[0].phone
-                        User_email.text=response.body()!!.data[0].email
-                        User_Address.text=response.body()!!.data[0].address
-                        User_gender.text=response.body()!!.data[0].gender*/
+
 
                         var img_url=response.body()!!.data[0].profile_photo
                         username_sidebar.text=response.body()!!.data[0].name
@@ -509,7 +517,101 @@ class Search1 : AppCompatActivity() {
             e.printStackTrace()
         }
         return null
+
+
+
     }*/
+
+
+
+    private fun fetchLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE
+            )
+            return
+        }
+
+
+
+                /*   Toast.makeText(
+                       applicationContext,
+                       currentLocation.latitude.toString() + "" + currentLocation.longitude,
+                       Toast.LENGTH_SHORT
+                   ).show()*/
+                /*val supportMapFragment =
+                    (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
+                supportMapFragment.getMapAsync(this)*/
+    /*        }
+        })*/
+    }
+
+    fun NewNotification()
+    {
+
+        var user_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+            .USER_ID,"")
+            .toString()
+
+        val request = HashMap<String, String>()
+        request.put("user_id",user_id)
+
+
+
+
+        var new_Noti: Call<NewNotificationResponse> = APIUtils.getServiceAPI()!!.NewNotification(request)
+
+        new_Noti.enqueue(object : Callback<NewNotificationResponse> {
+            override fun onResponse(call: Call<NewNotificationResponse>, response: Response<NewNotificationResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        /*Toast.makeText(this@Search1,response.body()!!.data[0].count+"seracg1",Toast
+                            .LENGTH_LONG)
+                            .show()*/
+                        SharedPreferenceUtils.getInstance(this@Search1)!!.setStringValue(ConstantUtils.Total_notificat_count,response.body()!!.data[0].count)
+                            .toString()
+
+
+                  /*      customProgress.hide()*/
+
+
+                    } else {
+
+                        //  Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
+                        /*customProgress.hide()*/
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    Toast.makeText(this@Search1,e.message, Toast.LENGTH_LONG).show()
+                   /* customProgress.hide()
+*/
+                }
+
+            }
+
+            override fun onFailure(call: Call<NewNotificationResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                Toast.makeText(this@Search1,t.message, Toast.LENGTH_LONG).show()
+               /* customProgress.hide()*/
+            }
+
+        })
+    }
+
+
+
 
 
 

@@ -31,10 +31,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             generateNotification(remoteMessage.notification!!.title!!,remoteMessage.notification!!.body!!)
 
         }
-        val intent = Intent(this@MyFirebaseMessagingService, DriverDetails::class.java)
+       /* val intent = Intent(this@MyFirebaseMessagingService, DriverDetails::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("message", remoteMessage.notification?.body!!)
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     @SuppressLint("RemoteViewLayout")

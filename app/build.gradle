@@ -60,13 +60,18 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
 
-    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+  /*  implementation 'com.github.ar-android:DrawRouteMaps:3.1.0'*/
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    implementation 'com.android.volley:volley:1.2.1'
 }
 
 apply plugin: 'com.android.application'
