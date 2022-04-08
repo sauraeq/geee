@@ -226,11 +226,31 @@
                         android:gravity="center_vertical">
 
                         <com.gbksoft.countrycodepickerlib.CountryCodePicker
-                            android:id="@+id/ccp"
+                            android:id="@+id/ccp_signup"
+                            android:focusedByDefault="true"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layoutDirection="inherit"
+                            android:fitsSystemWindows="true"
+                            />
 
-                        <EditText
+                       <!-- <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                            android:id="@+id/ccp_signup1"
+                            android:layout_width="2dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="10dp"
+                            app:ccp_defaultCode="81"
+                            app:ccp_dialogTextColor="@color/black"
+                            app:ccp_textColor="@color/black"
+                            app:ccp_textSize="13dp"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="DuplicateClickableBoundsCheck" />
+
+                  -->      <EditText
                             android:id="@+id/mobile_id_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -318,7 +338,8 @@
                         android:gravity="center_vertical">
 
                         <com.gbksoft.countrycodepickerlib.CountryCodePicker
-
+                            android:id="@+id/ccp_login"
+                            android:focusedByDefault="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 

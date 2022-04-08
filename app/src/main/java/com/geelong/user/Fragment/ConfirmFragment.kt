@@ -64,6 +64,7 @@ class ConfirmFragment : Fragment() {
     lateinit var dropuplatlang: LatLng
     lateinit var toatal_distance_txtview: TextView
     lateinit var toatal_time_txtview: TextView
+
     var BOUND_PADDING = 1
 
 

@@ -437,7 +437,7 @@ class Search1 : AppCompatActivity() {
                         if(img_url.isEmpty())
                         {
                             val picasso=Picasso.get()
-                            picasso.load(R.drawable.defaultt).into(navigation_user_pic)
+                            picasso.load(R.drawable.driverimg).into(navigation_user_pic)
                         }
                         else{
                             val picasso= Picasso.get()

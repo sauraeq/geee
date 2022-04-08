@@ -4,15 +4,17 @@ import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.gbksoft.countrycodepickerlib.CountryCodePicker
+import com.gbksoft.countrycodepickerlib.PhoneNumberValidityChangeListener
 import com.geelong.user.API.APIUtils
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
@@ -28,11 +30,9 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
 
 class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener {
 
@@ -46,6 +46,9 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     var mobile_number_login:String=""
     var gender:String=""
     var token_id:String=""
+    var country_code:String=""
+    lateinit var ccp:CountryCodePicker
+    lateinit var ccp1:CountryCodePicker
     lateinit var user_name:TextInputEditText
     lateinit var user_email:TextInputEditText
     lateinit var user_address:TextInputEditText
@@ -74,6 +77,8 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         user_address=findViewById(R.id.address_edit_text)
         user_mobile=findViewById(R.id.mobile_id_text)
          user_login_mobile=findViewById(R.id.login_edittext_mobile)
+        ccp = findViewById(R.id.ccp_signup)
+        ccp1=findViewById(R.id.ccp_login)
 
         /*prgs_loader=findViewById(R.id.progress_loader)*/
         btn_gogle=findViewById(R.id.img_gogle_sign_in)
@@ -189,6 +194,8 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         sign_in.setOnClickListener {
         /* custom_progress.show()*/
 
+            country_code="+"+ccp1.selectedCountryCode.toString()
+
             mobile_number_login=user_login_mobile.text.toString()
 
             if (mobile_number_login.isEmpty())
@@ -216,6 +223,8 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             email=user_email.getText().toString()
             address=user_address.getText().toString()
             mobile_number=user_mobile.getText().toString().trim()
+            country_code="+"+ccp.selectedCountryCode.toString()
+           /* Toast.makeText(this,country_code,Toast.LENGTH_SHORT).show()*/
             try {
                 val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
                 radioButton = findViewById(intSelectButton)
@@ -316,7 +325,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
         val request = HashMap<String, String>()
         request.put("name",name)
         request.put("email",email)
-        request.put("mobile",mobile_number)
+        request.put("mobile",country_code+mobile_number)
         request.put("address",address)
         request.put("gender",gender)
 
@@ -371,7 +380,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     fun login()
     {
         val request = HashMap<String, String>()
-        request.put("mobile",mobile_number_login)
+        request.put("mobile",country_code+mobile_number_login)
         request.put("device_tokanid",token_id)
 
 
@@ -392,7 +401,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                          SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.success)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.USER_ID,response.body()!!.data[0].id)
                         SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Name,response.body()!!.data[0].name)
-                        SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Mobile_Number,mobile_number_login)
+                        SharedPreferenceUtils.getInstance(this@Sign_Up)?.setStringValue(ConstantUtils.User_Mobile_Number,country_code+mobile_number_login)
 
                         custom_progress.hide()
 

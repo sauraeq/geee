@@ -71,6 +71,7 @@
 
             </TextView>
             <TextView
+                android:id="@+id/toatal_fare_txtview"
                 android:text="$25.12"
                 android:textSize="@dimen/_58ssp"
                 android:layout_gravity="center"
@@ -83,6 +84,7 @@
 
             </TextView>
             <TextView
+                android:id="@+id/cuurent_time"
                 android:textSize="@dimen/_13ssp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/poppinsmedium"

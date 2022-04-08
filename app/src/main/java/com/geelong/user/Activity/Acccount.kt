@@ -95,7 +95,7 @@ class Acccount : AppCompatActivity() {
                             if(img_url.isEmpty())
                             {
                                 val picasso=Picasso.get()
-                                picasso.load(R.drawable.defaultt).into(User_profile_pic)
+                                picasso.load(R.drawable.driverimg).into(User_profile_pic)
                             }
                             else{
                                 val picasso=Picasso.get()

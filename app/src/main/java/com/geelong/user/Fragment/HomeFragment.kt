@@ -1,6 +1,7 @@
 package com.geelong.user.Fragment
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -10,15 +11,13 @@ import android.graphics.Canvas
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.ResultReceiver
+import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -47,6 +46,7 @@ import java.io.IOException
 import java.lang.Math.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -75,12 +75,14 @@ class HomeFragment : Fragment() {
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
     lateinit var pick_up_user: TextView
     var resultReceiver: ResultReceiver? = null
+    lateinit var no_passengerr:EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -103,7 +105,11 @@ class HomeFragment : Fragment() {
 
         resultReceiver = AddressResultReceiver(Handler())
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
+        no_passengerr=rootview.findViewById(R.id.no_passenger)
 
+        no_passengerr.setOnClickListener {
+            numberPickerCustom()
+        }
 
 
         if ((ContextCompat.checkSelfPermission(
@@ -136,6 +142,8 @@ class HomeFragment : Fragment() {
 
 
         initAutoCompleteTextView()
+
+
 
 
         var search_textt: TextView = rootview.findViewById(R.id.search_text)
@@ -459,6 +467,38 @@ mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
         df.roundingMode = RoundingMode.CEILING
         return df.format(number).toDouble()
     }
+
+    fun numberPickerCustom() {
+
+        val d = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.date_picker, null)
+
+        d.setView(dialogView)
+
+        val numberPicker = dialogView.findViewById<NumberPicker>(R.id.numberpicker)
+
+        numberPicker.minValue = 1
+        numberPicker.maxValue = 4
+        numberPicker.value=1
+        numberPicker.wrapSelectorWheel =true
+
+
+        numberPicker.setOnValueChangedListener {
+                numberPicker, i, i1 -> println("onValueChange: ")
+        }
+        d.setPositiveButton("Done") { dialogInterface, i ->
+            println("onClick: " + numberPicker.value)
+            var numberpickkk=numberPicker.value.toString()
+            no_passenger.setText(numberpickkk)
+
+
+        }
+        d.setNegativeButton("Cancel") { dialogInterface, i -> }
+        val alertDialog = d.create()
+        alertDialog.show()
+    }
+
 
 
 }
