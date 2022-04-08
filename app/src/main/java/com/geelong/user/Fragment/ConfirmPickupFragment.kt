@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,16 +16,25 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.Activity.Pay_Now
 import com.geelong.user.R
+import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.confirm_pickup_fragment.*
+import kotlinx.android.synthetic.main.fragments_driver_details.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 
 private const val ARG_PARAM1 = "param1"
@@ -39,6 +49,20 @@ class ConfirmPickupFragment : Fragment() {
     var lati:String=""
     var longi:String=""
     lateinit var current_location:TextView
+
+    var user_id:String=""
+    var driver_id:String=""
+    var Current_lati:String=""
+    var Current_longi:String=""
+    var amount:String=""
+    var current_loca:String=""
+    var drop_lati:String=""
+    var drop_longi:String=""
+    var drop_location:String=""
+    var driver_lati:String=""
+    var driver_longi:String=""
+    var total_time:String=""
+    var total_distance:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +114,36 @@ class ConfirmPickupFragment : Fragment() {
          }
 
          */
+
+        try {
+            total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                .Toatal_time,"").toString()
+            total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
+            user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
+            driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
+            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
+            current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
+            drop_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
+            drop_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                .Longi_Drop,"").toString()
+            drop_location=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                .Drop_location,"").toString()
+
+
+
+
+        }
+        catch (e:Exception)
+        {
+
+        }
+        if (NetworkUtils.checkInternetConnection(requireContext()))
+        {
+            DriverDetailss()
+
+        }
 
         loadmap()
 
@@ -156,6 +210,71 @@ class ConfirmPickupFragment : Fragment() {
             )
 
         }
+    }
+
+    fun DriverDetailss()
+    {
+        val request = HashMap<String, String>()
+        request.put("pickupAddress",current_loca)
+        request.put("pickupLatitude",Current_lati)
+        request.put("pickupLongitude",Current_longi)
+        request.put("dropAddress",drop_location)
+        request.put("dropLatitude",drop_lati)
+        request.put("dropLongitude",drop_longi)
+        request.put("user_id",user_id )
+        request.put("driver_id",driver_id)
+        request.put("amount",amount)
+        request.put("time",total_time)
+        request.put("distance",total_distance)
+
+
+
+
+
+
+        var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
+
+        driver_vec_details.enqueue(object : Callback<DriverDetails_Vch_Response> {
+            override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+
+                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        val pro_img_url=response.body()!!.data[0].profile_photo
+                        val vch_img_url=response.body()!!.data[0].vehicle_image
+                        var booking_id=response.body()!!.data[0].booking_id
+
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Booking_id,booking_id.toString())
+
+
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
+
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
+
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
+
+
+            }
+
+        })
     }
 
 }

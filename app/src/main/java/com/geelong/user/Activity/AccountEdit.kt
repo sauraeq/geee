@@ -300,7 +300,7 @@ class AccountEdit : AppCompatActivity() {
         })
     }
 
-    private var doubleBackToExitPressedOnce = false
+    /*private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             finishAffinity();
@@ -312,4 +312,7 @@ class AccountEdit : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
+*/
+
+
 }

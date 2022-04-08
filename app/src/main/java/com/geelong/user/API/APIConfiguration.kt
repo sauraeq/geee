@@ -105,4 +105,10 @@ interface APIConfiguration {
     fun ViewNotification(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<ViewNotificationResponse>
+
+    @POST("paylater")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun Paylater(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<PaylaterResponse>
 }

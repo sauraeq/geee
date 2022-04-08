@@ -26,6 +26,7 @@ import com.geelong.user.Fragment.DriverFragments
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
+import com.geelong.user.Response.NewNotificationResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -72,6 +73,7 @@ class DriverDetails : AppCompatActivity() {
        ivClose1=findViewById(R.id.ivClose)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
+        NewNotification()
 
         val intent = intent
         val message = intent.getStringExtra("message")
@@ -322,6 +324,66 @@ fun inte()
         var intent=Intent(this,CancelTrip::class.java)
         startActivity(intent)
     }
+
+    fun NewNotification()
+    {
+
+        var user_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+            .USER_ID,"")
+            .toString()
+
+        val request = HashMap<String, String>()
+        request.put("user_id",user_id)
+
+
+
+
+        var new_Noti: Call<NewNotificationResponse> = APIUtils.getServiceAPI()!!.NewNotification(request)
+
+        new_Noti.enqueue(object : Callback<NewNotificationResponse> {
+            override fun onResponse(call: Call<NewNotificationResponse>, response: Response<NewNotificationResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        /*Toast.makeText(this@Search1,response.body()!!.data[0].count+"seracg1",Toast
+                            .LENGTH_LONG)
+                            .show()*/
+                        SharedPreferenceUtils.getInstance(this@DriverDetails)!!.setStringValue(ConstantUtils.Total_notificat_count,response.body()!!.data[0].count)
+                            .toString()
+
+
+                        /*      customProgress.hide()*/
+
+
+                    } else {
+
+                        //  Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
+                        /*customProgress.hide()*/
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
+                    /* customProgress.hide()
+ */
+                }
+
+            }
+
+            override fun onFailure(call: Call<NewNotificationResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                Toast.makeText(this@DriverDetails,t.message, Toast.LENGTH_LONG).show()
+                /* customProgress.hide()*/
+            }
+
+        })
+    }
+
+
+
 
 
 }

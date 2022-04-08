@@ -10,13 +10,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.ResultReceiver
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.geelong.user.API.APIUtils
 
 import com.geelong.user.Fragment.ConfirmPickupFragment
 import com.geelong.user.Fragment.HomeFragment
 import com.geelong.user.R
+import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
@@ -25,6 +28,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragments_driver_details.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.HashMap
 
 class ConfirmPick_up : AppCompatActivity() {
     var resultReceiver: ResultReceiver? = null
@@ -32,6 +42,8 @@ class ConfirmPick_up : AppCompatActivity() {
     var lan:String=""
     var latii:String=""
     lateinit var  customprogress:Dialog
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +54,7 @@ class ConfirmPick_up : AppCompatActivity() {
         customprogress.show()
 
         resultReceiver = AddressResultReceiver(Handler())
+
 
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -56,6 +69,7 @@ class ConfirmPick_up : AppCompatActivity() {
         } else {
             currentLocation
         }
+
 
 
 
@@ -184,4 +198,6 @@ class ConfirmPick_up : AppCompatActivity() {
     companion object {
         private val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
+
+
 }

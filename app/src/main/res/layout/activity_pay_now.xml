@@ -50,10 +50,11 @@
                 </TextView>
 
                 <CheckBox
-                    android:buttonTint="@color/yellow"
+                    android:id="@+id/checkbox_paynow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true">
+                    android:layout_alignParentRight="true"
+                    android:buttonTint="@color/yellow">
 
                 </CheckBox>
             </RelativeLayout>
@@ -92,6 +93,7 @@
 
         </TextView>
         <CheckBox
+            android:id="@+id/checkbox_paylater"
           android:buttonTint="@color/yellow"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

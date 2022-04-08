@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.Confirm
 import com.geelong.user.Activity.ConfirmPick_up
@@ -31,9 +33,16 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_confirm.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 private const val ARG_PARAM1 = "param1"
@@ -299,7 +308,7 @@ class ConfirmFragment : Fragment() {
 
     fun loadmap(pickup_latlang: LatLng, drop_latlang: LatLng) {
 
-
+       // drawRoute(pickup_latlang.toString(),drop_latlang)
         var latlanglist: ArrayList<LatLng>? = null
         latlanglist?.add(pickup_latlang)
         latlanglist?.add(drop_latlang)
@@ -324,32 +333,7 @@ class ConfirmFragment : Fragment() {
             mMap.clear()
 
 
-            /*var points: java.util.ArrayList<LatLng?>
-            var lineOptions: PolylineOptions? = null
-            Log.e("map", "onPostExecute1")
-            for (i in locationList!!.indices) {
-                points = java.util.ArrayList()
-                lineOptions = PolylineOptions()
-                val path = locationList[i]
-                for (j in 0..1) {
-                    val point = path
-                    val lat = point.latitude
-                    val lng = point.longitude
-                    val position = LatLng(lat, lng)
-                    points.add(position)
-             //       Toast.makeText(requireContext(),points.toString(),Toast.LENGTH_LONG).show()
-                }
-                lineOptions.addAll(points)
-                lineOptions.width(8f)
-                lineOptions.color(Color.BLACK)
-                lineOptions.color(resources.getColor(R.color.yellow))
 
-                mMap.addPolyline(PolylineOptions().addAll(locationList)
-                    .width(12f)
-                    .color(Color.RED)
-                    .geodesic(true))
-                customprogress.hide()
-            }*/
             drawPolyLineOnMap(locationlists4)
 
 
@@ -447,6 +431,8 @@ class ConfirmFragment : Fragment() {
 
 
     }
+
+
 }
 
 

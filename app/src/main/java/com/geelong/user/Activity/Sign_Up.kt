@@ -187,7 +187,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
 
         sign_in.setOnClickListener {
-         custom_progress.show()
+        /* custom_progress.show()*/
 
             mobile_number_login=user_login_mobile.text.toString()
 
@@ -209,13 +209,13 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
         }
         sign_up.setOnClickListener {
-
-           custom_progress.show()
+/*
+           custom_progress.show()*/
 
             name=user_name.getText().toString()
             email=user_email.getText().toString()
             address=user_address.getText().toString()
-            mobile_number=user_mobile.getText().toString()
+            mobile_number=user_mobile.getText().toString().trim()
             try {
                 val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
                 radioButton = findViewById(intSelectButton)
@@ -245,7 +245,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               {
                   Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
               }
-              else if(mobile_number.isEmpty() || mobile_number.length==10)
+              else if(mobile_number.isEmpty() )
               {
                   Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
               }
