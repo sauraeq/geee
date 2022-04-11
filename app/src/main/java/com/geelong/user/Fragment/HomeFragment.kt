@@ -68,12 +68,12 @@ class HomeFragment : Fragment() {
     var langit_drop: String = ""
     var placesClient: PlacesClient? = null
 
-    var autoCompleteTextView: AutoCompleteTextView? = null
+    var autoCompleteTextView_drop: AutoCompleteTextView? = null
     var adapter: AutoCompleteAdapter? = null
 
     lateinit var customprogress: Dialog
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    lateinit var pick_up_user: TextView
+    lateinit var pick_up_user: AutoCompleteTextView
     var resultReceiver: ResultReceiver? = null
     lateinit var no_passengerr:EditText
 
@@ -138,15 +138,16 @@ class HomeFragment : Fragment() {
         }
 
         placesClient = Places.createClient(requireContext())
-        autoCompleteTextView = rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
+        autoCompleteTextView_drop = rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
 
 
-        initAutoCompleteTextView()
+        initAutoCompleteTextView_drop()
 
 
 
 
-        var search_textt: TextView = rootview.findViewById(R.id.search_text)
+
+        var search_textt: TextView = rootview.findViewById(R.id.search_text_tv)
         search_textt.setOnClickListener {
 
             pick_up_location = pickup_location_user.text.toString()
@@ -223,14 +224,20 @@ var toatlkm=toatal_distance.toFloat()*/
     }
 
 
-    private fun initAutoCompleteTextView() {
-        autoCompleteTextView?.setThreshold(1)
-        autoCompleteTextView?.setOnItemClickListener(autocompleteClickListener)
+    private fun initAutoCompleteTextView_drop() {
+        autoCompleteTextView_drop?.setThreshold(1)
+        autoCompleteTextView_drop?.setOnItemClickListener(autocompleteClickListener_drop)
         adapter = AutoCompleteAdapter(requireContext(), placesClient)
-        autoCompleteTextView?.setAdapter(adapter)
+        autoCompleteTextView_drop?.setAdapter(adapter)
+    }
+    private fun initAutoCompleteTextView_pickup() {
+        pick_up_user?.setThreshold(1)
+        pick_up_user?.setOnItemClickListener(autocompleteClickListener_pickup)
+        adapter = AutoCompleteAdapter(requireContext(), placesClient)
+        pick_up_user?.setAdapter(adapter)
     }
 
-    private val autocompleteClickListener =
+    private val autocompleteClickListener_drop =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
                 try {
                     val item: AutocompletePrediction = adapter?.getItem(i)!!
@@ -259,7 +266,7 @@ var toatlkm=toatal_distance.toFloat()*/
 
                             // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
                             drop_location = drop_location_user.text.toString()
-                            getLocationFromAddress(drop_location)
+                            getLocationFromAddress_drop(drop_location)
 
                         }.addOnFailureListener { e ->
                             e.printStackTrace()
@@ -270,6 +277,48 @@ var toatlkm=toatal_distance.toFloat()*/
                     e.printStackTrace()
                 }
             }
+
+    private val autocompleteClickListener_pickup =
+        AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            try {
+                val item: AutocompletePrediction = adapter?.getItem(i)!!
+                var placeID: String? = null
+                if (item != null) {
+                    placeID = item.placeId
+                }
+
+
+                val placeFields = Arrays.asList(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS,
+                    Place.Field.LAT_LNG
+                )
+                var request: FetchPlaceRequest? = null
+                if (placeID != null) {
+                    request = FetchPlaceRequest.builder(placeID, placeFields)
+                        .build()
+
+
+                }
+                if (request != null) {
+                    placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
+
+
+                        // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
+                        pick_up_location = pick_up_user.text.toString()
+                        getLocationFromAddress_pickup(pick_up_location)
+
+                    }.addOnFailureListener { e ->
+                        e.printStackTrace()
+
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
 
     override fun onRequestPermissionsResult(
             requestCode: Int,
@@ -408,7 +457,7 @@ var toatlkm=toatal_distance.toFloat()*/
 
     }
 
-    fun getLocationFromAddress(strAddress: String?) {
+    fun getLocationFromAddress_drop(strAddress: String?) {
 
         val coder = Geocoder(requireContext())
         val address: List<Address>?
@@ -431,6 +480,51 @@ var toatlkm=toatal_distance.toFloat()*/
                     ConstantUtils.Lati_Drop, lati_drop)
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
                     ConstantUtils.Longi_Drop, langit_drop)
+
+            Log.d("daad", lati_drop + langit_drop)
+            if (strAddress != null) {
+                loadMap(lati_drop, langit_drop,strAddress)
+            }
+
+// Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
+
+/*  //Put marker on map on that LatLng
+val srchMarker: Marker = mMap.addMarker(
+MarkerOptions().position(latLng).title("Destination")
+  .icon(BitmapDescriptorFactory.fromResource(R.drawable.bb))
+)
+
+//Animate and Zoon on that map location
+mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getLocationFromAddress_pickup(strAddress: String?) {
+
+        val coder = Geocoder(requireContext())
+        val address: List<Address>?
+        try {
+//Get latLng from String
+            address = coder.getFromLocationName(strAddress, 5)
+
+//check for null
+            if (address == null) {
+                return
+            }
+
+//Lets take first possibility from the all possibilities.
+            val location = address[0]
+            val latLng = LatLng(location.latitude, location.longitude)
+            var la_longArr = latLng.toString().split(",", "(", ")")
+            lati_curr = la_longArr[1]
+            longi_current = la_longArr[2]
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils.Lati_Drop, lati_drop)
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils.Longi_Drop, langit_drop)
 
             Log.d("daad", lati_drop + langit_drop)
             if (strAddress != null) {

@@ -13,8 +13,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.gbksoft.countrycodepickerlib.CountryCodePicker
-import com.gbksoft.countrycodepickerlib.PhoneNumberValidityChangeListener
 import com.geelong.user.API.APIUtils
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
@@ -30,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +46,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     var gender:String=""
     var token_id:String=""
     var country_code:String=""
-    lateinit var ccp:CountryCodePicker
+    lateinit var ccp: CountryCodePicker
     lateinit var ccp1:CountryCodePicker
     lateinit var user_name:TextInputEditText
     lateinit var user_email:TextInputEditText

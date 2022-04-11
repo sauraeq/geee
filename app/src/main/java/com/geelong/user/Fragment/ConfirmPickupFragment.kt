@@ -1,24 +1,26 @@
 package com.geelong.user.Fragment
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.ConfirmPick_up
 import com.geelong.user.Activity.Pay_Now
+import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.R
 import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
@@ -28,13 +30,20 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.confirm_pickup_fragment.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragments_driver_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+import java.io.IOException
+import java.util.*
 
 
 private const val ARG_PARAM1 = "param1"
@@ -48,7 +57,8 @@ class ConfirmPickupFragment : Fragment() {
     var locat:String=""
     var lati:String=""
     var longi:String=""
-    lateinit var current_location:TextView
+    lateinit var current_location:AutoCompleteTextView
+    var placesClient: PlacesClient? = null
 
     var user_id:String=""
     var driver_id:String=""
@@ -59,10 +69,16 @@ class ConfirmPickupFragment : Fragment() {
     var drop_lati:String=""
     var drop_longi:String=""
     var drop_location:String=""
+    var pickup_cnf_location:String=""
     var driver_lati:String=""
     var driver_longi:String=""
     var total_time:String=""
     var total_distance:String=""
+    var confirm_pickup_latitude:String=""
+    var confirm_pickup_longitude:String=""
+    var adapter: AutoCompleteAdapter? = null
+   lateinit var customprogress:Dialog
+   lateinit var confirm_search_btn:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +89,15 @@ class ConfirmPickupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val rootview= inflater.inflate(R.layout.confirm_pickup_fragment, container, false)
+        confirm_search_btn=rootview.findViewById(R.id.confirm_search_pickup)
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
        var  back_go_activityy=rootview.findViewById<LinearLayout>(R.id.back_go_activity)
         var  confirm_pick_up=rootview.findViewById<LinearLayout>(R.id.confirm_pick_Up_layout)
         current_location=rootview.findViewById(R.id.current_loc_textview)
+        customprogress= Dialog(requireContext())
+        customprogress.setContentView(R.layout.loader_layout)
 
 
         arguments?.let {
@@ -91,14 +110,23 @@ class ConfirmPickupFragment : Fragment() {
 
        // Toast.makeText(context,locat+lati+longi,Toast.LENGTH_LONG).show()
        // current_loc_textview.setText(locat)
-        current_location.text=locat
+        current_location.setText(locat)
 
         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,locat)
 
+        val apiKey = getString(R.string.api_key)
+
+
+
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), apiKey)
+        }
+
+        placesClient = Places.createClient(requireContext())
+
 
         back_go_activityy.setOnClickListener {
-           /* val intent = Intent(requireContext(), Confirm::class.java)
-            startActivity(intent)*/
+
             (activity as ConfirmPick_up)?.inte()
 
         }
@@ -106,14 +134,8 @@ class ConfirmPickupFragment : Fragment() {
             val intent = Intent(requireContext(), Pay_Now::class.java)
             startActivity(intent)
         }
+        initAutoCompleteTextView()
 
-
-        /* var ivMenu1: ImageView =rootview.findViewById(R.id.ivMenu1)
-         ivMenu1.setOnClickListener {
-             (activity as Search1?)?.click()
-         }
-
-         */
 
         try {
             total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
@@ -148,6 +170,30 @@ class ConfirmPickupFragment : Fragment() {
         loadmap()
 
 
+
+
+        confirm_search_btn.setOnClickListener {
+            if (drop_location.isEmpty())
+            {
+                Toast.makeText(requireContext(),"drop is empty",Toast.LENGTH_LONG).show()
+            }
+            else if (confirm_pickup_latitude.isEmpty())
+            {
+                Toast.makeText(requireContext(),"confirm pickup latitude empty",Toast.LENGTH_LONG)
+                    .show()
+            }
+            else if(confirm_pickup_longitude.isEmpty())
+            {
+                Toast.makeText(requireContext(),"confirm pickup longitude empty",Toast.LENGTH_LONG)
+                    .show()
+            }
+            else
+            {
+               // loadMap(confirm_pickup_latitude,confirm_pickup_longitude,drop_location)
+            }
+        }
+
+
         return rootview
     }
 
@@ -162,15 +208,7 @@ class ConfirmPickupFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
@@ -181,6 +219,13 @@ class ConfirmPickupFragment : Fragment() {
             }
     }
 
+    private fun initAutoCompleteTextView() {
+        current_location?.setThreshold(1)
+        current_location?.setOnItemClickListener(autocompleteClickListener_drop)
+        adapter = AutoCompleteAdapter(requireContext(), placesClient)
+        current_location?.setAdapter(adapter)
+    }
+
     fun loadmap()
     {
         val mapFragment =
@@ -188,7 +233,7 @@ class ConfirmPickupFragment : Fragment() {
         mapFragment!!.getMapAsync { mMap ->
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-            mMap.clear() //clear old markers
+            mMap.clear()
 
             val googlePlex = CameraPosition.builder()
                     .target(LatLng(lati.toDouble(),longi.toDouble()))
@@ -276,5 +321,124 @@ class ConfirmPickupFragment : Fragment() {
 
         })
     }
+
+
+    private val autocompleteClickListener_drop =
+        AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            try {
+                val item: AutocompletePrediction = adapter?.getItem(i)!!
+                var placeID: String? = null
+                if (item != null) {
+                    placeID = item.placeId
+                }
+
+
+                val placeFields = Arrays.asList(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS,
+                    Place.Field.LAT_LNG
+                )
+                var request: FetchPlaceRequest? = null
+                if (placeID != null) {
+                    request = FetchPlaceRequest.builder(placeID, placeFields)
+                        .build()
+
+
+                }
+                if (request != null) {
+                    placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
+
+
+                        // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
+                        pickup_cnf_location = current_loc_textview.text.toString()
+                        getLocationFromAddress(pickup_cnf_location)
+
+                    }.addOnFailureListener { e ->
+                        e.printStackTrace()
+
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    fun getLocationFromAddress(strAddress: String?) {
+
+        val coder = Geocoder(requireContext())
+        val address: List<Address>?
+        try {
+
+            address = coder.getFromLocationName(strAddress, 5)
+
+
+            if (address == null) {
+                return
+            }
+
+
+            val location = address[0]
+            val latLng = LatLng(location.latitude, location.longitude)
+            var la_longArr = latLng.toString().split(",", "(", ")")
+            confirm_pickup_latitude = la_longArr[1]
+            confirm_pickup_longitude = la_longArr[2]
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils.LATITUDE, confirm_pickup_latitude)
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils.LONGITUDE, confirm_pickup_longitude)
+
+            Log.d("daad", confirm_pickup_latitude + confirm_pickup_longitude)
+            if (strAddress != null) {
+                loadMap(confirm_pickup_latitude, confirm_pickup_longitude,strAddress)
+            }
+
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun loadMap(lati_curr1: String, longi_current1: String,loate1:String) {
+        try {
+            if (lati_curr1.isEmpty() || longi_current1.isEmpty()) {
+
+            } else {
+                /*customprogress.dismiss()*/
+
+                val mapFragment =
+                    childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+                mapFragment!!.getMapAsync { mMap ->
+                    mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+                    mMap.clear()
+
+
+                    val googlePlex = CameraPosition.builder()
+                        .target(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
+                        .zoom(12f)
+                        .bearing(0f)
+                        .build()
+
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
+                            .title(loate1)
+                            .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
+                    )
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+
+        }
+
+
+    }
+
 
 }

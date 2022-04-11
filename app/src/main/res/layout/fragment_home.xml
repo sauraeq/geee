@@ -88,9 +88,11 @@
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_13sdp"
-                        android:layout_height="@dimen/_30sdp">
+                        android:layout_height="@dimen/_30sdp"
+                        android:orientation="horizontal">
                         <ImageView
                             android:src="@drawable/pick"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
                             android:paddingTop="@dimen/_2sdp"
@@ -99,7 +101,7 @@
 
                         </ImageView>
                         <TextView
-                            android:id="@+id/pickup_location_user"
+                            android:visibility="gone"
                             android:text="7958 Swfit Village"
                             android:layout_width="match_parent"
                             android:textColor="@color/black"
@@ -109,6 +111,19 @@
                             android:layout_height="wrap_content">
 
                         </TextView>
+
+                        <AutoCompleteTextView
+                            android:id="@+id/pickup_location_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:background="@null"
+                            android:fontFamily="@font/poppinsmedium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="TouchTargetSizeCheck">
+
+                        </AutoCompleteTextView>
 
 
                     </LinearLayout>
@@ -141,21 +156,24 @@
                         <ImageView
                             android:src="@drawable/drop"
                             android:layout_width="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_height="@dimen/_12sdp"
                             android:paddingTop="@dimen/_2sdp"
                            >
 
                         </ImageView>
+
                         <AutoCompleteTextView
                             android:id="@+id/drop_location_user"
-                           android:background="@null"
-                            android:textSize="@dimen/_12ssp"
-                            android:hint="@string/enter_drop_location"
                             android:layout_width="match_parent"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/poppinsmedium"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_12sdp"
-                            android:layout_height="wrap_content">
+                            android:background="@null"
+                            android:fontFamily="@font/poppinsmedium"
+                            android:hint="@string/enter_drop_location"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="TouchTargetSizeCheck">
 
                         </AutoCompleteTextView>
                     </LinearLayout>
@@ -186,22 +204,25 @@
                             android:src="@drawable/person"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:paddingTop="@dimen/_2sdp"                            >
 
                         </ImageView>
+
                         <EditText
                             android:id="@+id/no_passenger"
-                            android:hint="2"
-                            android:background="@null"
                             android:layout_width="match_parent"
-                            android:textColor="@color/black"
-                            android:inputType="number"
-                            android:focusable="false"
-                            android:clickable="true"
-                            android:fontFamily="@font/poppinsmedium"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_12sdp"
+                            android:background="@null"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:fontFamily="@font/poppinsmedium"
+                            android:hint="no."
+                            android:inputType="number"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
-                            android:layout_height="match_parent">
+                            tools:ignore="TouchTargetSizeCheck">
 
                         </EditText>
                     </LinearLayout>
@@ -215,6 +236,7 @@
                         android:layout_marginRight="@dimen/_20sdp"
                         android:background="#C8C3C3" />
                     <LinearLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_50sdp"
                         android:orientation="horizontal"
@@ -224,7 +246,7 @@
                         android:padding="@dimen/_5sdp">
 
                         <TextView
-                            android:id="@+id/search_text"
+                            android:id="@+id/search_text_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/button_corner"
@@ -232,6 +254,7 @@
                             android:paddingTop="@dimen/_12sdp"
                             android:text="@string/search"
                             android:textAlignment="center"
+                            android:clickable="true"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13sdp"
                             android:textStyle="bold" />

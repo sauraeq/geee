@@ -48,7 +48,7 @@ import java.net.URL
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 class ConfirmFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
     var lat_user: String = ""
@@ -59,7 +59,6 @@ class ConfirmFragment : Fragment() {
     var longitude_drop: String = ""
     lateinit var customprogress: Dialog
     var toatal_time_taken: String = ""
-
     lateinit var pickuplatlang: LatLng
     lateinit var dropuplatlang: LatLng
     lateinit var toatal_distance_txtview: TextView
@@ -80,7 +79,7 @@ class ConfirmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val rootview = inflater.inflate(R.layout.fragment_confirm, container, false)
         var cardview11 = rootview.findViewById<CardView>(R.id.cardview11)
         var back_linera_layoutt = rootview.findViewById<LinearLayout>(R.id.back_linera_layout)
@@ -105,7 +104,6 @@ class ConfirmFragment : Fragment() {
         longitude_drop = SharedPreferenceUtils.getInstance(requireContext())
             ?.getStringValue(ConstantUtils.Longi_Drop, "").toString()
 
-        /*Toast.makeText(requireContext(),lat_user+langi_user,Toast.LENGTH_LONG).show()*/
 
         vehlist()
 
@@ -124,7 +122,7 @@ class ConfirmFragment : Fragment() {
 
         }
 
-        // total_time_trip.text=toatal_time_taken
+
 
         pick_up_confirmm.setOnClickListener {
             val intent = Intent(requireContext(), ConfirmPick_up::class.java)
@@ -135,14 +133,6 @@ class ConfirmFragment : Fragment() {
 
             (activity as Confirm)?.inte()
         }
-
-
-        /* var ivMenu1: ImageView =rootview.findViewById(R.id.ivMenu1)
-        ivMenu1.setOnClickListener {
-            (activity as Search1?)?.click()
-        }
-
-        */
 
 
 
@@ -226,9 +216,6 @@ class ConfirmFragment : Fragment() {
         request.put("distance", distance)
 
 
-        // rlLoader.visibility=View.VISIBLE
-        //prgs_loader.visibility=View.VISIBLE
-
         var veh_list: Call<Vechail_detailsResponse> =
             APIUtils.getServiceAPI()!!.vech_details(request)
 
@@ -239,8 +226,7 @@ class ConfirmFragment : Fragment() {
             ) {
                 try {
 
-                    // rlLoader.visibility=View.GONE
-                    //  prgs_loader.visibility=View.GONE
+
                     if (response.body()!!.success.equals("true")) {
 
 
@@ -286,8 +272,7 @@ class ConfirmFragment : Fragment() {
 
                 } catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    //  rlLoader.visibility=View.GONE
-                    //  prgs_loader.visibility=View.GONE
+
                     Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
@@ -299,7 +284,7 @@ class ConfirmFragment : Fragment() {
                 Log.e("Saurav", t.message.toString())
                 confirm_trip_linearlayout.visibility = View.GONE
                 no_driver_found_txtview.visibility = View.VISIBLE
-                //Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+
                 customprogress.hide()
 
             }
@@ -309,7 +294,7 @@ class ConfirmFragment : Fragment() {
 
     fun loadmap(pickup_latlang: LatLng, drop_latlang: LatLng) {
 
-       // drawRoute(pickup_latlang.toString(),drop_latlang)
+
         var latlanglist: ArrayList<LatLng>? = null
         latlanglist?.add(pickup_latlang)
         latlanglist?.add(drop_latlang)
@@ -409,7 +394,7 @@ class ConfirmFragment : Fragment() {
 
     fun drawPolyLineOnMap(list: List<LatLng?>) {
         val mapFragment =
-            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+            childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?
         mapFragment!!.getMapAsync { mMap ->
             mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
@@ -425,7 +410,6 @@ class ConfirmFragment : Fragment() {
             }
             val bounds = builder.build()
 
-            //BOUND_PADDING is an int to specify padding of bound.. try 100.
             val cu = CameraUpdateFactory.newLatLngBounds(bounds, BOUND_PADDING)
             mMap.animateCamera(cu)
         }

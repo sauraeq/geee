@@ -82,7 +82,9 @@
                             android:layout_marginTop="@dimen/_9sdp"
                             android:fontFamily="@font/poppinsmedium"
                             android:text="Choose your pick-up spot"
-                            android:textSize="@dimen/_9sdp"></TextView>
+                            android:textSize="@dimen/_9sdp">
+
+                        </TextView>
 
                         <View
                             android:layout_width="match_parent"
@@ -99,31 +101,44 @@
                             android:layout_height="@dimen/_40sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:weightSum="10">
 
                             <TextView
-                                android:id="@+id/current_loc_textview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_weight="1"
+                                android:visibility="gone"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:paddingLeft="@dimen/_10sdp"
                                 android:text="105 William St, Chicago, US."
                                 android:textSize="@dimen/_12sdp">
 
                             </TextView>
+                            <AutoCompleteTextView
+                                android:id="@+id/current_loc_textview"
+                                android:background="@null"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_45sdp"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:layout_weight="6"
+                                android:fontFamily="@font/poppinsmedium"
+                                android:paddingLeft="@dimen/_10sdp"
+                                android:text="105 William St, Chicago, US."
+                                android:textSize="@dimen/_12sdp">
+
+                            </AutoCompleteTextView>
 
                             <TextView
-
+                                android:id="@+id/confirm_search_pickup"
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/_8sdp"
-                                android:layout_weight="1"
+                                android:layout_weight="4"
                                 android:background="@drawable/rectangle_black"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:gravity="center"
                                 android:text="@string/search"
+                                android:visibility="gone"
                                 android:textColor="@color/black" />
                         </LinearLayout>
 

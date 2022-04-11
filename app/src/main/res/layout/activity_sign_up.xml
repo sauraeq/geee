@@ -225,14 +225,21 @@
                         android:background="@drawable/corner_edittext2"
                         android:gravity="center_vertical">
 
-                        <com.gbksoft.countrycodepickerlib.CountryCodePicker
+
+                        <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                             android:id="@+id/ccp_signup"
-                            android:focusedByDefault="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layoutDirection="inherit"
-                            android:fitsSystemWindows="true"
-                            />
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="10dp"
+                            app:ccp_defaultCode="81"
+                            app:ccp_dialogTextColor="@color/black"
+                            app:ccp_textColor="@color/black"
+                            app:ccp_textSize="13dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="DuplicateClickableBoundsCheck" />
 
                        <!-- <com.rilixtech.widget.countrycodepicker.CountryCodePicker
                             android:id="@+id/ccp_signup1"
@@ -337,11 +344,26 @@
                         android:background="@drawable/corner_edittext2"
                         android:gravity="center_vertical">
 
-                        <com.gbksoft.countrycodepickerlib.CountryCodePicker
-                            android:id="@+id/ccp_login"
+                       <!-- <com.gbksoft.countrycodepickerlib.CountryCodePicker
+                            android:id="@+id/ccp_login2"
                             android:focusedByDefault="true"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content" />-->
+
+                        <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                            android:id="@+id/ccp_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="10dp"
+                            app:ccp_defaultCode="81"
+                            app:ccp_dialogTextColor="@color/black"
+                            app:ccp_textColor="@color/black"
+                            app:ccp_textSize="13dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="DuplicateClickableBoundsCheck" />
 
                         <EditText
                             android:id="@+id/login_edittext_mobile"

@@ -27,9 +27,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_60sdp"
                     android:background="@drawable/headercorner"
-                    android:gravity="center"
-                    android:text="Privacy Policy"
                     android:fontFamily="@font/poppinsmedium"
+                    android:gravity="center"
+                    android:text="Terms &amp; Conditions"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp" />
 
