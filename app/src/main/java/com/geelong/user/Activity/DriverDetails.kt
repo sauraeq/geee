@@ -97,7 +97,7 @@ class DriverDetails : AppCompatActivity() {
   }
 
 
-    val bundle = Bundle()
+  val bundle = Bundle()
     bundle.putString("fragmentName", "Settings Fragment")
     val settingsFragment = DriverFragments()
     settingsFragment.arguments = bundle

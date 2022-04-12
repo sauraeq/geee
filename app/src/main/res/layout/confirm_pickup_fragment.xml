@@ -153,7 +153,7 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:id="@+id/pick_up_confirm"
+                                android:id="@+id/pick_up_confirm_txt1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/button_corner"

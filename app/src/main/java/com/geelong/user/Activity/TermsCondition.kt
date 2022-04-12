@@ -4,7 +4,6 @@ import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Adapter.TermsAdapetr
 import com.geelong.user.R
-import com.geelong.user.Response.DataXX
+import com.geelong.user.Response.TermDataRes
 import com.geelong.user.Response.TermsResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +20,7 @@ import java.util.HashMap
 
 class TermsCondition : AppCompatActivity() {
     lateinit var recycler_privacy: RecyclerView
-    private var mlist: List<DataXX> = ArrayList()
+    private var mlist: List<TermDataRes> = ArrayList()
     lateinit var privacy_progress: RelativeLayout
     lateinit var customprogress: Dialog
 

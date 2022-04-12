@@ -121,6 +121,7 @@
                             </ImageView>
 
                             <TextView
+                                android:id="@+id/driver_rating_txt"
                                 android:textSize="@dimen/_15ssp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

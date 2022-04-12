@@ -1,5 +1,5 @@
 package com.geelong.user.Response
 
-data class DataXXX(
+data class Paymentresdata(
     val payment_url: String
 )

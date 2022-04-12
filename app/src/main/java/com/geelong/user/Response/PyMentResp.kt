@@ -1,7 +1,7 @@
 package com.geelong.user.Response
 
 data class PyMentResp(
-    val `data`: DataXXX,
+    val `data`: Paymentresdata,
     val error: String,
     val msg: String,
     val previous_expirydate: Any,

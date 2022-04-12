@@ -32,6 +32,7 @@
     <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="write_a_review">  <u>write a review</u>.</string>
     <string name="enter_drop_location">Enter drop location</string>
+    <string name="enter_pick_up_location">Enter PickUp location</string>
     <string name="api_key">AIzaSyCLoLZlbJ7HC0YaLxFn1Rmw5G4LxMrE9aw</string>
     <string name="cancel_booking">Cancel Booking</string>
     <string name="other_reason">Other reason...</string>

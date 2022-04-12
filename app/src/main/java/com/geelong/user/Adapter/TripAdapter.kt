@@ -1,10 +1,6 @@
 package com.geelong.user.Adapter
 
-import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +8,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
-import com.geelong.user.Activity.Review
 import com.geelong.user.R
-import com.geelong.user.Response.DataXX
-import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Response.TripHistoryData
 import com.geelong.user.ReveiwResponse
-import com.geelong.user.Util.ConstantUtils
-import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_acccount.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

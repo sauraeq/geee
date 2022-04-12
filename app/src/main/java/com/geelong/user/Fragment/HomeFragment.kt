@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.Activity.Search1
 import com.geelong.user.Adapter.AutoCompleteAdapter
+import com.geelong.user.Adapter.AutoCompleteAdapter_pickup
 import com.geelong.user.R
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
@@ -55,7 +56,7 @@ private const val ARG_PARAM2 = "param2"
 
 
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
     var locat: String = ""
@@ -70,6 +71,7 @@ class HomeFragment : Fragment() {
 
     var autoCompleteTextView_drop: AutoCompleteTextView? = null
     var adapter: AutoCompleteAdapter? = null
+    var adapter_1:AutoCompleteAdapter_pickup?=null
 
     lateinit var customprogress: Dialog
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -95,10 +97,6 @@ class HomeFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-            /* locat=it.getString("Location","")
-             lati=it.getString("Late","")
-             longi=it.getString("Long","")*/
-
 
         }
         customprogress.show()
@@ -106,7 +104,6 @@ class HomeFragment : Fragment() {
         resultReceiver = AddressResultReceiver(Handler())
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
         no_passengerr=rootview.findViewById(R.id.no_passenger)
-
         no_passengerr.setOnClickListener {
             numberPickerCustom()
         }
@@ -142,10 +139,7 @@ class HomeFragment : Fragment() {
 
 
         initAutoCompleteTextView_drop()
-
-
-
-
+        initAutoCompleteTextView_pickup()
 
         var search_textt: TextView = rootview.findViewById(R.id.search_text_tv)
         search_textt.setOnClickListener {
@@ -154,10 +148,7 @@ class HomeFragment : Fragment() {
             drop_location = drop_location_user.text.toString()
             n_of_passenger = no_passenger.text.toString()
 
-
-
             //  getLocationFromAddress(drop_location)
-
 
             if (pick_up_location.isEmpty()) {
                 Toast.makeText(requireContext(), "Please select pickup location", Toast.LENGTH_LONG).show()
@@ -189,11 +180,10 @@ class HomeFragment : Fragment() {
             (activity as Search1?)?.click1()
         }
         if (lati_curr.isEmpty() || longi_current.isEmpty() || lati_drop.isEmpty() || langit_drop.isEmpty()) {
-// Toast.makeText(context,"empty",Toast.LENGTH_LONG).show()
+
         } else {
 
-/* var toatal_distance=getKilometers(lati_curr.toDouble(),longi_current.toDouble(),lati_drop.toDouble(),langit_drop.toDouble())
-var toatlkm=toatal_distance.toFloat()*/
+
         }
 
 
@@ -233,8 +223,8 @@ var toatlkm=toatal_distance.toFloat()*/
     private fun initAutoCompleteTextView_pickup() {
         pick_up_user?.setThreshold(1)
         pick_up_user?.setOnItemClickListener(autocompleteClickListener_pickup)
-        adapter = AutoCompleteAdapter(requireContext(), placesClient)
-        pick_up_user?.setAdapter(adapter)
+        adapter_1 = AutoCompleteAdapter_pickup(requireContext(), placesClient)
+        pick_up_user?.setAdapter(adapter_1)
     }
 
     private val autocompleteClickListener_drop =
@@ -304,9 +294,8 @@ var toatlkm=toatal_distance.toFloat()*/
                 if (request != null) {
                     placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
 
-
-                        // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
                         pick_up_location = pick_up_user.text.toString()
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,pick_up_location)
                         getLocationFromAddress_pickup(pick_up_location)
 
                     }.addOnFailureListener { e ->
@@ -390,12 +379,14 @@ var toatlkm=toatal_distance.toFloat()*/
                 var district: String? = resultData.getString(Constants.DISTRICT)
                 var country: String? = resultData.getString(Constants.ADDRESS)
                 locat = address + "," + locaity + "," + state
+                pick_up_user.setText(locat)
 
 
                 SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
                         ConstantUtils.LATITUDE, lati_curr)
                 SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
                         ConstantUtils.LONGITUDE, longi_current)
+                SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,locat)
                 loadMap(lati_curr, longi_current,locat)
 
             } else {
@@ -422,9 +413,8 @@ var toatlkm=toatal_distance.toFloat()*/
 
             } else {
                 customprogress.dismiss()
-                pick_up_user.setText(locat)
                 val mapFragment =
-                        childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+                        childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?
                 mapFragment!!.getMapAsync { mMap ->
                     mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
@@ -462,15 +452,15 @@ var toatlkm=toatal_distance.toFloat()*/
         val coder = Geocoder(requireContext())
         val address: List<Address>?
         try {
-//Get latLng from String
+
             address = coder.getFromLocationName(strAddress, 5)
 
-//check for null
+
             if (address == null) {
                 return
             }
 
-//Lets take first possibility from the all possibilities.
+
             val location = address[0]
             val latLng = LatLng(location.latitude, location.longitude)
             var la_longArr = latLng.toString().split(",", "(", ")")
@@ -486,17 +476,7 @@ var toatlkm=toatal_distance.toFloat()*/
                 loadMap(lati_drop, langit_drop,strAddress)
             }
 
-// Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
 
-/*  //Put marker on map on that LatLng
-val srchMarker: Marker = mMap.addMarker(
-MarkerOptions().position(latLng).title("Destination")
-  .icon(BitmapDescriptorFactory.fromResource(R.drawable.bb))
-)
-
-//Animate and Zoon on that map location
-mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -507,41 +487,29 @@ mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
         val coder = Geocoder(requireContext())
         val address: List<Address>?
         try {
-//Get latLng from String
             address = coder.getFromLocationName(strAddress, 5)
 
-//check for null
             if (address == null) {
                 return
             }
 
-//Lets take first possibility from the all possibilities.
             val location = address[0]
             val latLng = LatLng(location.latitude, location.longitude)
             var la_longArr = latLng.toString().split(",", "(", ")")
             lati_curr = la_longArr[1]
             longi_current = la_longArr[2]
+            Toast.makeText(requireContext(),lati_curr+longi_current,Toast.LENGTH_LONG).show()
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.Lati_Drop, lati_drop)
+                ConstantUtils.LATITUDE, lati_curr)
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.Longi_Drop, langit_drop)
+                ConstantUtils.LONGITUDE, longi_current)
 
-            Log.d("daad", lati_drop + langit_drop)
+            Log.d("daad", lati_curr + longi_current)
             if (strAddress != null) {
-                loadMap(lati_drop, langit_drop,strAddress)
+                loadMap(lati_curr, longi_current,strAddress)
             }
 
-// Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
 
-/*  //Put marker on map on that LatLng
-val srchMarker: Marker = mMap.addMarker(
-MarkerOptions().position(latLng).title("Destination")
-  .icon(BitmapDescriptorFactory.fromResource(R.drawable.bb))
-)
-
-//Animate and Zoon on that map location
-mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -596,3 +564,15 @@ mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/
 
 
 }
+
+// Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
+
+/*  //Put marker on map on that LatLng
+val srchMarker: Marker = mMap.addMarker(
+MarkerOptions().position(latLng).title("Destination")
+  .icon(BitmapDescriptorFactory.fromResource(R.drawable.bb))
+)
+
+//Animate and Zoon on that map location
+mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))*/

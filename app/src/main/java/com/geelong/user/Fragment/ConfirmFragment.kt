@@ -128,11 +128,11 @@ class ConfirmFragment : Fragment() {
             val intent = Intent(requireContext(), ConfirmPick_up::class.java)
             startActivity(intent)
         }
-        back_linera_layoutt.setOnClickListener {
+       /* back_linera_layoutt.setOnClickListener {
 
 
             (activity as Confirm)?.inte()
-        }
+        }*/
 
 
 

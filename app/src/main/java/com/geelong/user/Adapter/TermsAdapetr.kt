@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.R
-import com.geelong.user.Response.DataXX
+import com.geelong.user.Response.TermDataRes
 
 
-class TermsAdapetr(var mContext: Context, var mlist: List<DataXX>) : RecyclerView.Adapter<TermsAdapetr.ViewHolder>() {
+class TermsAdapetr(var mContext: Context, var mlist: List<TermDataRes>) : RecyclerView.Adapter<TermsAdapetr.ViewHolder>() {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

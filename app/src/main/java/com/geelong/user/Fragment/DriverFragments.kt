@@ -31,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_confirm.*
 import kotlinx.android.synthetic.main.fragments_driver_details.*
 import retrofit2.Call
@@ -64,6 +65,26 @@ class DriverFragments : Fragment() {
     var total_distance:String=""
     lateinit var pickuplatlang:LatLng
     lateinit var Cancel_booking_btnn:TextView
+    lateinit var driver_ratingg:TextView
+    lateinit var driver_img_drvFrg:CircleImageView
+    lateinit var vch_img_drvFrg:ImageView
+    lateinit var driver_nmae_drvFrg:TextView
+    lateinit var vechile_number_drvFrg:TextView
+     lateinit var vch_name_drvFrg:TextView
+
+
+    var driver_profile_pic:String=""
+    var driver_name:String=""
+    var vechile_name:String=""
+    var vechile_number:String=""
+    var vechile_img:String=""
+    var trip_otp:String=""
+    var rating_driver=""
+    var driver_latitude=""
+    var driver_longitude=""
+    var user_latitude=""
+    var user_lonitude=""
+
 
 
 
@@ -87,36 +108,55 @@ class DriverFragments : Fragment() {
         otp=rootview.findViewById(R.id.otp_drvFrg)
         customprogress= Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
+        driver_ratingg=rootview.findViewById(R.id.driver_rating_txt)
         Cancel_booking_btnn=rootview.findViewById(R.id.Cancel_booking_btn)
+        driver_img_drvFrg=rootview.findViewById(R.id.driver_img_drvFrg)
+        vch_img_drvFrg=rootview.findViewById(R.id.vch_img_drvFrg)
+        driver_nmae_drvFrg=rootview.findViewById(R.id.driver_nmae_drvFrg)
+        vechile_number_drvFrg=rootview.findViewById(R.id.vechile_number_drvFrg)
+        vch_name_drvFrg=rootview.findViewById(R.id.vch_name_drvFrg)
+
         try {
             total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
                     .Toatal_time,"").toString()
             total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
-            user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
+
             driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
             Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
             Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
             amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
-            current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
-            drop_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
-            drop_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
-                    .Longi_Drop,"").toString()
-            drop_location=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
-                    .Drop_location,"").toString()
 
-            pickuplatlang= LatLng(Current_lati.toDouble(),Current_longi.toDouble())
+            driver_profile_pic=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_profile_photo,"").toString()
+            driver_name=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_name,"").toString()
+            vechile_name=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Vechilename,"").toString()
+            vechile_number=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Vechile_number,"").toString()
+            trip_otp=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Trip_Otp,"").toString()
+            rating_driver=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Rating,"").toString()
+            driver_latitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_latitude,"").toString()
+            driver_longitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_longitude,"").toString()
+            user_latitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+            user_lonitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            vechile_img=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Vechile_image,"").toString()
+            pickuplatlang= LatLng(user_latitude.toDouble(),user_lonitude.toDouble())
+
+
+
+
+
+
+
 
 
         }
         catch (e:Exception)
         {
-
+Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
         }
 
 
         if (NetworkUtils.checkInternetConnection(requireContext()))
         {
-            DriverDetailss()
+          //  DriverDetailss()
 
         }
 
@@ -146,6 +186,15 @@ class DriverFragments : Fragment() {
         }
 
 
+            val picasso = Picasso.get()
+            picasso.load(driver_profile_pic).into(driver_img_drvFrg)
+            picasso.load(vechile_img).into(vch_img_drvFrg)
+            driver_nmae_drvFrg.setText(driver_name)
+            vch_name_drvFrg.setText(vechile_name)
+            vechile_number_drvFrg.setText(vechile_number)
+            otp.setOTP(trip_otp)
+            driver_ratingg.setText(rating_driver)
+
 
         return rootview
     }
@@ -173,7 +222,7 @@ class DriverFragments : Fragment() {
             }
     }
 
-    fun DriverDetailss()
+    /*fun DriverDetailss()
     {
         val request = HashMap<String, String>()
         request.put("pickupAddress",current_loca)
@@ -250,7 +299,7 @@ class DriverFragments : Fragment() {
 
         })
     }
-
+*/
     fun loadmap()
     {
         Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()

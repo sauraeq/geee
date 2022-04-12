@@ -118,6 +118,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:background="@null"
+                            android:hint="@string/enter_pick_up_location"
                             android:fontFamily="@font/poppinsmedium"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"

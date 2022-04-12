@@ -135,10 +135,10 @@ class ConfirmPick_up : AppCompatActivity() {
 
                                 latii=lati.toString()
                                 lan=longi.toString()
-                                SharedPreferenceUtils.getInstance(this@ConfirmPick_up)?.setStringValue(
+                               /* SharedPreferenceUtils.getInstance(this@ConfirmPick_up)?.setStringValue(
                                     ConstantUtils.LATITUDE,latii)
                                 SharedPreferenceUtils.getInstance(this@ConfirmPick_up)?.setStringValue(
-                                    ConstantUtils.LONGITUDE,lan)
+                                    ConstantUtils.LONGITUDE,lan)*/
                                 val location = Location("providerNA")
                                 location.longitude = longi
                                 location.latitude = lati
