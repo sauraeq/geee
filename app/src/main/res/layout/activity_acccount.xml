@@ -41,16 +41,19 @@
                 app:civ_border_width="1dp" />
 
             <LinearLayout
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
                 android:layout_marginTop="@dimen/_115sdp"
                 android:background="@drawable/circlebackblack"
-                android:layout_marginLeft="@dimen/_77sdp">
+                android:layout_marginLeft="@dimen/_88sdp">
 
                 <ImageView
                     android:id="@+id/edit_profile_imageview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="center"
+                   android:layout_marginLeft="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
                     android:src="@drawable/edita">
 
                 </ImageView>

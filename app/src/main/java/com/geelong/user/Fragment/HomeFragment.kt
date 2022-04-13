@@ -1,6 +1,7 @@
 package com.geelong.user.Fragment
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -16,6 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -47,7 +49,6 @@ import java.io.IOException
 import java.lang.Math.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -252,7 +253,8 @@ class HomeFragment : Fragment() {
                     }
                     if (request != null) {
                         placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
-
+                            val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                            inputMethodManager.hideSoftInputFromWindow(drop_location_user.getWindowToken(), 0)
 
                             // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
                             drop_location = drop_location_user.text.toString()
@@ -293,6 +295,11 @@ class HomeFragment : Fragment() {
                 }
                 if (request != null) {
                     placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
+                        /*val input: InputMethodManager? = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                        input?.hideSoftInputFromWindow(pick_up_user.getWindowToken(), 0)*/
+
+                        val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(pick_up_user.getWindowToken(), 0)
 
                         pick_up_location = pick_up_user.text.toString()
                         SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,pick_up_location)

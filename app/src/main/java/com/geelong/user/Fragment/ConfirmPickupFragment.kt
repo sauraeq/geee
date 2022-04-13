@@ -1,5 +1,6 @@
 package com.geelong.user.Fragment
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -258,91 +260,6 @@ class ConfirmPickupFragment : Fragment() {
         }
     }
 
-    fun DriverDetailss()
-    {
-        val request = HashMap<String, String>()
-        request.put("pickupAddress",current_loca)
-        request.put("pickupLatitude",Current_lati)
-        request.put("pickupLongitude",Current_longi)
-        request.put("dropAddress",drop_location)
-        request.put("dropLatitude",drop_lati)
-        request.put("dropLongitude",drop_longi)
-        request.put("user_id",user_id )
-        request.put("driver_id",driver_id)
-        request.put("amount",amount)
-        request.put("time","25")
-        request.put("distance",total_distance)
-
-
-
-
-
-
-        var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
-
-        driver_vec_details.enqueue(object : Callback<DriverDetails_Vch_Response> {
-            override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
-                try {
-
-
-                    if (response.body()!!.success.equals("true")) {
-
-                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
-                        val pro_img_url=response.body()!!.data[0].profile_photo
-                        val vch_img_url=response.body()!!.data[0].vehicle_image
-                        var booking_id=response.body()!!.data[0].booking_id
-
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Booking_id,booking_id.toString())
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Driver_name,response.body()!!.data[0].name)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Driver_latitude,response.body()!!.data[0].latitude)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Driver_longitude,response.body()!!.data[0].longitude)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Driver_profile_photo,response.body()!!.data[0].profile_photo)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Vechile_image,response.body()!!.data[0].vehicle_image)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Vechilename,response.body()!!.data[0].vehicle_name)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Vechile_number,response.body()!!.data[0].vehicle_no)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Trip_Otp,response.body()!!.data[0].otp.toString())
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
-                            .Driver_Rating,response.body()!!.data[0].rating.toString())
-
-                        val intent = Intent(requireContext(), Pay_Now::class.java)
-                        startActivity(intent)
-
-
-                    } else {
-
-                        Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG)
-                            .show()
-
-                    }
-
-                }  catch (e: Exception) {
-                    Log.e("saurav", e.toString())
-                    Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
-
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
-                Log.e("Saurav", t.message.toString())
-                Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
-
-
-            }
-
-        })
-    }
-
 
     private val autocompleteClickListener_drop =
         AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -372,6 +289,8 @@ class ConfirmPickupFragment : Fragment() {
 
 
                         // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
+                        val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(current_loc_textview.getWindowToken(), 0)
 
                         pickup_cnf_location = current_loc_textview.text.toString()
                         SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
@@ -464,6 +383,96 @@ class ConfirmPickupFragment : Fragment() {
 
 
     }
+    fun DriverDetailss()
+    {
+
+        customprogress.show()
+        val request = HashMap<String, String>()
+        request.put("pickupAddress",current_loca)
+        request.put("pickupLatitude",Current_lati)
+        request.put("pickupLongitude",Current_longi)
+        request.put("dropAddress",drop_location)
+        request.put("dropLatitude",drop_lati)
+        request.put("dropLongitude",drop_longi)
+        request.put("user_id",user_id )
+        request.put("driver_id",driver_id)
+        request.put("amount",amount)
+        request.put("time","25")
+        request.put("distance",total_distance)
+
+
+
+
+
+
+        var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
+
+        driver_vec_details.enqueue(object : Callback<DriverDetails_Vch_Response> {
+            override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+
+                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        val pro_img_url=response.body()!!.data[0].profile_photo
+                        val vch_img_url=response.body()!!.data[0].vehicle_image
+                        var booking_id=response.body()!!.data[0].booking_id
+
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Booking_id,booking_id.toString())
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Driver_name,response.body()!!.data[0].name)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Driver_latitude,response.body()!!.data[0].latitude)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Driver_longitude,response.body()!!.data[0].longitude)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Driver_profile_photo,response.body()!!.data[0].profile_photo)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Vechile_image,response.body()!!.data[0].vehicle_image)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Vechilename,response.body()!!.data[0].vehicle_name)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Vechile_number,response.body()!!.data[0].vehicle_no)
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Trip_Otp,response.body()!!.data[0].otp.toString())
+                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils
+                            .Driver_Rating,response.body()!!.data[0].rating.toString())
+
+                        val intent = Intent(requireContext(), Pay_Now::class.java)
+                        startActivity(intent)
+                        customprogress.hide()
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+                        customprogress.hide()
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(requireContext(),e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
+                customprogress.hide()
+
+
+            }
+
+        })
+    }
+
+
 
 
 }

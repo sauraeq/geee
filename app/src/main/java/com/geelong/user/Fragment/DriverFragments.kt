@@ -8,7 +8,9 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +24,7 @@ import com.geelong.user.Activity.Chat
 import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
-import com.geelong.user.Response.DriverDetails_Vch_Response
+import com.geelong.user.Response.BookingStatusResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -30,14 +32,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.kaopiz.kprogresshud.KProgressHUD
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.canceltrippopup.*
 import kotlinx.android.synthetic.main.fragment_confirm.*
 import kotlinx.android.synthetic.main.fragments_driver_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -63,6 +66,7 @@ class DriverFragments : Fragment() {
     var driver_longi:String=""
     var total_time:String=""
     var total_distance:String=""
+    var booking_id:String=""
     lateinit var pickuplatlang:LatLng
     lateinit var Cancel_booking_btnn:TextView
     lateinit var driver_ratingg:TextView
@@ -84,6 +88,7 @@ class DriverFragments : Fragment() {
     var driver_longitude=""
     var user_latitude=""
     var user_lonitude=""
+    lateinit var custom_progress:Dialog
 
 
 
@@ -102,6 +107,8 @@ class DriverFragments : Fragment() {
     ): View? {
 
         val rootview= inflater.inflate(R.layout.fragments_driver_details, container, false)
+       /* custom_progress= Dialog(requireContext())
+        customprogress.setContentView(R.layout.loader_layout)*/
 
         var call_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_call)
         var message_to_driver=rootview.findViewById<RelativeLayout>(R.id.driver_message)
@@ -117,6 +124,8 @@ class DriverFragments : Fragment() {
         vch_name_drvFrg=rootview.findViewById(R.id.vch_name_drvFrg)
 
         try {
+            booking_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                .Booking_id,"").toString()
             total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
                     .Toatal_time,"").toString()
             total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
@@ -140,13 +149,6 @@ class DriverFragments : Fragment() {
             pickuplatlang= LatLng(user_latitude.toDouble(),user_lonitude.toDouble())
 
 
-
-
-
-
-
-
-
         }
         catch (e:Exception)
         {
@@ -157,6 +159,7 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
         if (NetworkUtils.checkInternetConnection(requireContext()))
         {
           //  DriverDetailss()
+            Booking_status()
 
         }
 
@@ -186,14 +189,7 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
         }
 
 
-            val picasso = Picasso.get()
-            picasso.load(driver_profile_pic).into(driver_img_drvFrg)
-            picasso.load(vechile_img).into(vch_img_drvFrg)
-            driver_nmae_drvFrg.setText(driver_name)
-            vch_name_drvFrg.setText(vechile_name)
-            vechile_number_drvFrg.setText(vechile_number)
-            otp.setOTP(trip_otp)
-            driver_ratingg.setText(rating_driver)
+
 
 
         return rootview
@@ -222,62 +218,60 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
             }
     }
 
-    /*fun DriverDetailss()
+    fun Booking_status()
     {
         val request = HashMap<String, String>()
-        request.put("pickupAddress",current_loca)
-        request.put("pickupLatitude",Current_lati)
-        request.put("pickupLongitude",Current_longi)
-        request.put("dropAddress",drop_location)
-        request.put("dropLatitude",drop_lati)
-        request.put("dropLongitude",drop_longi)
-        request.put("user_id",user_id )
-        request.put("driver_id",driver_id)
-        request.put("amount",amount)
-        request.put("time",total_time)
-        request.put("distance",total_distance)
+        request.put("booking_id",booking_id)
 
 
 
 
 
 
-        var driver_vec_details: Call<DriverDetails_Vch_Response> = APIUtils.getServiceAPI()!!.Driver_details(request)
 
-        driver_vec_details.enqueue(object : Callback<DriverDetails_Vch_Response> {
-            override fun onResponse(call: Call<DriverDetails_Vch_Response>, response: Response<DriverDetails_Vch_Response>) {
+        var driver_vec_details: Call<BookingStatusResponse> = APIUtils.getServiceAPI()!!.booking_status(request)
+
+        driver_vec_details.enqueue(object : Callback<BookingStatusResponse> {
+            override fun onResponse(call: Call<BookingStatusResponse>, response: Response<BookingStatusResponse>) {
                 try {
 
-                    customprogress.show()
+                    /*customprogress.show()*/
                     if (response.body()!!.success.equals("true")) {
 
-                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
-                        val pro_img_url=response.body()!!.data[0].profile_photo
-                        val vch_img_url=response.body()!!.data[0].vehicle_image
+                        if (response.body()!!.data[0].status.equals("1"))
 
-                        val picasso = Picasso.get()
-                        picasso.load(pro_img_url).into(driver_img_drvFrg)
-                        picasso.load(vch_img_url).into(vch_img_drvFrg)
-                        driver_nmae_drvFrg.text=response.body()!!.data[0].name
-                        vch_name_drvFrg.text=response.body()!!.data[0].vehicle_name
-                        otp.setOTP(response.body()!!.data[0].otp.toString())
+                        {
 
-                        val booking_id=response.body()!!.data[0].booking_id.toString()
-                        val driver_rating=response.body()!!.data[0].rating
-                        driver_lati=response.body()!!.data[0].latitude
-                        driver_longi=response.body()!!.data[0].longitude
+                            showDialog()
+                            var handler: Handler? = null
+                            handler = Handler()
+                            handler.postDelayed(Runnable {
+                                Booking_status()
 
-                      loadmap()
+                            }, 5000)
+                           // SharedPreferenceUtils.getInstance(requireContext())?.removeKey
+                            (ConstantUtils.Booking_id)
+                            /*val intent=Intent(requireContext(),Search1::class.java)
+                            startActivity(intent)*/
 
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Booking_id,booking_id)
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.Driver_Rating,driver_rating)
+                        }
+                        else
+                        { customprogress.hide()
+                            val picasso = Picasso.get()
+                            picasso.load(driver_profile_pic).into(driver_img_drvFrg)
+                            picasso.load(vechile_img).into(vch_img_drvFrg)
+                            driver_nmae_drvFrg.setText(driver_name)
+                            vch_name_drvFrg.setText(vechile_name)
+                            vechile_number_drvFrg.setText(vechile_number)
+                            otp.setOTP(trip_otp)
+                            driver_ratingg.setText(rating_driver)
+                        }
 
-                        customprogress.hide()
+                    }
+                    else {
 
-
-                    } else {
-
-                        Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
                         customprogress.hide()
                     }
 
@@ -290,7 +284,7 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
             }
 
-            override fun onFailure(call: Call<DriverDetails_Vch_Response>, t: Throwable) {
+            override fun onFailure(call: Call<BookingStatusResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
                 Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
@@ -299,7 +293,7 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
         })
     }
-*/
+
     fun loadmap()
     {
         Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
@@ -351,6 +345,44 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
         }
     }
+    private fun showDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.wait_for_trip_popup)
+        lateinit var button: LinearLayout
+
+     /*   KProgressHUD.create(requireContext())
+            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setLabel("Please wait")
+            .setDetailsLabel("Downloading data")
+            .setCancellable(true)
+            .setAnimationSpeed(2)
+            .setDimAmount(0.5f)
+            .show();*/
+
+        /*button = dialog.findViewById(R.id.payment_success)
+
+        button.setOnClickListener {
+            dialog.dismiss()
+
+        }
+        dialog.cancal_popup_img.setOnClickListener {
+            dialog.dismiss()
+            SharedPreferenceUtils.getInstance(requireContext())?.removeKey(ConstantUtils.Booking_id)
+
+        }*/
+
+
+
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()
+
+        //dialog.window?.setLayout(700,750)
+
+    }
 
 }

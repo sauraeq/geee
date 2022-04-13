@@ -37,6 +37,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
     var radioGroup: RadioGroup ?=null
     lateinit var radioButton: RadioButton
+    private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
     var name:String=""
     var email:String=""
@@ -45,6 +46,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     var mobile_number_login:String=""
     var gender:String=""
     var token_id:String=""
+    var email_matched_string:String=""
     var country_code:String=""
     lateinit var ccp: CountryCodePicker
     lateinit var ccp1:CountryCodePicker
@@ -198,8 +200,9 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             mobile_number_login=user_login_mobile.text.toString()
 
             if (mobile_number_login.isEmpty())
-            {
-                Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
+
+            { user_login_mobile.error="Please Enter Mobile Number"
+               // Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
             }
             else{
 
@@ -215,14 +218,18 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
         }
         sign_up.setOnClickListener {
-/*
-           custom_progress.show()*/
 
             name=user_name.getText().toString()
             email=user_email.getText().toString()
             address=user_address.getText().toString()
             mobile_number=user_mobile.getText().toString().trim()
             country_code="+"+ccp.selectedCountryCode.toString()
+
+            if (email.matches(emailPattern.toRegex())) {
+                email_matched_string="1"
+            } else {
+                email_matched_string="0"
+            }
            /* Toast.makeText(this,country_code,Toast.LENGTH_SHORT).show()*/
             try {
                 val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
@@ -235,28 +242,37 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             }
 
 
-
-
-
-           /* Toast.makeText(this,name+email+address+mobile_number+gender,Toast.LENGTH_LONG).show()*/
-
-
               if (name.isEmpty())
-              {
-                  Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
+              {   user_name.error="Please Enter Name"
+                 // Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
+              }
+              else if(name.length<9){
+                  user_name.error="Name between 9-16 size"
+                //  Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                     // .show()
+              }
+              else if(name.length>15){
+                  user_name.error="Name between 9-16 size"
+                 // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                     // .show()
               }
               else if(email.isEmpty())
-              {
-                  Toast.makeText(this,"Please Enter Email",Toast.LENGTH_LONG).show()
+              { user_email.error="Please Enter Email"
+                //  Toast.makeText(this,"Please Enter Email",Toast.LENGTH_LONG).show()
+              }
+              else if(email_matched_string.equals("0"))
+              {user_email.error="Inavlid Email"
+                 // Toast.makeText(this,"Inavlid Email",Toast.LENGTH_LONG).show()
               }
               else if(address.isEmpty())
-              {
-                  Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
+              { user_address.error="Please Enter Address"
+                //  Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
               }
               else if(mobile_number.isEmpty() )
-              {
-                  Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
+              {user_mobile.error="Please Enter Mobile Number"
+                 // Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
               }
+
               else if(gender.isEmpty())
               {
                   Toast.makeText(this,"Please Enter Gender",Toast.LENGTH_LONG).show()
@@ -265,6 +281,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               else {
                   if(NetworkUtils.checkInternetConnection(this))
                   {
+                      custom_progress.show()
                       signup()
                   }
                   else{
@@ -456,6 +473,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             Log.e("TAG", token)
         })
     }
-
+    /*fun validateEmail() {
+    }*/
 
 }
