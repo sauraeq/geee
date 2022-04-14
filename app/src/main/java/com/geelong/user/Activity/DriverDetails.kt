@@ -1,50 +1,71 @@
 package com.geelong.user.Activity
 
-import android.app.AlertDialog
+import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.customnavigationdrawerexample.ClickListener
-import com.example.customnavigationdrawerexample.RecyclerTouchListener
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Adapter.NavigationRVAdapter
-import com.geelong.user.Fragment.DriverFragments
 
 import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
-import com.geelong.user.Response.LoginResponse
-import com.geelong.user.Response.NewNotificationResponse
+import com.geelong.user.Response.BookingStsResponse
+import com.geelong.user.Response.MapData
 import com.geelong.user.Util.ConstantUtils
-import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.places.api.Places
+import com.google.gson.Gson
+import com.kaopiz.kprogresshud.KProgressHUD
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_confirm.*
 import kotlinx.android.synthetic.main.activity_driver_details.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.HashMap
 
-class DriverDetails : AppCompatActivity() {
+class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
+
+    private lateinit var mMap: GoogleMap
+   var originLatitude: String = ""
+    var originLongitude: String = ""
+    var destinationLatitude: String = ""
+    var destinationLongitude: String = ""
+    var booking_id:String=""
+    var approx_km:String=""
+     var toatal_time_taken:String=""
 
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
     lateinit var navigation_rv: RecyclerView
     lateinit var ivClose1: ImageView
     lateinit var customprogress:Dialog
+    var amount:String=""
+    var total_km:String=""
+
 
 
     private var items = arrayListOf(
@@ -68,13 +89,43 @@ class DriverDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_details)
         supportActionBar?.hide()
-        drawerLayout = findViewById(R.id.drawer_layout1)
+
+        cardview_driverDetails.visibility=View.GONE
+        try {
+            amount=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Amount,"").toString()
+            booking_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Booking_id,"").toString()
+            originLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.LATITUDE,"").toString()
+            originLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            destinationLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Driver_latitude,"").toString()
+            destinationLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Driver_longitude,"").toString()
+        }catch (e:Exception)
+        {
+
+        }
+        if(originLatitude.isNotEmpty()|| originLongitude.isNotEmpty()|| destinationLatitude
+                .isNotEmpty()|| destinationLongitude.isNotEmpty())
+        {
+             total_km=getKilometers(originLatitude.toDouble(),originLongitude.toDouble(), destinationLatitude.toDouble(),destinationLongitude.toDouble()).toString()
+            approx_km=roundOffDecimal(total_km.toDouble()).toString()
+              Totaltimetaken(approx_km.toDouble())
+        }
+        else
+        {
+
+        }
+        /* drawerLayout = findViewById(R.id.drawer_layout1)
        navigation_rv=findViewById(R.id.navigation_rv11)
 
-       ivClose1=findViewById(R.id.ivClose)
-        customprogress= Dialog(this)
-        customprogress.setContentView(R.layout.loader_layout)
-        NewNotification()
+       ivClose1=findViewById(R.id.ivClose)*/
+        customprogress = Dialog(this)
+        customprogress.setContentView(R.layout.dialog_progress)
+        Cancel_booking_btn_aty.setOnClickListener {
+            val intent = Intent(this,CancelTrip::class.java)
+            startActivity(intent)
+        }
+
+
+        /*  NewNotification()
 
         val intent = intent
         val message = intent.getStringExtra("message")
@@ -97,14 +148,14 @@ class DriverDetails : AppCompatActivity() {
       customprogress.show()
   }
 
-
-  val bundle = Bundle()
+*/
+        /*val bundle = Bundle()
     bundle.putString("fragmentName", "Settings Fragment")
     val settingsFragment = DriverFragments()
     settingsFragment.arguments = bundle
     supportFragmentManager.beginTransaction()
-    .replace(R.id.activity_main_content_id, settingsFragment).commit()
-        var ivMenu=findViewById<ImageView>(R.id.ivMenu_driver)
+    .replace(R.id.activity_main_content_id, settingsFragment).commit()*/
+        /*var ivMenu=findViewById<ImageView>(R.id.ivMenu_driver)
     ivClose1.setOnClickListener() {
         drawerLayout.closeDrawer(GravityCompat.START)
     }
@@ -154,12 +205,12 @@ class DriverDetails : AppCompatActivity() {
                     // val intent = Intent(this@MainActivity1, ProfileActivity::class.java)
                     // startActivity(intent)
                     // # Settings Fragment
-                    /* val bundle = Bundle()
+                    *//* val bundle = Bundle()
                      bundle.putString("fragmentName", "Settings Fragment")
                      val settingsFragment = DemoFragment()
                      settingsFragment.arguments = bundle
                      supportFragmentManager.beginTransaction()
-                         .replace(R.id.activity_main_content_id, settingsFragment).commit()*/
+                         .replace(R.id.activity_main_content_id, settingsFragment).commit()*//*
 
                 }
                 6 -> {
@@ -222,88 +273,185 @@ private fun updateAdapter(highlightItemPos: Int) {
     navigation_rv.adapter = adapter
     adapter.notifyDataSetChanged()
 }
+*/
+        val ai: ApplicationInfo = applicationContext.packageManager
+            .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
 
-override fun onBackPressed() {
-    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-        drawerLayout.closeDrawer(GravityCompat.START)
-    } else {
+        val value=getString(R.string.api_key)
+        val apiKey = value.toString()
 
-        if (supportFragmentManager.backStackEntryCount > 0) {
 
-            supportFragmentManager.popBackStack()
-        } else {
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, apiKey)
+        }
 
-            super.onBackPressed()
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_aty) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        mapFragment.getMapAsync {
+            mMap = it
+            val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
+            mMap.addMarker(MarkerOptions().position(originLocation))
+            val destinationLocation = LatLng(destinationLatitude.toDouble(), destinationLongitude.toDouble())
+            mMap.addMarker(MarkerOptions().position(destinationLocation))
+            val urll = getDirectionURL(originLocation, destinationLocation, apiKey)
+            GetDirection(urll).execute()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+        }
+        Booking_status()
+
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        mMap = p0!!
+        val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(originLocation))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+    }
+    private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
+                "&destination=${dest.latitude},${dest.longitude}" +
+                "&sensor=false" +
+                "&mode=driving" +
+                "&key=$secret"
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
+        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+            val data = response.body!!.string()
+
+            val result =  ArrayList<List<LatLng>>()
+            try{
+                val respObj = Gson().fromJson(data, MapData::class.java)
+                val path =  ArrayList<LatLng>()
+                for (i in 0 until respObj.routes[0].legs[0].steps.size){
+                    path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
+                }
+                result.add(path)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+            return result
+        }
+
+        override fun onPostExecute(result: List<List<LatLng>>) {
+            val lineoption = PolylineOptions()
+            for (i in result.indices){
+                lineoption.addAll(result[i])
+                lineoption.width(15f)
+                lineoption.color(Color.BLACK)
+                lineoption.geodesic(true)
+            }
+            mMap.addPolyline(lineoption)
         }
     }
-}
 
-fun click(){
-    drawerLayout.openDrawer(GravityCompat.START)
-}
-
-fun inte()
-{
-    val intent = Intent(this, Confirm::class.java)
-    startActivity(intent)
-}
-
-    fun progilepic()
-    {
-       var token_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
-               .TokenId,"")
-                .toString()
-        var mobi_num=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.User_Mobile_Number,"").toString()
+    fun decodePolyline(encoded: String): List<LatLng> {
+        val poly = ArrayList<LatLng>()
+        var index = 0
+        val len = encoded.length
+        var lat = 0
+        var lng = 0
+        while (index < len) {
+            var b: Int
+            var shift = 0
+            var result = 0
+            do {
+                b = encoded[index++].code - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lat += dlat
+            shift = 0
+            result = 0
+            do {
+                b = encoded[index++].code - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lng += dlng
+            val latLng = LatLng((lat.toDouble() / 1E5),(lng.toDouble() / 1E5))
+            poly.add(latLng)
+        }
+        return poly
+    }
+    fun Booking_status()
+    { customprogress.show()
         val request = HashMap<String, String>()
-        request.put("mobile",mobi_num)
-        request.put("device_tokanid",token_id)
+        request.put("booking_id",booking_id)
 
+        var driver_vec_details: Call<BookingStsResponse> = APIUtils.getServiceAPI()!!.booking_status(request)
 
-
-        var login_in: Call<LoginResponse> = APIUtils.getServiceAPI()!!.Login(request)
-
-        login_in.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+        driver_vec_details.enqueue(object : Callback<BookingStsResponse> {
+            override fun onResponse(call: Call<BookingStsResponse>, response: Response<BookingStsResponse>) {
                 try {
 
-                           customprogress.hide()
+                    /*customprogress.show()*/
                     if (response.body()!!.success.equals("true")) {
-                        if (response.body()!!.data.isEmpty())
+
+                        if (response.body()!!.data[0].status.equals("1"))
+
                         {
-                            Toast.makeText(this@DriverDetails,"DATA Not Found",Toast.LENGTH_LONG).show()
+                            cardview_driverDetails.visibility=View.GONE
+
+                            var handler: Handler? = null
+                            handler = Handler()
+                            handler.postDelayed(Runnable {
+                                Booking_status()
+
+                            }, 5000)
+                            // SharedPreferenceUtils.getInstance(requireContext())?.removeKey
+                            (ConstantUtils.Booking_id)
+                            /*val intent=Intent(requireContext(),Search1::class.java)
+                            startActivity(intent)*/
 
                         }
                         else
-                        {
-                            var img_url=response.body()!!.data[0].profile_photo
-                            tvName_sidebar.text=response.body()!!.data[0].name
-                            user_location_se.text=response.body()!!.data[0].address
 
-                            if(img_url.isEmpty())
-                            {
-                                val picasso=Picasso.get()
-                                picasso.load(R.drawable.driverimg).into(navigation_header_img)
-                            }
-                            else{
-                                val picasso= Picasso.get()
-                                picasso.load(img_url).into(navigation_header_img)
-                            }
+                        {
+                            cardview_driverDetails.visibility=View.VISIBLE
+                            customprogress.hide()
+                            var otp=response.body()!!.data[0].otp
+                            var driver_profile_pic=response.body()!!.data[0].profile_photo
+                            var vechile_img=response.body()!!.data[0].vehicle_image
+                            var vehicle_no=response.body()!!.data[0].vehicle_no
+                            var name=response.body()!!.data[0].name
+                            var vehicle_name=response.body()!!.data[0].name
+                            var rating=response.body()!!.data[0].rating
+
+
+                            val picasso = Picasso.get()
+                            picasso.load(driver_profile_pic).into(driver_img_drvFrg_aty)
+                            picasso.load(vechile_img).into(vch_img_drvFrg_aty)
+                            driver_nmae_drvFrg_aty.setText(name)
+                            vch_name_drvFrg_aty.setText(vehicle_name)
+                            vechile_number_drvFrg_aty.setText(vehicle_no)
+                            otp_drvFrg_aty.setOTP(otp)
+                            driver_rating_txt_aty.setText(rating)
+                            tp_driverdetails.setText("$"+amount)
+                            total_distancee_driverdetails.setText(approx_km)
+                            total_timee_driverdetails.setText(toatal_time_taken)
+
                         }
 
+                    }
+                    else {
 
-
-
-                        customprogress.hide()
-
-
-                    } else {
-
+                        Toast.makeText(this@DriverDetails,response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
                         customprogress.hide()
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-
                     Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
@@ -311,79 +459,105 @@ fun inte()
 
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BookingStsResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-
-                customprogress.hide()
-            }
-
-        })
-    }
-
-    fun GoTo()
-    {
-        var intent=Intent(this,CancelTrip::class.java)
-        startActivity(intent)
-    }
-
-    fun NewNotification()
-    {
-
-        var user_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
-            .USER_ID,"")
-            .toString()
-
-        val request = HashMap<String, String>()
-        request.put("user_id",user_id)
-
-
-
-
-        var new_Noti: Call<NewNotificationResponse> = APIUtils.getServiceAPI()!!.NewNotification(request)
-
-        new_Noti.enqueue(object : Callback<NewNotificationResponse> {
-            override fun onResponse(call: Call<NewNotificationResponse>, response: Response<NewNotificationResponse>) {
-                try {
-
-
-                    if (response.body()!!.success.equals("true")) {
-                        /*Toast.makeText(this@Search1,response.body()!!.data[0].count+"seracg1",Toast
-                            .LENGTH_LONG)
-                            .show()*/
-                        SharedPreferenceUtils.getInstance(this@DriverDetails)!!.setStringValue(ConstantUtils.Total_notificat_count,response.body()!!.data[0].count)
-                            .toString()
-
-
-                        /*      customProgress.hide()*/
-
-
-                    } else {
-
-                        //  Toast.makeText(this@Search1,"Error", Toast.LENGTH_LONG).show()
-                        /*customProgress.hide()*/
-                    }
-
-                }  catch (e: Exception) {
-                    Log.e("saurav", e.toString())
-
-                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
-                    /* customProgress.hide()
- */
-                }
-
-            }
-
-            override fun onFailure(call: Call<NewNotificationResponse>, t: Throwable) {
-                Log.e("Saurav", t.message.toString())
-
                 Toast.makeText(this@DriverDetails,t.message, Toast.LENGTH_LONG).show()
-                /* customProgress.hide()*/
+                customprogress.hide()
+
             }
 
         })
     }
+    private fun showDialog() {
+        /* val dialog = Dialog(requireContext())
+         dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+         dialog.setCancelable(true)
+         dialog.setContentView(R.layout.wait_for_trip_popup)
+         lateinit var button: LinearLayout*/
+
+        KProgressHUD.create(this)
+            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setLabel("Please wait")
+            .setDetailsLabel("Finding Driver")
+            .setCancellable(true)
+            .setAnimationSpeed(2)
+            .setDimAmount(0.5f)
+            .show()
+
+        /*button = dialog.findViewById(R.id.payment_success)
+
+        button.setOnClickListener {
+            dialog.dismiss()
+
+        }
+        dialog.cancal_popup_img.setOnClickListener {
+            dialog.dismiss()
+            SharedPreferenceUtils.getInstance(requireContext())?.removeKey(ConstantUtils.Booking_id)
+
+        }*/
 
 
+
+/*
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()*/
+
+        //dialog.window?.setLayout(700,750)
+
+    }
+
+    fun getKilometers(lat1: Double, long1: Double, lat2: Double, long2: Double): Double {
+        val PI_RAD = Math.PI / 180.0
+        val phi1 = lat1 * PI_RAD
+        val phi2 = lat2 * PI_RAD
+        val lam1 = long1 * PI_RAD
+        val lam2 = long2 * PI_RAD
+        return 6371.01 * Math.acos(
+            Math.sin(phi1) * Math.sin(phi2) + Math.cos(phi1) * Math.cos(phi2) * Math.cos(
+                lam2 - lam1
+            )
+        )
+    }
+
+    fun roundOffDecimal(number: Double): Double? {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
+    }
+    fun Totaltimetaken(distance_km: Double) {
+
+
+        val km = distance_km.toInt()
+        val kms_per_min = 0.4
+        val mins_taken = km / kms_per_min
+        val totalMinutes = mins_taken.toInt()
+        if (totalMinutes < 60) {
+
+            toatal_time_taken = totalMinutes.toString() + " " + "Mins"
+            SharedPreferenceUtils.getInstance(this)!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+
+
+
+        } else {
+            var minutes = Integer.toString(totalMinutes % 60)
+            minutes = if (minutes.length == 1) "0$minutes" else minutes
+            (totalMinutes / 60).toString() + " hour " + minutes + "mins"
+            toatal_time_taken = minutes.toString()
+            SharedPreferenceUtils.getInstance(this)!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+
+
+        }
+
+
+    }
 
 
 

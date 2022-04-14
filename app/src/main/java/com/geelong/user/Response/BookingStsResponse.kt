@@ -1,7 +1,7 @@
 package com.geelong.user.Response
 
-data class BookingStatusResponse(
-    val `data`: List<BookingStatusResData>,
+data class BookingStsResponse(
+    val `data`: List<BookingStsRespData>,
     val error: Int,
     val msg: String,
     val service: String,

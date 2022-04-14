@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -21,10 +20,8 @@ import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.CallActivity
 import com.geelong.user.Activity.Chat
-import com.geelong.user.Activity.DriverDetails
-import com.geelong.user.Activity.Search1
 import com.geelong.user.R
-import com.geelong.user.Response.BookingStatusResponse
+import com.geelong.user.Response.BookingStsResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -182,10 +179,10 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
         var ivMenu_driver: LinearLayout =rootview.findViewById(R.id.linear_menu)
         ivMenu_driver.setOnClickListener {
-            (activity as DriverDetails?)?.click()
+            //(activity as DriverDetails?)?.click()
         }
         Cancel_booking_btnn.setOnClickListener {
-            (activity as DriverDetails?)?.GoTo()
+          //  (activity as DriverDetails?)?.GoTo()
         }
 
 
@@ -229,10 +226,10 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
 
 
-        var driver_vec_details: Call<BookingStatusResponse> = APIUtils.getServiceAPI()!!.booking_status(request)
+        var driver_vec_details: Call<BookingStsResponse> = APIUtils.getServiceAPI()!!.booking_status(request)
 
-        driver_vec_details.enqueue(object : Callback<BookingStatusResponse> {
-            override fun onResponse(call: Call<BookingStatusResponse>, response: Response<BookingStatusResponse>) {
+        driver_vec_details.enqueue(object : Callback<BookingStsResponse> {
+            override fun onResponse(call: Call<BookingStsResponse>, response: Response<BookingStsResponse>) {
                 try {
 
                     /*customprogress.show()*/
@@ -284,7 +281,7 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
             }
 
-            override fun onFailure(call: Call<BookingStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BookingStsResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
                 Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
@@ -346,21 +343,22 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
         }
     }
     private fun showDialog() {
-        val dialog = Dialog(requireContext())
+       /* val dialog = Dialog(requireContext())
         dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.wait_for_trip_popup)
-        lateinit var button: LinearLayout
+        lateinit var button: LinearLayout*/
 
-     /*   KProgressHUD.create(requireContext())
+        KProgressHUD.create(requireContext())
             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setSize(200,200)
             .setLabel("Please wait")
-            .setDetailsLabel("Downloading data")
+            .setDetailsLabel("Finding Driver")
             .setCancellable(true)
             .setAnimationSpeed(2)
             .setDimAmount(0.5f)
-            .show();*/
+            .show()
 
         /*button = dialog.findViewById(R.id.payment_success)
 
@@ -376,10 +374,10 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
 
 
-
+/*
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        dialog.show()
+        dialog.show()*/
 
         //dialog.window?.setLayout(700,750)
 

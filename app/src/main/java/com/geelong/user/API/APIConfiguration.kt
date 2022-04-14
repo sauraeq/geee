@@ -116,5 +116,5 @@ interface APIConfiguration {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     fun booking_status(
         @Body stringStringHashMap: HashMap<String, String>,
-    ): Call<BookingStatusResponse>
+    ): Call<BookingStsResponse>
 }

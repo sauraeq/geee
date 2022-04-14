@@ -92,6 +92,7 @@ class HomeFragment : Fragment() {
     ): View? {
 
         val rootview = inflater.inflate(R.layout.fragment_home, container, false)
+
         customprogress = Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
 
@@ -100,7 +101,6 @@ class HomeFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
 
         }
-        customprogress.show()
 
         resultReceiver = AddressResultReceiver(Handler())
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
@@ -180,13 +180,6 @@ class HomeFragment : Fragment() {
         ivMenu1.setOnClickListener {
             (activity as Search1?)?.click1()
         }
-        if (lati_curr.isEmpty() || longi_current.isEmpty() || lati_drop.isEmpty() || langit_drop.isEmpty()) {
-
-        } else {
-
-
-        }
-
 
         customprogress.hide()
         return rootview
@@ -195,8 +188,7 @@ class HomeFragment : Fragment() {
     private fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorResId)
         vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
-        val bitmap =
-                Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
@@ -237,7 +229,6 @@ class HomeFragment : Fragment() {
                         placeID = item.placeId
                     }
 
-
                     val placeFields = Arrays.asList(
                             Place.Field.ID,
                             Place.Field.NAME,
@@ -248,15 +239,12 @@ class HomeFragment : Fragment() {
                     if (placeID != null) {
                         request = FetchPlaceRequest.builder(placeID, placeFields)
                                 .build()
-
-
                     }
                     if (request != null) {
                         placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
                             val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                             inputMethodManager.hideSoftInputFromWindow(drop_location_user.getWindowToken(), 0)
 
-                            // Toast.makeText(requireContext(),,Toast.LENGTH_LONG).show()
                             drop_location = drop_location_user.text.toString()
                             getLocationFromAddress_drop(drop_location)
 
@@ -278,8 +266,6 @@ class HomeFragment : Fragment() {
                 if (item != null) {
                     placeID = item.placeId
                 }
-
-
                 val placeFields = Arrays.asList(
                     Place.Field.ID,
                     Place.Field.NAME,
@@ -290,13 +276,10 @@ class HomeFragment : Fragment() {
                 if (placeID != null) {
                     request = FetchPlaceRequest.builder(placeID, placeFields)
                         .build()
-
-
                 }
                 if (request != null) {
                     placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
-                        /*val input: InputMethodManager? = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                        input?.hideSoftInputFromWindow(pick_up_user.getWindowToken(), 0)*/
+
 
                         val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(pick_up_user.getWindowToken(), 0)
@@ -307,11 +290,12 @@ class HomeFragment : Fragment() {
 
                     }.addOnFailureListener { e ->
                         e.printStackTrace()
-
+              Toast.makeText(requireContext(),e.printStackTrace().toString(),Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Toast.makeText(requireContext(),e.printStackTrace().toString(),Toast.LENGTH_LONG).show()
             }
         }
 
@@ -363,6 +347,10 @@ class HomeFragment : Fragment() {
                                     val longi = locationResult.locations[latestlocIndex].longitude
                                     lati_curr = lati.toString()
                                     longi_current = longi.toString()
+                                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                                        ConstantUtils.LATITUDE, lati_curr)
+                                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                                        ConstantUtils.LONGITUDE, longi_current)
 
                                     val location = Location("providerNA")
                                     location.longitude = longi
@@ -388,12 +376,8 @@ class HomeFragment : Fragment() {
                 locat = address + "," + locaity + "," + state
                 pick_up_user.setText(locat)
 
-
-                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                        ConstantUtils.LATITUDE, lati_curr)
-                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                        ConstantUtils.LONGITUDE, longi_current)
                 SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,locat)
+
                 loadMap(lati_curr, longi_current,locat)
 
             } else {

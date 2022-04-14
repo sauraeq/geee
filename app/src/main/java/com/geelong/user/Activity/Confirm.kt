@@ -19,6 +19,7 @@ import com.geelong.user.R
 import com.geelong.user.Response.MapData
 import com.geelong.user.Response.Vechail_detailsResponse
 import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -48,11 +49,6 @@ import retrofit2.Response
 class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    /*private var originLatitude: Double = 28.5021359
-    private var originLongitude: Double = 77.4054901
-    private var destinationLatitude: Double = 28.5151087
-    private var destinationLongitude: Double = 77.3932163*/
-
     var originLatitude: String = ""
     var originLongitude: String = ""
     var img_url: String = ""
@@ -60,13 +56,13 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     var destinationLatitude: String = ""
     var destinationLongitude: String = ""
     lateinit var customprogress:Dialog
+     var toatal_time_taken:String=""
 
-
-    /*  lateinit var  customprogress:Dialog*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
         supportActionBar?.hide()
+
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
 
@@ -81,10 +77,15 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         destinationLongitude = SharedPreferenceUtils.getInstance(this)
             ?.getStringValue(ConstantUtils.Longi_Drop, "").toString()
 
-        vehlist()
+        if(NetworkUtils.checkInternetConnection(this))
+        {
+            vehlist()
+        }
+
         back_linera_layout_act.setOnClickListener {
             onBackPressed()
         }
+
         pick_up_confirm_act.setOnClickListener {
 
             val intent=Intent(this,ConfirmPick_up::class.java)
@@ -101,7 +102,6 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
         }
-
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -202,6 +202,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     }
 
     fun vehlist() {
+        Totaltimetaken(distance.toDouble())
         customprogress.show()
         val request = HashMap<String, String>()
         request.put("latitude", originLatitude)
@@ -229,7 +230,8 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                         vch_name_act.setText(response.body()!!.data[0].vehicle_name)
                         vch_number_act.setText(response.body()!!.data[0].vehicle_no)
                         total_fare_act.setText("₹" + response.body()!!.data[0].amount)
-                        //   var lat_driver=response.body().data[0].
+
+                        toatl_distance_trip_act.setText(distance)
 
                         if (img_url.isEmpty()) {
                             var pica = Picasso.get()
@@ -242,8 +244,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
 
                         SharedPreferenceUtils.getInstance(this@Confirm)?.setStringValue(
-                            ConstantUtils.Driver_Id,
-                            response.body()!!.data[0].driver_id
+                            ConstantUtils.Driver_Id, response.body()!!.data[0].driver_id
                         )
                         SharedPreferenceUtils.getInstance(this@Confirm)
                             ?.setStringValue(ConstantUtils.Amount, response.body()!!.data[0].amount)
@@ -285,21 +286,21 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         })
     }
 
-   /* fun Totaltimetaken(distance_km: Double) {
+    fun Totaltimetaken(distance_km: Double) {
 
 
         val km = distance_km.toInt()
-        val kms_per_min = 0.5
+        val kms_per_min = 0.4
         val mins_taken = km / kms_per_min
         val totalMinutes = mins_taken.toInt()
         if (totalMinutes < 60) {
 
             toatal_time_taken = totalMinutes.toString() + " " + "Mins"
-            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+            SharedPreferenceUtils.getInstance(this)!!.setStringValue(
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
             )
-            toatal_time_txtview.text = toatal_time_taken
+            total_time_trip_act.text = toatal_time_taken
 
 
         } else {
@@ -307,16 +308,50 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
             minutes = if (minutes.length == 1) "0$minutes" else minutes
             (totalMinutes / 60).toString() + " hour " + minutes + "mins"
             toatal_time_taken = minutes.toString()
-            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+            SharedPreferenceUtils.getInstance(this)!!.setStringValue(
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
             )
-            toatal_time_txtview.text = toatal_time_taken
+            total_time_trip_act.text = toatal_time_taken
 
         }
 
 
-    }*/
+    }
+
+
+    /* fun Totaltimetaken(distance_km: Double) {
+
+
+         val km = distance_km.toInt()
+         val kms_per_min = 0.5
+         val mins_taken = km / kms_per_min
+         val totalMinutes = mins_taken.toInt()
+         if (totalMinutes < 60) {
+
+             toatal_time_taken = totalMinutes.toString() + " " + "Mins"
+             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                 ConstantUtils
+                     .Toatal_time, toatal_time_taken
+             )
+             toatal_time_txtview.text = toatal_time_taken
+
+
+         } else {
+             var minutes = Integer.toString(totalMinutes % 60)
+             minutes = if (minutes.length == 1) "0$minutes" else minutes
+             (totalMinutes / 60).toString() + " hour " + minutes + "mins"
+             toatal_time_taken = minutes.toString()
+             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                 ConstantUtils
+                     .Toatal_time, toatal_time_taken
+             )
+             toatal_time_txtview.text = toatal_time_taken
+
+         }
+
+
+     }*/
 
 
 }

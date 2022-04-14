@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_100sdp"
-    android:layout_height="@dimen/_100sdp"
-    android:background="@android:color/transparent"
+    android:layout_width="@dimen/_110sdp"
+    android:layout_height="@dimen/_110sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="@dimen/_10sdp"
     app:cardCornerRadius="@dimen/_20sdp">
