@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,9 +27,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
+import kotlinx.android.synthetic.main.pick_up_dilaog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -288,16 +291,6 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                       Toast.makeText(this,"dshdg",Toast.LENGTH_LONG).show()
                   }
               }
-
-
-
-
-
-           // var intent = Intent(this, Sign_Up::class.java)
-           // startActivity(intent)
-
-
-
         }
 
 
@@ -321,6 +314,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                 // userId!!.text = account.id
                 //  ToastUtil.toast_Long(this,account!!.email)
                 Toast.makeText(applicationContext, account!!.email, Toast.LENGTH_LONG).show()
+                account!!.displayName?.let { account!!.email?.let { it1 -> showDialog(it, it1) } }
             } else {
 //                ToastUtil.toast_Long(this,"Please try again later")
                 Toast.makeText(applicationContext," Please try again later", Toast.LENGTH_LONG).show()
@@ -386,7 +380,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Sign_Up,t.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Sign_Up,"Email  is already exit",Toast.LENGTH_LONG).show()
                 custom_progress.hide()
 
             }
@@ -473,7 +467,132 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             Log.e("TAG", token)
         })
     }
-    /*fun validateEmail() {
-    }*/
+
+    fun showDialog(name1:String,email1:String) {
+        val dialog = BottomSheetDialog(this)
+
+        dialog.getWindow()!!
+            .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.pick_up_dilaog)
+        var radioGroup: RadioGroup ?=null
+         var radioButton: RadioButton?=null
+       radioGroup=dialog.findViewById(R.id.radioGroup1_popup)
+
+         var signup_btn=dialog.findViewById<TextView>(R.id.sign_up_text_popup)
+        var name_etxt=dialog.findViewById<TextInputEditText>(R.id.name_edit_text_popup)
+        var email_extx=dialog.findViewById<TextInputEditText>(R.id.email_edit_Text_popup)
+        var address_txt=dialog.findViewById<TextInputEditText>(R.id.address_edit_text_popup)
+        var mobileno_txt=dialog.findViewById<EditText>(R.id.mobile_id_text_popup)
+        var country_cd=dialog.findViewById<CountryCodePicker>(R.id.ccp_signup_popup)
+
+          val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        if (email.matches(emailPattern.toRegex())) {
+            email_matched_string="1"
+        } else {
+            email_matched_string="0"
+        }
+
+        if (name_etxt != null) {
+            //  name=name_etxt.getText().toString()
+            name_etxt.setText(name1)
+        }
+        if (email_extx != null) {
+            //email=email_extx.getText().toString()
+            email_extx.setText(email1)
+        }
+
+        if (signup_btn != null) {
+            signup_btn.setOnClickListener {
+
+                try {
+                    val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
+                    radioButton =dialog.findViewById(intSelectButton)
+                    gender= radioButton?.text.toString()
+                }
+                catch (e:Exception)
+                {
+
+                }
+                if (name_etxt != null) {
+                      name=name_etxt.getText().toString()
+                  //  name_etxt.setText(name1)
+                }
+                if (email_extx != null) {
+                    email=email_extx.getText().toString()
+                   // email_extx.setText(email1)
+                }
+
+                if (address_txt != null) {
+                    address=address_txt.getText().toString()
+                }
+                if (mobileno_txt != null) {
+                    mobile_number=mobileno_txt.getText().toString().trim()
+                }
+                if (country_cd!=null)
+                {
+                    country_code= "+"+country_cd.selectedCountryCode.toString()
+                }
+
+
+               /* if (name.isEmpty())
+                {
+                    name_etxt!!.error="Please Enter Name"
+
+                    // Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
+                }
+                else if(name.length<9){
+
+                        name_etxt!!.error="Name between 9-16 size"
+
+                    //  Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                    // .show()
+                }
+                else if(name.length>15){
+                    name_etxt!!.error="Name between 9-16 size"
+                    // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                    // .show()
+                }
+                else if(email.isEmpty())
+                { email_extx!!.error="Please Enter Email"
+                    //  Toast.makeText(this,"Please Enter Email",Toast.LENGTH_LONG).show()
+                }
+                else if(email_matched_string.equals("0"))
+                {email_extx!!.error="Inavlid Email"
+                    // Toast.makeText(this,"Inavlid Email",Toast.LENGTH_LONG).show()
+                }*/
+                 if(address.isEmpty())
+                { address_txt!!.error="Please Enter Address"
+                    //  Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
+                }
+                else if(mobile_number.isEmpty() )
+                {mobileno_txt!!.error="Please Enter Mobile Number"
+                    // Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
+                }
+
+                else if(gender.isEmpty())
+                {
+                    Toast.makeText(this,"Please Enter Gender",Toast.LENGTH_LONG).show()
+                }
+
+                else {
+                    if(NetworkUtils.checkInternetConnection(this))
+                    {
+                        custom_progress.show()
+                        signup()
+                    }
+                    else{
+                        Toast.makeText(this,"dshdg",Toast.LENGTH_LONG).show()
+                    }
+                }
+
+
+            }
+        }
+
+        dialog.show()
+
+    }
 
 }

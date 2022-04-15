@@ -134,8 +134,8 @@ class CancelTrip : AppCompatActivity(),CancelTripAdapter.PractiseInterface {
     {
         customprogress.show()
         val request = HashMap<String, String>()
-        request.put("booking_id",var1)
-        request.put("description",bookig_id)
+        request.put("booking_id",bookig_id)
+        request.put("description",var1)
 
 
 

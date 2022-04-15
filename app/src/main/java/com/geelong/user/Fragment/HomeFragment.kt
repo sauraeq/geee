@@ -261,7 +261,7 @@ class HomeFragment : Fragment() {
     private val autocompleteClickListener_pickup =
         AdapterView.OnItemClickListener { adapterView, view, i, l ->
             try {
-                val item: AutocompletePrediction = adapter?.getItem(i)!!
+                val item: AutocompletePrediction = adapter_1?.getItem(i)!!
                 var placeID: String? = null
                 if (item != null) {
                     placeID = item.placeId

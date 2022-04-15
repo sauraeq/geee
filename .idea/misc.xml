@@ -45,7 +45,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search1.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_terms_condition.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_trip_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/add_sucessfully_popup.xml" value="0.20416666666666666" />
@@ -61,6 +61,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/loader_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/pick_up_dilaog.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/popup_write_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/privacy_adapter_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/row_nav_drawer.xml" value="0.20416666666666666" />

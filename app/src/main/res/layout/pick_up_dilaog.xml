@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Review">
+    <LinearLayout
+        android:id="@+id/signUp_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/banktname_text_input"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+            android:textColorHint="#C3C2C2"
+            app:boxStrokeColor="#C3C2C2"
+            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+            android:layout_margin="@dimen/_5sdp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_edit_text_popup"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_15ssp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_2sdp"
+                android:hint="@string/name" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+            android:textColorHint="#C3C2C2"
+            app:boxStrokeColor="#C3C2C2"
+            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+            android:layout_margin="@dimen/_5sdp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_15ssp"
+                android:id="@+id/email_edit_Text_popup"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_2sdp"
+                android:hint="@string/name_example_com" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+            android:textColorHint="#C3C2C2"
+            app:boxStrokeColor="#C3C2C2"
+            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+            android:layout_margin="@dimen/_6sdp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:textSize="@dimen/_15ssp"
+                android:id="@+id/address_edit_text_popup"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_2sdp"
+                android:hint="@string/address" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@drawable/corner_edittext2"
+            android:gravity="center_vertical">
+
+
+            <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                android:id="@+id/ccp_signup_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                app:ccp_defaultCode="81"
+                app:ccp_dialogTextColor="@color/black"
+                app:ccp_textColor="@color/black"
+                app:ccp_textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="DuplicateClickableBoundsCheck" />
+
+            <!-- <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                 android:id="@+id/ccp_signup1"
+                 android:layout_width="2dp"
+                 android:layout_height="12dp"
+                 android:layout_gravity="center_vertical"
+                 android:layout_margin="10dp"
+                 app:ccp_defaultCode="81"
+                 app:ccp_dialogTextColor="@color/black"
+                 app:ccp_textColor="@color/black"
+                 app:ccp_textSize="13dp"
+                 android:visibility="gone"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent"
+                 tools:ignore="DuplicateClickableBoundsCheck" />
+
+       -->     <EditText
+            android:id="@+id/mobile_id_text_popup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Mobile Number"
+            android:inputType="phone"
+            android:singleLine="true" />
+        </LinearLayout>
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup1_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male" />
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/radioGroup1"
+                android:layout_alignLeft="@+id/radioGroup1"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:text="@string/female" />
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/sign_up_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:clickable="true"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/sign_up_text_popup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner"
+                android:fontFamily="@font/poppinsmedium"
+                android:paddingTop="@dimen/_12sdp"
+                android:text="@string/signup"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
