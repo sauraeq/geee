@@ -111,7 +111,8 @@ class Acccount : AppCompatActivity() {
 
                     } else {
 
-                        Toast.makeText(this@Acccount,"Error", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@Acccount,response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
                         customprogress.hide()
                     }
 

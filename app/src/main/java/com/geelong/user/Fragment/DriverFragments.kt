@@ -128,8 +128,8 @@ class DriverFragments : Fragment() {
             total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
 
             driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
-            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_Latitude,"").toString()
+            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_longitude,"").toString()
             amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
 
             driver_profile_pic=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_profile_photo,"").toString()
@@ -140,8 +140,8 @@ class DriverFragments : Fragment() {
             rating_driver=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Rating,"").toString()
             driver_latitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_latitude,"").toString()
             driver_longitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_longitude,"").toString()
-            user_latitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-            user_lonitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            user_latitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_Latitude,"").toString()
+            user_lonitude=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_longitude,"").toString()
             vechile_img=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Vechile_image,"").toString()
             pickuplatlang= LatLng(user_latitude.toDouble(),user_lonitude.toDouble())
 
@@ -293,8 +293,8 @@ Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show()
 
     fun loadmap()
     {
-        Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-        Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+        Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_Latitude,"").toString()
+        Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_longitude,"").toString()
         customprogress.show()
     var drivrlatlong=LatLng(driver_lati.toDouble(),driver_longi.toDouble())
 

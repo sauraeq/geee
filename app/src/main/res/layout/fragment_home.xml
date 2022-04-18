@@ -6,13 +6,27 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <fragment
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:id="@+id/frg"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_340sdp"/>
+        android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+
+          <fragment
+              android:id="@+id/frg"
+              android:name="com.google.android.gms.maps.SupportMapFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
+
     <LinearLayout
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
@@ -30,26 +44,23 @@
         android:layout_marginLeft="@dimen/_2sdp"
         android:visibility="visible" />
     </LinearLayout>
+      </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+</LinearLayout>
+<LinearLayout
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
 
-<!--
-        <ImageView
-            android:layout_width="match_parent"
-            android:src="@drawable/google_map_image"
-            android:layout_height="match_parent">
 
-        </ImageView>
--->
 
         <androidx.cardview.widget.CardView
 
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_285sdp"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-8dp"
+
             android:elevation="2dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="15dp"
@@ -76,13 +87,13 @@
                     android:orientation="vertical">
 
 
-                <TextView
-                    android:text="@string/pickup"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_19sdp"
-                    android:fontFamily="@font/poppinsmedium"
-                    android:layout_height="match_parent"/>
+                    <TextView
+                        android:text="@string/pickup"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_19sdp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:layout_height="match_parent"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -160,7 +171,7 @@
                             android:layout_marginTop="@dimen/_7sdp"
                             android:layout_height="@dimen/_12sdp"
                             android:paddingTop="@dimen/_2sdp"
-                           >
+                            >
 
                         </ImageView>
 
@@ -273,5 +284,9 @@
 
 
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+
+
+
+</LinearLayout>
+    </LinearLayout>
 </FrameLayout>

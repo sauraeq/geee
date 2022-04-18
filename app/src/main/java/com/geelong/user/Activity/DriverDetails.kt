@@ -94,15 +94,18 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         try {
             amount=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Amount,"").toString()
             booking_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Booking_id,"").toString()
-            originLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-            originLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
-            destinationLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Driver_latitude,"").toString()
+            originLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+                .Pick_up_Latitude,"").toString()
+            originLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+                .Pick_up_longitude,"").toString()
+            destinationLatitude=SharedPreferenceUtils.getInstance(this)?.
+            getStringValue(ConstantUtils.Driver_latitude,"").toString()
             destinationLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Driver_longitude,"").toString()
         }catch (e:Exception)
         {
 
         }
-        if(originLatitude.isNotEmpty()|| originLongitude.isNotEmpty()|| destinationLatitude
+       /* if(originLatitude.isNotEmpty()|| originLongitude.isNotEmpty()|| destinationLatitude
                 .isNotEmpty()|| destinationLongitude.isNotEmpty())
         {
              total_km=getKilometers(originLatitude.toDouble(),originLongitude.toDouble(), destinationLatitude.toDouble(),destinationLongitude.toDouble()).toString()
@@ -112,7 +115,7 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         else
         {
 
-        }
+        }*/
         /* drawerLayout = findViewById(R.id.drawer_layout1)
        navigation_rv=findViewById(R.id.navigation_rv11)
 
@@ -383,8 +386,11 @@ private fun updateAdapter(highlightItemPos: Int) {
         }
         return poly
     }
+
+
     fun Booking_status()
-    { customprogress.show()
+    {
+        customprogress.show()
         val request = HashMap<String, String>()
         request.put("booking_id",booking_id)
 
@@ -397,7 +403,8 @@ private fun updateAdapter(highlightItemPos: Int) {
                     /*customprogress.show()*/
                     if (response.body()!!.success.equals("true")) {
 
-                        if (response.body()!!.data[0].status.equals("1"))
+                        if (response.body()!!.data[0].status.equals("0")|| response.body()!!
+                                .data[0].status.equals("1"))
 
                         {
                             cardview_driverDetails.visibility=View.GONE

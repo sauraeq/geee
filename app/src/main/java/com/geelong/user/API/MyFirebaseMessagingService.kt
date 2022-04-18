@@ -32,10 +32,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         }
        // showDialog()
-        val intent = Intent(this@MyFirebaseMessagingService, DriverDetails::class.java)
+        /*val intent = Intent(this@MyFirebaseMessagingService, DriverDetails::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("message", remoteMessage.notification?.body!!)
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     @SuppressLint("RemoteViewLayout")
@@ -78,9 +78,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         }
         notificationManager.notify(0,builder.build())
-        val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+       /* val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val mp: MediaPlayer = MediaPlayer.create(this, notification)
-        mp.start()
+        mp.start()*/
 
     }
 

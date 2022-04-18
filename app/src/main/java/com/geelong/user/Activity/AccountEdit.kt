@@ -1,27 +1,38 @@
 package com.geelong.user.Activity
 
+import android.Manifest
 import android.accounts.Account
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.SharedPreferences
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.*
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.Acccount
 import com.geelong.user.R
 import com.geelong.user.Response.EditPResponse
 import com.geelong.user.Response.EditProfileResponse
 import com.geelong.user.Response.LoginResponse
+import com.geelong.user.Util.Camerautils.FileCompressor
+import com.geelong.user.Util.Camerautils.PermissionUtils
+import com.geelong.user.Util.Camerautils.Utility
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -37,13 +48,20 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AccountEdit : AppCompatActivity() {
+
+    var image=""
+
+    var currentPhotoPath = ""
+    var userChoosenTask = ""
+    var profileimage = ""
+    var REQUEST_CODE: Int = 0
+    var filepath_presc: Uri? = null
+    var image1path = ""
 
     private val pickImage = 100
     lateinit var imagepath:String
@@ -54,6 +72,13 @@ class AccountEdit : AppCompatActivity() {
     var user_address_et:String=""
     var img_url:String=""
     var selectedItem:String=""
+    var mCompressor: FileCompressor? = null
+    private var CAMERA_REQUEST: Int = 1
+    private var PICK_IMAGE_REQUEST: Int = 1
+
+  //  lateinit var datePicker: datePickerHelper
+    var date:String =""
+    private var oneWayTripDate: Date? = null
 
 
 
@@ -65,6 +90,7 @@ class AccountEdit : AppCompatActivity() {
         var back_act=findViewById<ImageView>(R.id.back_activity1)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
+        mCompressor = FileCompressor(this)
         img_url=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Image_Url,"").toString()
         if(img_url.isEmpty())
             {
@@ -142,14 +168,15 @@ class AccountEdit : AppCompatActivity() {
             onBackPressed()
         }
         change_profile_img.setOnClickListener {
-            val i = Intent()
-            i.type = "image/*"
-            i.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(i, "Select Picture"), pickImage)
+            getPermissions()
+            //val i = Intent()
+           // i.type = "image/*"
+            //i.action = Intent.ACTION_GET_CONTENT
+          //  startActivityForResult(Intent.createChooser(i, "Select Picture"), pickImage)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+   /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == pickImage) {
@@ -194,13 +221,238 @@ class AccountEdit : AppCompatActivity() {
         editprofileimg()
         return Uri.parse(file.absolutePath)
 
+    }*/
+
+    fun getPermissions() {
+        if (PermissionUtils.checkPermission(this as Activity, Manifest.permission.CAMERA, REQUEST_CODE)) {
+            if (PermissionUtils.checkPermission(
+                    this as Activity?,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    REQUEST_CODE
+                )
+            ) {
+                if (PermissionUtils.checkPermission(
+                        this as Activity?,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        REQUEST_CODE
+                    )
+                ) {
+                    selectImage()
+                }
+            }
+        }
     }
+
+    private fun selectImage() {
+
+        val items = arrayOf<CharSequence>("Take photo", "Choose from gallery")
+        val builder = AlertDialog.Builder(this as Activity)
+        builder.setTitle("Add Photo")
+        builder.setCancelable(true)
+        builder.setItems(items) { dialog, item ->
+            val result: Boolean = Utility.checkPermission(this)
+            if (items[item] == "Take photo") {
+                userChoosenTask = "Take photo"
+                if (result) {
+                    dispatchTakePictureIntent()
+
+                }
+
+            } else if (items[item] == "Choose from gallery") {
+                userChoosenTask = "Choose from gallery"
+                if (result) {
+                    openGallery()
+                }
+
+            }
+        }
+        builder.show()
+    }
+
+    fun openGallery() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"),
+                PICK_IMAGE_REQUEST
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT <= 19) {
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    PICK_IMAGE_REQUEST
+                )
+            } else if (Build.VERSION.SDK_INT > 19) {
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    PICK_IMAGE_REQUEST
+                )
+            }
+        }
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+
+            var photoFile: File? = null
+            try {
+                photoFile = createImageFile()
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+
+            } catch (ex: java.lang.Exception) {
+                ex.printStackTrace()
+
+            }
+
+            if (photoFile != null) {
+                val photoURI: Uri = FileProvider.getUriForFile(
+                    this,
+                    getApplicationContext()?.getPackageName() + ".fileprovider",
+                    photoFile
+                )
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST)
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File? {
+
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir: File? =getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image: File = File.createTempFile(
+            imageFileName,
+            ".jpg",
+            storageDir
+        )
+
+        currentPhotoPath = image.getAbsolutePath()
+        Log.d("e", currentPhotoPath)
+
+        return image
+    }
+
+    fun onselectfromcamera1() {
+
+        var bitmap: Bitmap? = null
+        var imgFile = File(currentPhotoPath)
+        Toast.makeText(this,imgFile.toString()+"",Toast.LENGTH_LONG).show()
+        Log.d("e","dfdf")
+        if (imgFile.exists()) {
+            bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imgFile = mCompressor!!.compressToFile(imgFile)
+            bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            image1path=imgFile.path
+            userProfile_edit_img.setImageBitmap(bitmap)
+            editprofileimg()
+
+            Toast.makeText(this,image1path+"2",Toast.LENGTH_LONG).show()
+
+
+            profileimage = getStringImage(bitmap)
+
+
+        }
+
+    }
+
+    fun getStringImage(bmp: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val imageBytes: ByteArray = baos.toByteArray()
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+    }
+
+    fun onselectfromgallery(data: Intent) {
+        filepath_presc = data.data
+        if (filepath_presc.toString() == null) {
+
+        } else {
+            try {
+                Log.e("e", filepath_presc.toString() + "")
+                var bitmap: Bitmap? = null
+
+                var file = File(filepath_presc?.let { getRealPathFromUri(it) })
+                try {
+                    file = mCompressor!!.compressToFile(file)
+                    bitmap = mCompressor!!.compressToBitmap(file)
+                    image1path=file.path
+                    editprofileimg()
+                    Toast.makeText(this,image1path,Toast.LENGTH_LONG).show()
+
+                    profileimage = bitmap?.let { getStringImage(it) }.toString()
+                    userProfile_edit_img.setImageBitmap(bitmap)
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show()
+                    Log.e("e", e.toString())
+                }
+
+            } catch (e: java.lang.Exception) {
+                Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show()
+                Log.e("e", e.toString())
+                e.printStackTrace()
+            }
+        }
+    }
+
+    @SuppressLint("Range")
+    fun getRealPathFromUri(uri: Uri): String? {
+        var result = ""
+        val documentID: String
+        documentID = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            val pathParts = uri.path!!.split("/".toRegex()).toTypedArray()
+            pathParts[pathParts.size - 1]
+        } else {
+            val pathSegments = uri.lastPathSegment!!.split(":".toRegex()).toTypedArray()
+            pathSegments[pathSegments.size - 1]
+        }
+        val mediaPath = MediaStore.Images.Media.DATA
+        val imageCursor: Cursor? =contentResolver.query(
+            uri,
+            arrayOf(mediaPath),
+            MediaStore.Images.Media._ID + "=" + documentID,
+            null,
+            null
+        )
+        if (imageCursor!!.moveToFirst()) {
+            result = imageCursor.getString(imageCursor.getColumnIndex(mediaPath))
+        }
+        return result
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == -1 && data != null && data.data != null) {
+            Log.e("e", data.toString() + "")
+            onselectfromgallery(data)
+        }else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            onselectfromcamera1()
+        }
+    }
+
 
     private  fun editprofileimg() {
         val multiPartRepeatString = "application/image"
 
         var facility_image: MultipartBody.Part? = null
-        val file1 = File(imagepath)
+        val file1 = File(image1path)
         val signPicBody1 = file1.asRequestBody(multiPartRepeatString.toMediaTypeOrNull())
         facility_image =
             MultipartBody.Part.createFormData("profile_photo", file1.name, signPicBody1)
@@ -225,20 +477,20 @@ class AccountEdit : AppCompatActivity() {
                     if (response.code() == 200) {
 
                         if (response.body()!!.success.equals("true")) {
-
+            Toast.makeText(this@AccountEdit,response.body()!!.msg,Toast.LENGTH_LONG).show()
 
                         } else {
 
                         }
                     }
                 } catch (e: Exception) {
-
+                    Toast.makeText(this@AccountEdit,e.toString(),Toast.LENGTH_LONG).show()
 
                 }
             }
 
             override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
-
+                Toast.makeText(this@AccountEdit,t.toString(),Toast.LENGTH_LONG).show()
             }
 
         })

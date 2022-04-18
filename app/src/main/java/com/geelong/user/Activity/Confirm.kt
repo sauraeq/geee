@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -16,6 +17,8 @@ import android.widget.Toast
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Fragment.ConfirmFragment
 import com.geelong.user.R
+import com.geelong.user.Response.BookingStatusResponse
+import com.geelong.user.Response.BookingStsResponse
 import com.geelong.user.Response.MapData
 import com.geelong.user.Response.Vechail_detailsResponse
 import com.geelong.user.Util.ConstantUtils
@@ -32,6 +35,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_confirm.*
+import kotlinx.android.synthetic.main.activity_driver_details.*
 import kotlinx.android.synthetic.main.fragment_confirm.*
 import kotlinx.android.synthetic.main.fragment_confirm.confirm_trip_linearlayout
 import kotlinx.android.synthetic.main.fragment_confirm.driver_img_confirm
@@ -45,6 +49,7 @@ import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.HashMap
 
 class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
@@ -56,7 +61,10 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     var destinationLatitude: String = ""
     var destinationLongitude: String = ""
     lateinit var customprogress:Dialog
-     var toatal_time_taken:String=""
+    var toatal_time_taken:String=""
+    var booking_id:String=""
+    var amount:String=""
+    var approx_km:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,22 +72,29 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         supportActionBar?.hide()
 
         customprogress= Dialog(this)
-        customprogress.setContentView(R.layout.loader_layout)
+        customprogress.setContentView(R.layout.dialog_progress)
+
+        approx_km=SharedPreferenceUtils.getInstance(this)
+            ?.getStringValue(ConstantUtils.Distance, "").toString()
+        amount=SharedPreferenceUtils.getInstance(this)
+            ?.getStringValue(ConstantUtils.Amount, "").toString()
+        booking_id=SharedPreferenceUtils.getInstance(this)
+            ?.getStringValue(ConstantUtils.Booking_id, "").toString()
 
         originLatitude = SharedPreferenceUtils.getInstance(this)
-            ?.getStringValue(ConstantUtils.LATITUDE, "").toString()
+            ?.getStringValue(ConstantUtils.Pick_up_Latitude, "").toString()
         originLongitude = SharedPreferenceUtils.getInstance(this)
-            ?.getStringValue(ConstantUtils.LONGITUDE, "").toString()
+            ?.getStringValue(ConstantUtils.Pick_up_longitude, "").toString()
         distance = SharedPreferenceUtils.getInstance(this)
             ?.getStringValue(ConstantUtils.Distance, "").toString()
         destinationLatitude = SharedPreferenceUtils.getInstance(this)
-            ?.getStringValue(ConstantUtils.Lati_Drop, "").toString()
+            ?.getStringValue(ConstantUtils.Latitude_Drop, "").toString()
         destinationLongitude = SharedPreferenceUtils.getInstance(this)
-            ?.getStringValue(ConstantUtils.Longi_Drop, "").toString()
+            ?.getStringValue(ConstantUtils.Longitude_Drop, "").toString()
 
         if(NetworkUtils.checkInternetConnection(this))
         {
-            vehlist()
+           Booking_status()
         }
 
         back_linera_layout_act.setOnClickListener {
@@ -201,84 +216,105 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         return poly
     }
 
-    fun vehlist() {
-        Totaltimetaken(distance.toDouble())
-        customprogress.show()
+    fun Booking_status()
+
+    { customprogress.show()
+
+
         val request = HashMap<String, String>()
-        request.put("latitude", originLatitude)
-        request.put("longitude", originLongitude)
-        request.put("distance", distance)
+        request.put("booking_id",booking_id)
 
+        var driver_vec_details: Call<BookingStatusResponse> = APIUtils.getServiceAPI()!!.booking_status_first(request)
 
-        var veh_list: Call<Vechail_detailsResponse> =
-            APIUtils.getServiceAPI()!!.vech_details(request)
-
-        veh_list.enqueue(object : Callback<Vechail_detailsResponse> {
-            override fun onResponse(
-                call: Call<Vechail_detailsResponse>,
-                response: Response<Vechail_detailsResponse>
-            ) {
+        driver_vec_details.enqueue(object : Callback<BookingStatusResponse> {
+            override fun onResponse(call: Call<BookingStatusResponse>, response: Response<BookingStatusResponse>) {
                 try {
 
-
+                    /*customprogress.show()*/
                     if (response.body()!!.success.equals("true")) {
 
+                        if (response.body()!!.data[0].status.equals("0"))
 
-                        Log.d("response", response.body().toString())
-                        img_url = response.body()!!.data[0].image
-                        driver_name1_act.setText(response.body()!!.data[0].name)
-                        vch_name_act.setText(response.body()!!.data[0].vehicle_name)
-                        vch_number_act.setText(response.body()!!.data[0].vehicle_no)
-                        total_fare_act.setText("₹" + response.body()!!.data[0].amount)
+                        {
+                            //cardview_driverDetails.visibility=View.GONE
 
-                        toatl_distance_trip_act.setText(distance)
+                            var handler: Handler? = null
+                            handler = Handler()
+                            handler.postDelayed(Runnable {
+                                Booking_status()
 
-                        if (img_url.isEmpty()) {
-                            var pica = Picasso.get()
-                            pica.load(R.drawable.profilepic).into(driver_img_confirm_act)
-                        } else {
-                            var pica = Picasso.get()
-                            pica.load(img_url).into(driver_img_confirm_act)
+                            }, 5000)
+                            // SharedPreferenceUtils.getInstance(requireContext())?.removeKey
+                          //  (ConstantUtils.Booking_id)
+                            /*val intent=Intent(requireContext(),Search1::class.java)
+                            startActivity(intent)*/
+
+                        }
+                        else
+
+                        {
+                           // cardview_driverDetails.visibility=View.VISIBLE
+                            customprogress.hide()
+                            var otp=response.body()!!.data[0].otp
+                            var driver_profile_pic=response.body()!!.data[0].profile_photo
+                            var vechile_img=response.body()!!.data[0].vehicle_image
+                            var vehicle_no=response.body()!!.data[0].vehicle_no.toString()
+                            var name=response.body()!!.data[0].name
+                            SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                            setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].id)
+                            var vehicle_name=response.body()!!.data[0].name
+                            var rating=response.body()!!.data[0].rating
+                            SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                            setStringValue(ConstantUtils.Driver_latitude,response.body()!!
+                                .data[0].latitude)
+                            SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                            setStringValue(ConstantUtils.Driver_longitude,response.body()!!
+                                .data[0].longitude)
+
+                    try {
+                        val picasso = Picasso.get()
+                        picasso.load(driver_profile_pic).into(driver_img_confirm_act)
+                        driver_name1_act.setText(name)
+                        if(vehicle_name.isNotEmpty() || vehicle_no.isNotEmpty())
+                        {
+                            vch_name_act.setText(vehicle_name)
+                            vch_number_act.setText(vehicle_no.toString())
                         }
 
 
+                        //driver_rating_txt_aty.setText(rating)
+                        total_fare_act.setText("$"+amount)
+                        toatl_distance_trip_act.setText(approx_km)
+                        total_time_trip_act.setText(toatal_time_taken)
+                    }catch (e:Exception)
+                    {
+                        /*//Toast.makeText(this@Confirm,e.toString(), Toast.LENGTH_LONG)
+                            .show()*/
+                    }
 
-                        SharedPreferenceUtils.getInstance(this@Confirm)?.setStringValue(
-                            ConstantUtils.Driver_Id, response.body()!!.data[0].driver_id
-                        )
-                        SharedPreferenceUtils.getInstance(this@Confirm)
-                            ?.setStringValue(ConstantUtils.Amount, response.body()!!.data[0].amount)
 
+                        }
 
-                        customprogress.hide()
+                    }
+                    else {
 
-                    } else {
-
-                        Toast.makeText(
-                            this@Confirm, response.body()!!.msg.toString(), Toast
-                                .LENGTH_LONG
-                        )
+                        Toast.makeText(this@Confirm,response.body()!!.msg, Toast.LENGTH_LONG)
                             .show()
-                        confirm_trip_linearlayout_act.visibility = View.GONE
-                        no_driver_found_txtview1_act.visibility = View.VISIBLE
                         customprogress.hide()
                     }
 
-                } catch (e: Exception) {
+                }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-
-                    Toast.makeText(this@Confirm, e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Confirm,e.message, Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
 
             }
 
-            override fun onFailure(call: Call<Vechail_detailsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BookingStatusResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                confirm_trip_linearlayout_act.visibility = View.GONE
-                no_driver_found_txtview1_act.visibility = View.VISIBLE
-
+                Toast.makeText(this@Confirm,t.message, Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
             }

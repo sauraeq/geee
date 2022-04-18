@@ -23,10 +23,15 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.geelong.user.API.APIUtils
+import com.geelong.user.Activity.Confirm
+import com.geelong.user.Activity.Pay_Now
 import com.geelong.user.Activity.Search1
 import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.Adapter.AutoCompleteAdapter_pickup
 import com.geelong.user.R
+import com.geelong.user.Response.BookingResponse
+import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
@@ -44,7 +49,11 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.android.synthetic.main.activity_confirm.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.lang.Math.*
 import java.math.RoundingMode
@@ -67,18 +76,26 @@ class HomeFragment : Fragment() {
     var drop_location: String = ""
     var n_of_passenger: String = ""
     var lati_drop: String = ""
-    var langit_drop: String = ""
+    var longi_drop: String = ""
     var placesClient: PlacesClient? = null
+    var pickUp_address: String = ""
+    var pick_up_latitude: String = ""
+    var pick_up_longitude: String = ""
+    var user_id: String = ""
+    var toatal_time_taken: String = ""
+    var time_count:String=""
 
     var autoCompleteTextView_drop: AutoCompleteTextView? = null
     var adapter: AutoCompleteAdapter? = null
-    var adapter_1:AutoCompleteAdapter_pickup?=null
+    var adapter_1: AutoCompleteAdapter_pickup? = null
 
     lateinit var customprogress: Dialog
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
     lateinit var pick_up_user: AutoCompleteTextView
     var resultReceiver: ResultReceiver? = null
-    lateinit var no_passengerr:EditText
+    lateinit var no_passengerr: EditText
+    var total_distance_apprx: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +104,8 @@ class HomeFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         val rootview = inflater.inflate(R.layout.fragment_home, container, false)
@@ -103,25 +120,27 @@ class HomeFragment : Fragment() {
         }
 
         resultReceiver = AddressResultReceiver(Handler())
+        user_id = SharedPreferenceUtils.getInstance(requireContext())
+            ?.getStringValue(ConstantUtils.USER_ID, "").toString()
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
-        no_passengerr=rootview.findViewById(R.id.no_passenger)
+        no_passengerr = rootview.findViewById(R.id.no_passenger)
         no_passengerr.setOnClickListener {
             numberPickerCustom()
         }
 
 
         if ((ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                )
-                        != PackageManager.PERMISSION_GRANTED)
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+                    != PackageManager.PERMISSION_GRANTED)
         ) {
             ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE
+                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
             )
 
-            Toast.makeText(requireContext(),"Permission",Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Permission", Toast.LENGTH_LONG).show()
         } else {
             currentLocation
         }
@@ -136,7 +155,8 @@ class HomeFragment : Fragment() {
         }
 
         placesClient = Places.createClient(requireContext())
-        autoCompleteTextView_drop = rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
+        autoCompleteTextView_drop =
+            rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
 
 
         initAutoCompleteTextView_drop()
@@ -152,24 +172,34 @@ class HomeFragment : Fragment() {
             //  getLocationFromAddress(drop_location)
 
             if (pick_up_location.isEmpty()) {
-                Toast.makeText(requireContext(), "Please select pickup location", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Please select pickup location", Toast.LENGTH_LONG)
+                    .show()
             } else if (drop_location.isEmpty()) {
-                Toast.makeText(requireContext(), "Please select drop location", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Please select drop location", Toast.LENGTH_LONG)
+                    .show()
             } else if (n_of_passenger.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG)
+                    .show()
             } else {
-                if ( lati_curr.isEmpty()|| longi_current.isEmpty()|| lati_drop.isEmpty()
-                    ||langit_drop.isEmpty())
-                {
+                if (lati_curr.isEmpty() || longi_current.isEmpty() || lati_drop.isEmpty()
+                    || longi_drop.isEmpty()
+                ) {
 
-                }
-                else{
-                    var toatal_distance = getKilometers(lati_curr.toDouble(), longi_current.toDouble(), lati_drop.toDouble(), langit_drop.toDouble())
-                    var total_distance_apprx=roundOffDecimal(toatal_distance.toDouble())
-                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils.Distance, total_distance_apprx.toString())
-                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils.Drop_location,drop_location)
-
-                    (activity as Search1?)?.inte()
+                } else {
+                    var toatal_distance = getKilometers(
+                        lati_curr.toDouble(),
+                        longi_current.toDouble(),
+                        lati_drop.toDouble(),
+                        longi_drop.toDouble()
+                    )
+                    total_distance_apprx = roundOffDecimal(toatal_distance.toDouble()).toString()
+                    time_count=Totaltimetaken(total_distance_apprx.toDouble())
+                    SharedPreferenceUtils.getInstance(requireContext())!!
+                        .setStringValue(ConstantUtils.Distance, total_distance_apprx.toString())
+                    SharedPreferenceUtils.getInstance(requireContext())!!
+                        .setStringValue(ConstantUtils.Drop_location, drop_location)
+                    DriverDetailss()
+                  //  (activity as Search1?)?.inte()
                 }
 
             }
@@ -187,8 +217,17 @@ class HomeFragment : Fragment() {
 
     private fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorResId)
-        vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
-        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
@@ -198,12 +237,12 @@ class HomeFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                HomeFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 
 
@@ -213,6 +252,7 @@ class HomeFragment : Fragment() {
         adapter = AutoCompleteAdapter(requireContext(), placesClient)
         autoCompleteTextView_drop?.setAdapter(adapter)
     }
+
     private fun initAutoCompleteTextView_pickup() {
         pick_up_user?.setThreshold(1)
         pick_up_user?.setOnItemClickListener(autocompleteClickListener_pickup)
@@ -221,42 +261,46 @@ class HomeFragment : Fragment() {
     }
 
     private val autocompleteClickListener_drop =
-            AdapterView.OnItemClickListener { adapterView, view, i, l ->
-                try {
-                    val item: AutocompletePrediction = adapter?.getItem(i)!!
-                    var placeID: String? = null
-                    if (item != null) {
-                        placeID = item.placeId
-                    }
-
-                    val placeFields = Arrays.asList(
-                            Place.Field.ID,
-                            Place.Field.NAME,
-                            Place.Field.ADDRESS,
-                            Place.Field.LAT_LNG
-                    )
-                    var request: FetchPlaceRequest? = null
-                    if (placeID != null) {
-                        request = FetchPlaceRequest.builder(placeID, placeFields)
-                                .build()
-                    }
-                    if (request != null) {
-                        placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
-                            val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                            inputMethodManager.hideSoftInputFromWindow(drop_location_user.getWindowToken(), 0)
-
-                            drop_location = drop_location_user.text.toString()
-                            getLocationFromAddress_drop(drop_location)
-
-                        }.addOnFailureListener { e ->
-                            e.printStackTrace()
-
-                        }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+        AdapterView.OnItemClickListener { adapterView, view, i, l ->
+            try {
+                val item: AutocompletePrediction = adapter?.getItem(i)!!
+                var placeID: String? = null
+                if (item != null) {
+                    placeID = item.placeId
                 }
+
+                val placeFields = Arrays.asList(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS,
+                    Place.Field.LAT_LNG
+                )
+                var request: FetchPlaceRequest? = null
+                if (placeID != null) {
+                    request = FetchPlaceRequest.builder(placeID, placeFields)
+                        .build()
+                }
+                if (request != null) {
+                    placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
+                        val inputMethodManager =
+                            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(
+                            drop_location_user.getWindowToken(),
+                            0
+                        )
+
+                        drop_location = drop_location_user.text.toString()
+                        getLocationFromAddress_drop(drop_location)
+
+                    }.addOnFailureListener { e ->
+                        e.printStackTrace()
+
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
 
     private val autocompleteClickListener_pickup =
         AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -281,29 +325,36 @@ class HomeFragment : Fragment() {
                     placesClient!!.fetchPlace(request).addOnSuccessListener { task ->
 
 
-                        val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                        val inputMethodManager =
+                            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(pick_up_user.getWindowToken(), 0)
 
                         pick_up_location = pick_up_user.text.toString()
-                        SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,pick_up_location)
+                        SharedPreferenceUtils.getInstance(requireContext())
+                            ?.setStringValue(ConstantUtils.Current_Location, pick_up_location)
                         getLocationFromAddress_pickup(pick_up_location)
 
                     }.addOnFailureListener { e ->
                         e.printStackTrace()
-              Toast.makeText(requireContext(),e.printStackTrace().toString(),Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            e.printStackTrace().toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(),e.printStackTrace().toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), e.printStackTrace().toString(), Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults.size > 0) {
@@ -324,44 +375,48 @@ class HomeFragment : Fragment() {
             locationRequest.fastestInterval = 3000
             locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             if (ActivityCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
 
                 return
             }
             LocationServices.getFusedLocationProviderClient(requireContext())
-                    .requestLocationUpdates(locationRequest, object : LocationCallback() {
-                        override fun onLocationResult(locationResult: LocationResult) {
-                            super.onLocationResult(locationResult)
-                            LocationServices.getFusedLocationProviderClient(requireContext())
-                                    .removeLocationUpdates(this)
-                            if (locationResult.locations != null) {
-                                if (locationResult.locations.size > 0) {
-                                    val latestlocIndex = locationResult.locations.size - 1
-                                    val lati = locationResult.locations[latestlocIndex].latitude
-                                    val longi = locationResult.locations[latestlocIndex].longitude
-                                    lati_curr = lati.toString()
-                                    longi_current = longi.toString()
-                                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                                        ConstantUtils.LATITUDE, lati_curr)
-                                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                                        ConstantUtils.LONGITUDE, longi_current)
+                .requestLocationUpdates(locationRequest, object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult) {
+                        super.onLocationResult(locationResult)
+                        LocationServices.getFusedLocationProviderClient(requireContext())
+                            .removeLocationUpdates(this)
+                        if (locationResult.locations != null) {
+                            if (locationResult.locations.size > 0) {
+                                val latestlocIndex = locationResult.locations.size - 1
+                                val lati = locationResult.locations[latestlocIndex].latitude
+                                val longi = locationResult.locations[latestlocIndex].longitude
+                                lati_curr = lati.toString()
+                                longi_current = longi.toString()
+                                SharedPreferenceUtils.getInstance(requireContext())!!
+                                    .setStringValue(
+                                        ConstantUtils.Pick_up_Latitude, lati_curr
+                                    )
+                                SharedPreferenceUtils.getInstance(requireContext())!!
+                                    .setStringValue(
+                                        ConstantUtils.Pick_up_longitude, longi_current
+                                    )
 
-                                    val location = Location("providerNA")
-                                    location.longitude = longi
-                                    location.latitude = lati
-                                    fetchaddressfromlocation(location)
-                                } else {
+                                val location = Location("providerNA")
+                                location.longitude = longi
+                                location.latitude = lati
+                                fetchaddressfromlocation(location)
+                            } else {
 
-                                }
                             }
                         }
-                    }, Looper.getMainLooper())
+                    }
+                }, Looper.getMainLooper())
         }
 
     private inner class AddressResultReceiver(handler: Handler?) : ResultReceiver(handler) {
@@ -376,15 +431,16 @@ class HomeFragment : Fragment() {
                 locat = address + "," + locaity + "," + state
                 pick_up_user.setText(locat)
 
-                SharedPreferenceUtils.getInstance(requireContext())?.setStringValue(ConstantUtils.CurrentL,locat)
+                SharedPreferenceUtils.getInstance(requireContext())
+                    ?.setStringValue(ConstantUtils.Current_Location, locat)
 
-                loadMap(lati_curr, longi_current,locat)
+                loadMap(lati_curr, longi_current, locat)
 
             } else {
                 Toast.makeText(
-                        requireContext(),
-                        resultData.getString(Constants.RESULT_DATA_KEY),
-                        Toast.LENGTH_SHORT
+                    requireContext(),
+                    resultData.getString(Constants.RESULT_DATA_KEY),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -398,14 +454,14 @@ class HomeFragment : Fragment() {
         requireContext().startService(intent)
     }
 
-    fun loadMap(lati_curr1: String, longi_current1: String,loate1:String) {
+    fun loadMap(lati_curr1: String, longi_current1: String, loate1: String) {
         try {
             if (lati_curr.isEmpty() || longi_current.isEmpty()) {
 
             } else {
                 customprogress.dismiss()
                 val mapFragment =
-                        childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?
+                    childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?
                 mapFragment!!.getMapAsync { mMap ->
                     mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
@@ -413,18 +469,22 @@ class HomeFragment : Fragment() {
 
 
                     val googlePlex = CameraPosition.builder()
-                            .target(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
-                            .zoom(12f)
-                            .bearing(0f)
-                            .build()
+                        .target(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
+                        .zoom(12f)
+                        .bearing(0f)
+                        .build()
 
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newCameraPosition(googlePlex),
+                        1000,
+                        null
+                    )
 
                     mMap.addMarker(
-                            MarkerOptions()
-                                    .position(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
-                                    .title(loate1)
-                                    .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
+                        MarkerOptions()
+                            .position(LatLng(lati_curr1.toDouble(), longi_current1.toDouble()))
+                            .title(loate1)
+                            .icon(bitmapDescriptorFromVector(activity, R.drawable.maparroww))
                     )
                 }
 
@@ -456,15 +516,17 @@ class HomeFragment : Fragment() {
             val latLng = LatLng(location.latitude, location.longitude)
             var la_longArr = latLng.toString().split(",", "(", ")")
             lati_drop = la_longArr[1]
-            langit_drop = la_longArr[2]
+            longi_drop = la_longArr[2]
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                    ConstantUtils.Lati_Drop, lati_drop)
+                ConstantUtils.Latitude_Drop, lati_drop
+            )
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                    ConstantUtils.Longi_Drop, langit_drop)
+                ConstantUtils.Longitude_Drop, longi_drop
+            )
 
-            Log.d("daad", lati_drop + langit_drop)
+            Log.d("daad", lati_drop + longi_drop)
             if (strAddress != null) {
-                loadMap(lati_drop, langit_drop,strAddress)
+                loadMap(lati_drop, longi_drop, strAddress)
             }
 
 
@@ -489,15 +551,17 @@ class HomeFragment : Fragment() {
             var la_longArr = latLng.toString().split(",", "(", ")")
             lati_curr = la_longArr[1]
             longi_current = la_longArr[2]
-            Toast.makeText(requireContext(),lati_curr+longi_current,Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), lati_curr + longi_current, Toast.LENGTH_LONG).show()
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.LATITUDE, lati_curr)
+                ConstantUtils.Pick_up_Latitude, lati_curr
+            )
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.LONGITUDE, longi_current)
+                ConstantUtils.Pick_up_longitude, longi_current
+            )
 
             Log.d("daad", lati_curr + longi_current)
             if (strAddress != null) {
-                loadMap(lati_curr, longi_current,strAddress)
+                loadMap(lati_curr, longi_current, strAddress)
             }
 
 
@@ -533,16 +597,16 @@ class HomeFragment : Fragment() {
 
         numberPicker.minValue = 1
         numberPicker.maxValue = 4
-        numberPicker.value=1
-        numberPicker.wrapSelectorWheel =true
+        numberPicker.value = 1
+        numberPicker.wrapSelectorWheel = true
 
 
-        numberPicker.setOnValueChangedListener {
-                numberPicker, i, i1 -> println("onValueChange: ")
+        numberPicker.setOnValueChangedListener { numberPicker, i, i1 ->
+            println("onValueChange: ")
         }
         d.setPositiveButton("Done") { dialogInterface, i ->
             println("onClick: " + numberPicker.value)
-            var numberpickkk=numberPicker.value.toString()
+            var numberpickkk = numberPicker.value.toString()
             no_passenger.setText(numberpickkk)
 
 
@@ -552,10 +616,106 @@ class HomeFragment : Fragment() {
         alertDialog.show()
     }
 
+    fun DriverDetailss() {
+
+        customprogress.show()
+        val request = HashMap<String, String>()
+        request.put("pickupAddress", pick_up_location)
+        request.put("pickupLatitude", lati_curr)
+        request.put("pickupLongitude", longi_current)
+        request.put("dropAddress", drop_location)
+        request.put("dropLatitude", lati_drop)
+        request.put("dropLongitude", longi_drop)
+        request.put("user_id", user_id)
+        request.put("time", time_count)
+        request.put("distance", total_distance_apprx)
 
 
+        var driver_vec_details: Call<BookingResponse> =
+            APIUtils.getServiceAPI()!!.Driver_details(request)
+
+        driver_vec_details.enqueue(object : Callback<BookingResponse> {
+            override fun onResponse(
+                call: Call<BookingResponse>,
+                response: Response<BookingResponse>
+            ) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+
+                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+
+                       SharedPreferenceUtils.getInstance(requireContext())!!.
+                       setStringValue(ConstantUtils.Booking_id,response.body()!!.data.toString())
+
+                        val intent = Intent(requireContext(), Confirm::class.java)
+                        startActivity(intent)
+                        customprogress.hide()
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+                        customprogress.hide()
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<BookingResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+                customprogress.hide()
+
+
+            }
+
+        })
+    }
+
+    fun Totaltimetaken(distance_km: Double): String {
+
+
+        val km = distance_km.toInt()
+        val kms_per_min = 0.4
+        val mins_taken = km / kms_per_min
+        val totalMinutes = mins_taken.toInt()
+        if (totalMinutes < 60) {
+
+            toatal_time_taken = totalMinutes.toString() + " " + "Mins"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+         /*   total_time_trip_act.text = toatal_time_taken*/
+
+
+        } else {
+            var minutes = Integer.toString(totalMinutes % 60)
+            minutes = if (minutes.length == 1) "0$minutes" else minutes
+            (totalMinutes / 60).toString() + " hour " + minutes + "mins"
+            toatal_time_taken = minutes.toString()
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, toatal_time_taken
+            )
+            /*total_time_trip_act.text = toatal_time_taken*/
+
+        }
+      return toatal_time_taken
+
+    }
 }
-
 // Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
 
 /*  //Put marker on map on that LatLng

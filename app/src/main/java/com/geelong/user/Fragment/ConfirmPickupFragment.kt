@@ -20,10 +20,12 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
-import com.geelong.user.Activity.ConfirmPick_up
-import com.geelong.user.Activity.Pay_Now
+import com.geelong.user.Activity.*
 import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.R
+import com.geelong.user.Response.BookingResponse
+import com.geelong.user.Response.CnfBookingResponse
+import com.geelong.user.Response.ConfirmBookingResponse
 import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
@@ -45,6 +47,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 
@@ -58,6 +62,7 @@ class ConfirmPickupFragment : Fragment() {
     var locat:String=""
     var lati:String=""
     var longi:String=""
+    var toatal_time_taken:String=""
     lateinit var current_location:AutoCompleteTextView
     var placesClient: PlacesClient? = null
     var user_id:String=""
@@ -66,6 +71,7 @@ class ConfirmPickupFragment : Fragment() {
     var Current_longi:String=""
     var amount:String=""
     var current_loca:String=""
+    var booking_id:String=""
     var drop_lati:String=""
     var drop_longi:String=""
     var drop_location:String=""
@@ -74,12 +80,13 @@ class ConfirmPickupFragment : Fragment() {
     var driver_longi:String=""
     var total_time:String=""
     var total_distance:String=""
-    var confirm_pickup_latitude:String=""
-    var confirm_pickup_longitude:String=""
     var adapter: AutoCompleteAdapter? = null
    lateinit var customprogress:Dialog
    lateinit var confirm_search_btn:TextView
    lateinit var pick_up_confirm_texview:TextView
+   var Confirm_pickup_total_distance:String=""
+   lateinit var remarks:EditText
+     var remarks_string:String="..."
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +105,7 @@ class ConfirmPickupFragment : Fragment() {
         var  confirm_pick_up=rootview.findViewById<LinearLayout>(R.id.confirm_pick_Up_layout)
         current_location=rootview.findViewById(R.id.current_loc_textview)
         pick_up_confirm_texview =rootview.findViewById(R.id.pick_up_confirm_txt1)
+        remarks=rootview.findViewById(R.id.edittext_remarks)
 
         customprogress= Dialog(requireContext())
         customprogress.setContentView(R.layout.loader_layout)
@@ -110,7 +118,8 @@ class ConfirmPickupFragment : Fragment() {
         }
 
 
-        locat=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
+        locat=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+            .Current_Location,"").toString()
         current_location.setText(locat)
 
 
@@ -125,7 +134,7 @@ class ConfirmPickupFragment : Fragment() {
 
         placesClient = Places.createClient(requireContext())
 
-
+        initAutoCompleteTextView()
         back_go_activityy.setOnClickListener {
 
             (activity as ConfirmPick_up)?.inte()
@@ -134,27 +143,29 @@ class ConfirmPickupFragment : Fragment() {
         confirm_pick_up.setOnClickListener {
 
         }
-        initAutoCompleteTextView()
+
 
 
         try {
+            driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
+                .Driver_Id,"").toString()
             total_time=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
                 .Toatal_time,"").toString()
             total_distance=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Distance,"").toString()
             user_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.USER_ID,"").toString()
             driver_id=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Driver_Id,"").toString()
-            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LATITUDE,"").toString()
-            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.LONGITUDE,"").toString()
+            Current_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_Latitude,"").toString()
+            Current_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Pick_up_longitude,"").toString()
             amount=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Amount,"").toString()
-            current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.CurrentL,"").toString()
-            drop_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Lati_Drop,"").toString()
+            current_loca=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Current_Location,"").toString()
+            drop_lati=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils.Latitude_Drop,"").toString()
             drop_longi=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
-                .Longi_Drop,"").toString()
+                .Longitude_Drop,"").toString()
             drop_location=SharedPreferenceUtils.getInstance(requireContext())?.getStringValue(ConstantUtils
                 .Drop_location,"").toString()
-
-
-
+            booking_id=SharedPreferenceUtils.getInstance(requireContext())!!.
+            getStringValue(ConstantUtils.Booking_id,"").toString()
+            loadmap(current_loca,Current_lati,Current_longi)
 
         }
         catch (e:Exception)
@@ -163,39 +174,43 @@ class ConfirmPickupFragment : Fragment() {
         }
 
 
-        loadmap()
+
+        pick_up_confirm_texview.setOnClickListener {
+
+                remarks_string=remarks.text.toString()
 
 
 
-
-        confirm_search_btn.setOnClickListener {
             if (drop_location.isEmpty())
             {
                 Toast.makeText(requireContext(),"drop is empty",Toast.LENGTH_LONG).show()
             }
-            else if (confirm_pickup_latitude.isEmpty())
+            else if (Current_lati.isEmpty())
             {
                 Toast.makeText(requireContext(),"confirm pickup latitude empty",Toast.LENGTH_LONG)
                     .show()
             }
-            else if(confirm_pickup_longitude.isEmpty())
+            else if(Current_longi.isEmpty())
             {
                 Toast.makeText(requireContext(),"confirm pickup longitude empty",Toast.LENGTH_LONG)
                     .show()
             }
             else
             {
+                Confirm_Booking()
                // loadMap(confirm_pickup_latitude,confirm_pickup_longitude,drop_location)
             }
         }
-        pick_up_confirm_texview.setOnClickListener {
+       /* pick_up_confirm_texview.setOnClickListener {
             if (NetworkUtils.checkInternetConnection(requireContext()))
             {
-                DriverDetailss()
+            //    DriverDetailss()
+                val intent=Intent(requireContext(),DriverDetails::class.java)
+                startActivity(intent)
 
             }
 
-        }
+        }*/
 
         return rootview
     }
@@ -229,7 +244,7 @@ class ConfirmPickupFragment : Fragment() {
         current_location?.setAdapter(adapter)
     }
 
-    fun loadmap()
+    fun loadmap(var1:String,var_2:String,var_3:String)
     {
         val mapFragment =
                 childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
@@ -239,11 +254,12 @@ class ConfirmPickupFragment : Fragment() {
             mMap.clear()
 
             val googlePlex = CameraPosition.builder()
-                    .target(LatLng(Current_lati.toDouble(),Current_longi.toDouble()))
+                    .target(LatLng(var_2.toDouble(),var_3.toDouble()))
                     .zoom(20f)
                     .bearing(0f)
                     .build()
-
+   Toast.makeText(requireContext(),"Msap"+var_2+var_3+var1,Toast
+       .LENGTH_LONG).show()
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
             val height = 90
             val width = 90
@@ -252,8 +268,8 @@ class ConfirmPickupFragment : Fragment() {
             val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
             mMap.addMarker(
                     MarkerOptions()
-                            .position(LatLng(Current_lati.toDouble(),Current_longi.toDouble()))
-                           .title(current_loca)
+                            .position(LatLng(var_2.toDouble(),var_3.toDouble()))
+                           .title(var1)
                             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
             )
 
@@ -294,7 +310,7 @@ class ConfirmPickupFragment : Fragment() {
 
                         pickup_cnf_location = current_loc_textview.text.toString()
                         SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                            ConstantUtils.CurrentL, pickup_cnf_location)
+                            ConstantUtils.Current_Location, pickup_cnf_location)
                         getLocationFromAddress(pickup_cnf_location)
 
                     }.addOnFailureListener { e ->
@@ -324,20 +340,33 @@ class ConfirmPickupFragment : Fragment() {
             val location = address[0]
             val latLng = LatLng(location.latitude, location.longitude)
             var la_longArr = latLng.toString().split(",", "(", ")")
-            confirm_pickup_latitude = la_longArr[1]
-            confirm_pickup_longitude = la_longArr[2]
-            Toast.makeText(requireContext(),confirm_pickup_latitude+confirm_pickup_longitude
+            Current_lati = la_longArr[1]
+            Current_longi = la_longArr[2]
+       var dis_confirm_pick_up=getKilometers(Current_lati.toDouble(),
+           Current_longi.toDouble(),drop_lati.toDouble(),drop_longi.toDouble())
+            total_distance=roundOffDecimal(dis_confirm_pick_up.toDouble()).toString()
+
+            Totaltimetaken(total_distance.toDouble())
+
+
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                .Distance,total_distance)
+
+
+
+            Toast.makeText(requireContext(),Current_lati+Current_longi
                 ,Toast.LENGTH_LONG).show()
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.LATITUDE, confirm_pickup_latitude)
+                ConstantUtils.Confirm_PickUp_Latitude, Current_lati)
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
-                ConstantUtils.LONGITUDE, confirm_pickup_longitude)
+                ConstantUtils.Confirm_Pick_Up_Longitude, Current_longi)
 
-            Log.d("daad", confirm_pickup_latitude + confirm_pickup_longitude)
+            Log.d("daad", Current_lati + Current_longi)
             if (strAddress != null) {
-                loadMap(confirm_pickup_latitude, confirm_pickup_longitude,strAddress)
+                loadMap(Current_lati, Current_longi,strAddress)
             }
 
+          //  Confirm_Booking(pickup_cnf_location,confirm_pickup_latitude,confirm_pickup_longitude)
 
         } catch (e: IOException) {
             e.printStackTrace()
@@ -383,7 +412,133 @@ class ConfirmPickupFragment : Fragment() {
 
 
     }
-    fun DriverDetailss()
+
+
+    fun Confirm_Booking(){
+
+        customprogress.show()
+        val request = HashMap<String, String>()
+        request.put("pickupAddress", current_loca)
+        request.put("pickupLatitude", Current_lati)
+        request.put("pickupLongitude", Current_longi)
+        request.put("dropAddress", drop_location)
+        request.put("dropLatitude", drop_lati)
+        request.put("dropLongitude", drop_longi)
+        request.put("user_id", user_id)
+        request.put("time", total_time)
+        request.put("distance", total_distance)
+        request.put("driver_id", user_id)
+        request.put("booking_id", booking_id)
+        request.put("driver_id", driver_id)
+        request.put("remark",remarks_string)
+
+
+
+        var driver_vec_details: Call<CnfBookingResponse> =
+            APIUtils.getServiceAPI()!!.confirm_booking(request)
+
+        driver_vec_details.enqueue(object : Callback<CnfBookingResponse> {
+            override fun onResponse(
+                call: Call<CnfBookingResponse>,
+                response: Response<CnfBookingResponse>
+            ) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+val intent=Intent(requireContext(),Pay_Now::class.java)
+                        startActivity(intent)
+                        //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+
+                        customprogress.hide()
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+                        customprogress.hide()
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<CnfBookingResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_LONG).show()
+                customprogress.hide()
+
+
+            }
+
+        })
+    }
+
+    fun getKilometers(lat1: Double, long1: Double, lat2: Double, long2: Double): Double {
+        val PI_RAD = Math.PI / 180.0
+        val phi1 = lat1 * PI_RAD
+        val phi2 = lat2 * PI_RAD
+        val lam1 = long1 * PI_RAD
+        val lam2 = long2 * PI_RAD
+        return 6371.01 * Math.acos(
+            Math.sin(phi1) * Math.sin(phi2) + Math.cos(phi1) * Math.cos(phi2) * Math.cos(
+                lam2 - lam1
+            )
+        )
+    }
+
+    fun roundOffDecimal(number: Double): Double? {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
+    }
+
+    fun Totaltimetaken(distance_km: Double): String {
+
+
+        val km = distance_km.toInt()
+        val kms_per_min = 0.4
+        val mins_taken = km / kms_per_min
+        val totalMinutes = mins_taken.toInt()
+        if (totalMinutes < 60) {
+
+            total_time = totalMinutes.toString() + " " + "Mins"
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, total_time
+            )
+            /*   total_time_trip_act.text = toatal_time_taken*/
+
+
+        } else {
+            var minutes = Integer.toString(totalMinutes % 60)
+            minutes = if (minutes.length == 1) "0$minutes" else minutes
+            (totalMinutes / 60).toString() + " hour " + minutes + "mins"
+            total_time = minutes.toString()
+            SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
+                ConstantUtils
+                    .Toatal_time, total_time
+            )
+            /*total_time_trip_act.text = toatal_time_taken*/
+
+        }
+        return total_time
+
+    }
+
+
+}
+
+
+/*   fun DriverDetailss()
     {
 
         customprogress.show()
@@ -470,9 +625,4 @@ class ConfirmPickupFragment : Fragment() {
             }
 
         })
-    }
-
-
-
-
-}
+    }*/

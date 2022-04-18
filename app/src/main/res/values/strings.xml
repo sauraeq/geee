@@ -41,6 +41,9 @@
     <string name="cancel_trip">Cancel Trip</string>
     <string name="no_driver_found">No Driver Found</string>
     <string name="confirm">Confirm</string>
+    <string name="facebook_app_id">248213840794355</string>
+    <string name="fb_login_protocol_scheme">fb248213840794355</string>
+    <string name="facebook_client_token">56789</string>
     >
 
 </resources>

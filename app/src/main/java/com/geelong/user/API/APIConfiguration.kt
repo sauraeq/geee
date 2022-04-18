@@ -43,7 +43,7 @@ interface APIConfiguration {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     fun Driver_details(
         @Body stringStringHashMap: HashMap<String, String>,
-    ): Call<DriverDetails_Vch_Response>
+    ): Call<BookingResponse>
 
     @Multipart
     @POST("edituser")
@@ -117,4 +117,17 @@ interface APIConfiguration {
     fun booking_status(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<BookingStsResponse>
+
+    @POST("bookingstatus")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun booking_status_first(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<BookingStatusResponse>
+
+    @POST("cofirmbooking")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun confirm_booking(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<CnfBookingResponse>
+
 }

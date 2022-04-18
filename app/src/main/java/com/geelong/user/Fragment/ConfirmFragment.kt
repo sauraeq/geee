@@ -94,15 +94,15 @@ class ConfirmFragment : Fragment() {
 
 
         lat_user = SharedPreferenceUtils.getInstance(requireContext())
-            ?.getStringValue(ConstantUtils.LATITUDE, "").toString()
+            ?.getStringValue(ConstantUtils.Pick_up_Latitude, "").toString()
         langi_user = SharedPreferenceUtils.getInstance(requireContext())
-            ?.getStringValue(ConstantUtils.LONGITUDE, "").toString()
+            ?.getStringValue(ConstantUtils.Pick_up_longitude, "").toString()
         distance = SharedPreferenceUtils.getInstance(requireContext())
             ?.getStringValue(ConstantUtils.Distance, "").toString()
         latitude_drop = SharedPreferenceUtils.getInstance(requireContext())
-            ?.getStringValue(ConstantUtils.Lati_Drop, "").toString()
+            ?.getStringValue(ConstantUtils.Latitude_Drop, "").toString()
         longitude_drop = SharedPreferenceUtils.getInstance(requireContext())
-            ?.getStringValue(ConstantUtils.Longi_Drop, "").toString()
+            ?.getStringValue(ConstantUtils.Longitude_Drop, "").toString()
 
 
         vehlist()

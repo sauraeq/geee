@@ -77,7 +77,7 @@ dependencies {
     implementation 'com.github.joielechong:countrycodepicker:2.4.2'
 
     implementation 'com.kaopiz:kprogresshud:1.2.0'
-    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+   implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 
 
 }
