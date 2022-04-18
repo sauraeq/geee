@@ -469,9 +469,10 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:padding="@dimen/_10sdp"
+                            android:id="@+id/img_facebook_login"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:padding="@dimen/_10sdp"
                             android:src="@drawable/img_facebook" />
                     </RelativeLayout>
 

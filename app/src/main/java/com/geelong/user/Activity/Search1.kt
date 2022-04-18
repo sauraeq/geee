@@ -92,6 +92,7 @@ class Search1 : AppCompatActivity() {
         var ivMenu=findViewById<ImageView>(R.id.ivMenu1)
         ivClose1=findViewById(R.id.ivClose)
         NewNotification()
+        JavaHelper.printHashKey(this)
         //ViewNotification()
 
        // resultReceiver = AddressResultReceiver(Handler())

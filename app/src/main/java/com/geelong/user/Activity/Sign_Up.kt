@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.geelong.user.API.APIUtils
+import com.geelong.user.FAcebook
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Response.SignUpResponse
@@ -31,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.pick_up_dilaog.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -164,7 +166,10 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             Linear_sign_Up_Text.setVisibility(View.VISIBLE)
             Linear_terms_condition.setVisibility(View.VISIBLE)
         }
-
+        img_facebook_login.setOnClickListener {
+            val intent= Intent(this,FAcebook::class.java)
+            startActivity(intent)
+        }
 
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
