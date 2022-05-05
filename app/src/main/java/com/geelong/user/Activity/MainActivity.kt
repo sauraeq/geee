@@ -11,28 +11,72 @@ import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        var status=""
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Handler().postDelayed(Runnable {
-          var str:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Success,"").toString()
-            var str_otp:String= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.OTP,"").toString()
+            try {
+               status= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+                    .Status,"")!!.toString()
+            } catch (e:Exception)
+            {
 
-            
+            }
 
-            if (str_otp.length>=3)
+
+            if (status.isEmpty())
+            {
+                val intent = Intent(this, Sign_Up::class.java)
+                startActivity(intent)
+            }
+            else{
+
+                when (status.toInt())
+                {
+                    0 -> {
+                        val intent = Intent(this, Sign_Up::class.java)
+                        startActivity(intent)
+
+                    }
+                    1 -> {
+                        val intent = Intent(this, Search1::class.java)
+                        startActivity(intent)
+
+                    }
+                    2 -> {
+                        val intent = Intent(this, Confirm::class.java)
+                        startActivity(intent)
+
+                    }
+                    3 -> {
+                        val intent = Intent(this, ConfirmPick_up::class.java)
+                        startActivity(intent)
+
+                    }
+                    4 -> {
+                        val intent = Intent(this, DriverDetails::class.java)
+                        startActivity(intent)
+
+                    }
+
+                }
+
+            }
+
+
+           /* if (str_otp.length>=3)
             {
                 val intent = Intent(this@MainActivity, Search1::class.java)
                 startActivity(intent)
             } else{
                 val intent = Intent(this@MainActivity, Sign_Up::class.java)
                 startActivity(intent)
-            }
-
-
+            }*/
 
 
             finish()

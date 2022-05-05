@@ -44,6 +44,10 @@
     <string name="facebook_app_id">248213840794355</string>
     <string name="fb_login_protocol_scheme">fb248213840794355</string>
     <string name="facebook_client_token">56789</string>
+    <string name="payment">Payment</string>
+    <string name="please_wait">Please wait</string>
+    <string name="finding_driver">Finding Driver</string>
+    <string name="cancel">Cancel</string>
     >
 
 </resources>

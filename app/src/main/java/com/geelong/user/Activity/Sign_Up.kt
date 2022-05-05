@@ -60,8 +60,10 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     lateinit var user_address:TextInputEditText
     lateinit var user_mobile:EditText
     lateinit var user_login_mobile:EditText
+    var status:String="0"
 
     lateinit var prgs_loader:RelativeLayout
+
 
     private var googleApiClient: GoogleApiClient? = null
     var RC_SIGN_IN=100
@@ -171,6 +173,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             startActivity(intent)
         }
 
+        SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -254,13 +257,13 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               {   user_name.error="Please Enter Name"
                  // Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
               }
-              else if(name.length<9){
-                  user_name.error="Name between 9-16 size"
+              else if(name.length<3){
+                  user_name.error="Name between 3-30 size"
                 //  Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
                      // .show()
               }
-              else if(name.length>15){
-                  user_name.error="Name between 9-16 size"
+              else if(name.length>30){
+                  user_name.error="Name between 3-30 size"
                  // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
                      // .show()
               }
@@ -279,6 +282,16 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               else if(mobile_number.isEmpty() )
               {user_mobile.error="Please Enter Mobile Number"
                  // Toast.makeText(this,"Please Enter Mobile Number",Toast.LENGTH_LONG).show()
+              }
+              else if(mobile_number.length<9){
+                  user_mobile.error="mobile number between 9-15 size"
+                  // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                  // .show()
+              }
+              else if(mobile_number.length>15){
+                  user_mobile.error="mobile number between 9-15 size"
+                  // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
+                  // .show()
               }
 
               else if(gender.isEmpty())
@@ -369,7 +382,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
                     } else {
 
-                        Toast.makeText(this@Sign_Up,"ERror",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@Sign_Up,response.body()!!.msg,Toast.LENGTH_LONG).show()
                     }
 
                 }  catch (e: Exception) {
@@ -385,7 +398,9 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Sign_Up,"Email  is already exit",Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Sign_Up,"Email or Mobile Number already exist+",Toast
+                    .LENGTH_LONG)
+                    .show()
                 custom_progress.hide()
 
             }
@@ -422,7 +437,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
                     } else {
                         // Toast.makeText(this@Signup,response.body()!!.msg.toString(), Toast.LENGTH_LONG).show()
-                        Toast.makeText(this@Sign_Up,"Error",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@Sign_Up,response.body()!!.msg,Toast.LENGTH_LONG).show()
                         custom_progress.hide()
                     }
 
@@ -541,32 +556,6 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                 }
 
 
-               /* if (name.isEmpty())
-                {
-                    name_etxt!!.error="Please Enter Name"
-
-                    // Toast.makeText(this,"Please Enter Name",Toast.LENGTH_LONG).show()
-                }
-                else if(name.length<9){
-
-                        name_etxt!!.error="Name between 9-16 size"
-
-                    //  Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
-                    // .show()
-                }
-                else if(name.length>15){
-                    name_etxt!!.error="Name between 9-16 size"
-                    // Toast.makeText(this,"Name between 9-16 size",Toast.LENGTH_LONG)
-                    // .show()
-                }
-                else if(email.isEmpty())
-                { email_extx!!.error="Please Enter Email"
-                    //  Toast.makeText(this,"Please Enter Email",Toast.LENGTH_LONG).show()
-                }
-                else if(email_matched_string.equals("0"))
-                {email_extx!!.error="Inavlid Email"
-                    // Toast.makeText(this,"Inavlid Email",Toast.LENGTH_LONG).show()
-                }*/
                  if(address.isEmpty())
                 { address_txt!!.error="Please Enter Address"
                     //  Toast.makeText(this,"Please Enter Address",Toast.LENGTH_LONG).show()
@@ -595,6 +584,21 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
             }
         }
+
+        dialog.show()
+
+    }
+
+    fun AlertShow(name1:String,email1:String) {
+        val dialog = BottomSheetDialog(this)
+
+        dialog.getWindow()!!
+            .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.pick_up_dilaog)
+
+
 
         dialog.show()
 

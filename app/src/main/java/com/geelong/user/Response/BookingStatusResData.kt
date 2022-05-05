@@ -11,7 +11,10 @@ data class BookingStatusResData(
     val profile_photo: String,
     val rating: String,
     val status: String,
+    val amount:String,
     val vehicle_image: String,
     val vehicle_name: Any,
+    val time:String,
+    val distance:String,
     val vehicle_no: Any
 )

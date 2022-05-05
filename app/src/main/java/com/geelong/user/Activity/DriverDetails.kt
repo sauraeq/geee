@@ -10,6 +10,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -56,6 +57,7 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
     var destinationLongitude: String = ""
     var booking_id:String=""
     var approx_km:String=""
+    var status="4"
      var toatal_time_taken:String=""
 
     lateinit var drawerLayout: DrawerLayout
@@ -89,9 +91,16 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_details)
         supportActionBar?.hide()
-
-        cardview_driverDetails.visibility=View.GONE
+        SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
+        rid_details_linear.visibility=View.GONE
+        progress_linear_ride.visibility=View.VISIBLE
         try {
+            approx_km=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Distance,"")
+                .toString()
+            toatal_time_taken=SharedPreferenceUtils.getInstance(this)?.
+            getStringValue(ConstantUtils.Toatal_time,"").toString()
+
+
             amount=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Amount,"").toString()
             booking_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Booking_id,"").toString()
             originLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
@@ -124,6 +133,18 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         customprogress.setContentView(R.layout.dialog_progress)
         Cancel_booking_btn_aty.setOnClickListener {
             val intent = Intent(this,CancelTrip::class.java)
+            startActivity(intent)
+        }
+        pyment_btn_driver_details.setOnClickListener {
+            val intent = Intent(this,Pay_Now::class.java)
+            startActivity(intent)
+        }
+        cancel_ride_btn.setOnClickListener {
+            val intent=Intent(this,Search1::class.java)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Booking_id)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Distance)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Toatal_time)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Driver_Id)
             startActivity(intent)
         }
 
@@ -390,7 +411,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
     fun Booking_status()
     {
-        customprogress.show()
+
         val request = HashMap<String, String>()
         request.put("booking_id",booking_id)
 
@@ -424,8 +445,10 @@ private fun updateAdapter(highlightItemPos: Int) {
                         else
 
                         {
-                            cardview_driverDetails.visibility=View.VISIBLE
-                            customprogress.hide()
+                            customprogress.show()
+                            rid_details_linear.visibility=View.VISIBLE
+                            progress_linear_ride.visibility=View.GONE
+
                             var otp=response.body()!!.data[0].otp
                             var driver_profile_pic=response.body()!!.data[0].profile_photo
                             var vechile_img=response.body()!!.data[0].vehicle_image
@@ -446,6 +469,78 @@ private fun updateAdapter(highlightItemPos: Int) {
                             tp_driverdetails.setText("$"+amount)
                             total_distancee_driverdetails.setText(approx_km)
                             total_timee_driverdetails.setText(toatal_time_taken)
+                            customprogress.hide()
+                            Ride_status()
+                        }
+
+                    }
+                    else {
+
+                        Toast.makeText(this@DriverDetails,response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+                        customprogress.hide()
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<BookingStsResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(this@DriverDetails,t.message, Toast.LENGTH_LONG).show()
+                customprogress.hide()
+
+            }
+
+        })
+    }
+
+
+
+    fun Ride_status()
+    {
+
+        val request = HashMap<String, String>()
+        request.put("booking_id",booking_id)
+
+        var driver_vec_details: Call<BookingStsResponse> = APIUtils.getServiceAPI()!!.booking_status(request)
+
+        driver_vec_details.enqueue(object : Callback<BookingStsResponse> {
+            override fun onResponse(call: Call<BookingStsResponse>, response: Response<BookingStsResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+
+                        if (response.body()!!.data[0].status.equals("3"))
+
+                        {
+                           var intent=Intent(this@DriverDetails,Search1::class.java)
+                            startActivity(intent)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_number)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechilename)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
+
+                        }
+                        else
+
+                        {
+                            var handler: Handler? = null
+                            handler = Handler()
+                            handler.postDelayed(Runnable {
+                                Ride_status()
+
+                            }, 5000)
 
                         }
 
@@ -565,7 +660,20 @@ private fun updateAdapter(highlightItemPos: Int) {
 
 
     }
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+            return
+        }
 
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
 
 
 }
+
+

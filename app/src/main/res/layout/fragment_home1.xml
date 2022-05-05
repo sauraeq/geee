@@ -98,7 +98,7 @@
                             </TextView>
 
                             <AutoCompleteTextView
-                                android:id="@+id/pickup_location_user"
+                                android:id="@+id/pickup_location_user_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/_12sdp"
@@ -150,7 +150,7 @@
                             </ImageView>
 
                             <AutoCompleteTextView
-                                android:id="@+id/drop_location_user"
+                                android:id="@+id/drop_location_user_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/_12sdp"
@@ -196,7 +196,7 @@
                             </ImageView>
 
                             <EditText
-                                android:id="@+id/no_passenger"
+                                android:id="@+id/no_passenger_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/_12sdp"
@@ -232,7 +232,7 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:id="@+id/search_text_tv"
+                                android:id="@+id/search_text_tv_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/button_corner"

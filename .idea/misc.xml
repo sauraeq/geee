@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/gray_border.xml" value="0.1965" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1695" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_black.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable-v24/rectangle_white.xml" value="0.119" />
@@ -45,15 +46,19 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search1.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search_1.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search_12.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_terms_condition.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_trip_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/add_sucessfully_popup.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/alert_dialog_1.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/canceltrip_adp.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/canceltrippopup.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/confirm_pickup_fragment.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/content_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/date_picker.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/dialog_progres_ss).xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/dialog_progress.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragment_confirm.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/fragment_home.xml" value="0.22" />
@@ -63,11 +68,13 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/notification_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/pick_up_dilaog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/place_row.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/popup_write_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/privacy_adapter_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/row_nav_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/successalertdialog.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/termsadapter_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/termscondition.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/trip_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/wait_for_trip_popup.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_expandable_list_item_2.xml" value="0.20416666666666666" />

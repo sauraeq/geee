@@ -24,7 +24,6 @@ object ConstantUtils {
     const val Vechilename="Vechile_name"
     const val Driver_name="driver_name"
     const val Vechile_number="vechile_no."
-
     const val Pick_up_Latitude="pickup_longitude"
     const val Latitude_Drop="latitude_drop"
     const val Toatal_time="toatal_time"
@@ -33,6 +32,7 @@ object ConstantUtils {
     const val OTP="otp"
     const val Trip_Otp="trip_otp"
     const val Distance="distance"
+    const val Status="status"
     const val TokenId="token_id"
     const val Drop_location="drop_location"
 

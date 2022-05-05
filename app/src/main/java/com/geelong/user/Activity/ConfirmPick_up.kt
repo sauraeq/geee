@@ -42,6 +42,7 @@ class ConfirmPick_up : AppCompatActivity() {
     var lan:String=""
     var latii:String=""
     lateinit var  customprogress:Dialog
+    var status="3"
 
 
 
@@ -52,6 +53,8 @@ class ConfirmPick_up : AppCompatActivity() {
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
         customprogress.show()
+
+        SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
 
         resultReceiver = AddressResultReceiver(Handler())
 

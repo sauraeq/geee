@@ -44,7 +44,7 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/purple_700" />
+            android:resource="@color/yellow" />
 
         <activity
             android:name=".Activity.Review"
@@ -132,11 +132,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAKV5mMwONFDI_qwVN_ro1zdMkH-rQYQvk" />
 
-        <activity
-            android:name=".Activity.Search"
-            android:exported="false"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".FAcebook"
             android:exported="false"
@@ -162,12 +158,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER"/>
-               <!-- <action android:name="android.intent.action.VIEW" />-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                <!-- <data android:scheme="@string/fb_login_protocol_scheme"/>-->
             </intent-filter>
         </activity>
+        <activity android:name=".Fragment.SearchActivityNew" />
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>

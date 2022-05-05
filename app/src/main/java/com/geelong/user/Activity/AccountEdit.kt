@@ -71,6 +71,10 @@ class AccountEdit : AppCompatActivity() {
     var user_gender_et:String=""
     var user_address_et:String=""
     var img_url:String=""
+    var name:String=""
+    var email:String=""
+    var address:String=""
+    var gender:String=""
     var selectedItem:String=""
     var mCompressor: FileCompressor? = null
     private var CAMERA_REQUEST: Int = 1
@@ -90,6 +94,16 @@ class AccountEdit : AppCompatActivity() {
         var back_act=findViewById<ImageView>(R.id.back_activity1)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
+        name= intent.getStringExtra("name").toString()
+        email= intent.getStringExtra("email").toString()
+        address= intent.getStringExtra("address").toString()
+        gender= intent.getStringExtra("gender").toString()
+
+        user_name_edittext.setText(name)
+        user_email_edittext.setText(email)
+        user_address_edittext.setText(address)
+
+
         mCompressor = FileCompressor(this)
         img_url=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Image_Url,"").toString()
         if(img_url.isEmpty())
@@ -116,6 +130,7 @@ class AccountEdit : AppCompatActivity() {
             gender_spinner.adapter = adapter
 
         }
+        gender_spinner.setSelection(lang.indexOf(gender));
 
         gender_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -346,7 +361,7 @@ class AccountEdit : AppCompatActivity() {
 
         var bitmap: Bitmap? = null
         var imgFile = File(currentPhotoPath)
-        Toast.makeText(this,imgFile.toString()+"",Toast.LENGTH_LONG).show()
+      //  Toast.makeText(this,imgFile.toString()+"",Toast.LENGTH_LONG).show()
         Log.d("e","dfdf")
         if (imgFile.exists()) {
             bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -356,7 +371,7 @@ class AccountEdit : AppCompatActivity() {
             userProfile_edit_img.setImageBitmap(bitmap)
             editprofileimg()
 
-            Toast.makeText(this,image1path+"2",Toast.LENGTH_LONG).show()
+       //     Toast.makeText(this,image1path+"2",Toast.LENGTH_LONG).show()
 
 
             profileimage = getStringImage(bitmap)
@@ -388,7 +403,7 @@ class AccountEdit : AppCompatActivity() {
                     bitmap = mCompressor!!.compressToBitmap(file)
                     image1path=file.path
                     editprofileimg()
-                    Toast.makeText(this,image1path,Toast.LENGTH_LONG).show()
+                   // Toast.makeText(this,image1path,Toast.LENGTH_LONG).show()
 
                     profileimage = bitmap?.let { getStringImage(it) }.toString()
                     userProfile_edit_img.setImageBitmap(bitmap)
@@ -520,13 +535,15 @@ class AccountEdit : AppCompatActivity() {
 
                     if (response.body()!!.success.equals("true")) {
                         var intent=Intent(this@AccountEdit,Search1::class.java)
+
                         startActivity(intent)
                         customprogress.hide()
                finishAffinity()
 
                     } else {
 
-                         Toast.makeText(this@AccountEdit,"Error", Toast.LENGTH_LONG).show()
+                         Toast.makeText(this@AccountEdit,response.body()!!.msg, Toast.LENGTH_LONG)
+                             .show()
                         customprogress.hide()
                     }
 

@@ -59,6 +59,7 @@ class Search1 : AppCompatActivity() {
     lateinit var customProgress:Dialog
     var token_id:String=""
     var REQUEST_CODE=1
+    var status="1"
 
 
 
@@ -86,6 +87,8 @@ class Search1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search1)
         supportActionBar?.hide()
+
+        SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
        // window.setStatusBarColor(ContextCompat.getColor(this,android.R.color.transparent))
         drawerLayout = findViewById(R.id.drawer_layout)
         navigation_rv=findViewById(R.id.navigation_rv1)

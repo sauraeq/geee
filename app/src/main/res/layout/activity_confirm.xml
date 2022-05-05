@@ -8,6 +8,7 @@
     tools:context=".Activity.Confirm">
 
     <LinearLayout
+        android:id="@+id/confirm_linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -24,7 +25,6 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 tools:context=".MapsActivity" />
 
 
@@ -188,7 +188,7 @@
                                     android:fontFamily="@font/poppinsmedium"
                                     android:paddingTop="@dimen/_2sdp"
                                     android:paddingRight="@dimen/_8sdp"
-                                    android:text="VEHCLE">
+                                    android:text="Vehicle">
 
                                 </TextView>
                             </RelativeLayout>
@@ -249,7 +249,7 @@
                                     android:fontFamily="@font/poppinsmedium"
                                     android:paddingTop="@dimen/_2sdp"
                                     android:paddingRight="@dimen/_8sdp"
-                                    android:text="VEHCLE NO">
+                                    android:text="Vehicle No">
 
                                 </TextView>
                             </RelativeLayout>
@@ -317,6 +317,61 @@
 
             </androidx.cardview.widget.CardView>
        <!-- </RelativeLayout>-->
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/progress_linear"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_200sdp"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.FadingCircle"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            app:SpinKit_Color="@color/yellow" />
+
+        <TextView
+            android:text="@string/finding_driver"
+             android:gravity="center"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </TextView><LinearLayout
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginRight="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_150sdp"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                 android:id="@+id/cancel_requestt_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner"
+                android:fontFamily="@font/poppinsmedium"
+                android:paddingTop="@dimen/_9sdp"
+                android:text="@string/cancel"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 

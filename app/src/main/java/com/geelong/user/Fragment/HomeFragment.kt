@@ -17,7 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
+
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -70,13 +70,11 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     var locat: String = ""
-    var lati_curr: String = ""
-    var longi_current: String = ""
+
     var pick_up_location: String = ""
     var drop_location: String = ""
     var n_of_passenger: String = ""
-    var lati_drop: String = ""
-    var longi_drop: String = ""
+
     var placesClient: PlacesClient? = null
     var pickUp_address: String = ""
     var pick_up_latitude: String = ""
@@ -84,6 +82,8 @@ class HomeFragment : Fragment() {
     var user_id: String = ""
     var toatal_time_taken: String = ""
     var time_count:String=""
+    var no_of_passenger=0
+    lateinit var passenger_edittext:EditText
 
     var autoCompleteTextView_drop: AutoCompleteTextView? = null
     var adapter: AutoCompleteAdapter? = null
@@ -95,7 +95,14 @@ class HomeFragment : Fragment() {
     var resultReceiver: ResultReceiver? = null
     lateinit var no_passengerr: EditText
     var total_distance_apprx: String = ""
-
+    var locType:String=""
+    var sourlat = 0.0
+    var sourlng:Double = 0.0
+    var deslat = 0.0
+    var deslng:Double = 0.0
+    lateinit var sourcelatLng:LatLng
+    lateinit var destlatLng:LatLng
+    var destLoc=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +130,7 @@ class HomeFragment : Fragment() {
         user_id = SharedPreferenceUtils.getInstance(requireContext())
             ?.getStringValue(ConstantUtils.USER_ID, "").toString()
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
+
         no_passengerr = rootview.findViewById(R.id.no_passenger)
         no_passengerr.setOnClickListener {
             numberPickerCustom()
@@ -159,8 +167,23 @@ class HomeFragment : Fragment() {
             rootview.findViewById<AutoCompleteTextView>(R.id.drop_location_user)
 
 
-        initAutoCompleteTextView_drop()
-        initAutoCompleteTextView_pickup()
+        //initAutoCompleteTextView_drop()
+     //   initAutoCompleteTextView_pickup()
+
+        pick_up_user.setOnClickListener {
+            locType = "pickloc"
+
+            var intent = Intent(requireContext(), SearchActivityNew::class.java)
+            startActivityForResult(intent, 100)
+        }
+
+        autoCompleteTextView_drop?.setOnClickListener {
+            locType = "droploc"
+
+            var intent = Intent(requireContext(), SearchActivityNew::class.java)
+            startActivityForResult(intent, 100)
+        }
+
 
         var search_textt: TextView = rootview.findViewById(R.id.search_text_tv)
         search_textt.setOnClickListener {
@@ -181,25 +204,25 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG)
                     .show()
             } else {
-                if (lati_curr.isEmpty() || longi_current.isEmpty() || lati_drop.isEmpty()
-                    || longi_drop.isEmpty()
+                if (sourlat.toString().isEmpty() || sourlng.toString().isEmpty() || deslat.toString
+                        ().isEmpty()
+                    || deslng.toString().isEmpty()
                 ) {
 
                 } else {
                     var toatal_distance = getKilometers(
-                        lati_curr.toDouble(),
-                        longi_current.toDouble(),
-                        lati_drop.toDouble(),
-                        longi_drop.toDouble()
+                        sourlat.toDouble(),
+                        sourlng.toDouble(),
+                        deslat.toDouble(),
+                        deslng.toDouble()
                     )
                     total_distance_apprx = roundOffDecimal(toatal_distance.toDouble()).toString()
                     time_count=Totaltimetaken(total_distance_apprx.toDouble())
                     SharedPreferenceUtils.getInstance(requireContext())!!
                         .setStringValue(ConstantUtils.Distance, total_distance_apprx.toString())
-                    SharedPreferenceUtils.getInstance(requireContext())!!
-                        .setStringValue(ConstantUtils.Drop_location, drop_location)
+
                     DriverDetailss()
-                  //  (activity as Search1?)?.inte()
+
                 }
 
             }
@@ -215,6 +238,49 @@ class HomeFragment : Fragment() {
         return rootview
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        try {
+            if (requestCode == 100) {
+                val lat: String = data?.getStringExtra("lat").toString()
+                val lng: String = data?.getStringExtra("lng").toString()
+                val location: String = data?.getStringExtra("location").toString()
+                if(locType.equals("pickloc")){
+                    sourlat=lat.toDouble()
+                    sourlng=lng.toDouble()
+                    pick_up_user?.setText(location)
+                    pick_up_user?.setText(location)
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Pick_up_Latitude,sourlat.toString()).toString()
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Pick_up_longitude,sourlng.toString()).toString()
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Current_Location,location).toString()
+                    sourcelatLng= LatLng(sourlat,sourlng)
+                }else{
+                    deslat=lat.toDouble()
+                    deslng=lng.toDouble()
+                    destLoc=location
+                    destlatLng= LatLng(deslat,deslng)
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Latitude_Drop,deslat.toString()).toString()
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Longitude_Drop,deslng.toString()).toString()
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Drop_location,location).toString()
+                    autoCompleteTextView_drop?.setText(location)
+                    autoCompleteTextView_drop?.setText(location)
+                }
+
+
+
+            }
+
+        }catch (e:Exception){
+
+        }
+
+    }
     private fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorResId)
         vectorDrawable!!.setBounds(
@@ -246,7 +312,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun initAutoCompleteTextView_drop() {
+   /* private fun initAutoCompleteTextView_drop() {
         autoCompleteTextView_drop?.setThreshold(1)
         autoCompleteTextView_drop?.setOnItemClickListener(autocompleteClickListener_drop)
         adapter = AutoCompleteAdapter(requireContext(), placesClient)
@@ -259,8 +325,8 @@ class HomeFragment : Fragment() {
         adapter_1 = AutoCompleteAdapter_pickup(requireContext(), placesClient)
         pick_up_user?.setAdapter(adapter_1)
     }
-
-    private val autocompleteClickListener_drop =
+*/
+   /* private val autocompleteClickListener_drop =
         AdapterView.OnItemClickListener { adapterView, view, i, l ->
             try {
                 val item: AutocompletePrediction = adapter?.getItem(i)!!
@@ -349,7 +415,7 @@ class HomeFragment : Fragment() {
                     .show()
             }
         }
-
+*/
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -396,15 +462,15 @@ class HomeFragment : Fragment() {
                                 val latestlocIndex = locationResult.locations.size - 1
                                 val lati = locationResult.locations[latestlocIndex].latitude
                                 val longi = locationResult.locations[latestlocIndex].longitude
-                                lati_curr = lati.toString()
-                                longi_current = longi.toString()
+                                sourlat = lati
+                                sourlng = longi
                                 SharedPreferenceUtils.getInstance(requireContext())!!
                                     .setStringValue(
-                                        ConstantUtils.Pick_up_Latitude, lati_curr
+                                        ConstantUtils.Pick_up_Latitude,sourlat.toString()
                                     )
                                 SharedPreferenceUtils.getInstance(requireContext())!!
                                     .setStringValue(
-                                        ConstantUtils.Pick_up_longitude, longi_current
+                                        ConstantUtils.Pick_up_longitude, sourlng.toString()
                                     )
 
                                 val location = Location("providerNA")
@@ -434,7 +500,7 @@ class HomeFragment : Fragment() {
                 SharedPreferenceUtils.getInstance(requireContext())
                     ?.setStringValue(ConstantUtils.Current_Location, locat)
 
-                loadMap(lati_curr, longi_current, locat)
+                loadMap(sourlat.toString(), sourlng.toString(), locat)
 
             } else {
                 Toast.makeText(
@@ -456,7 +522,7 @@ class HomeFragment : Fragment() {
 
     fun loadMap(lati_curr1: String, longi_current1: String, loate1: String) {
         try {
-            if (lati_curr.isEmpty() || longi_current.isEmpty()) {
+            if (sourlat.toString().isEmpty() || sourlng.toString().isEmpty()) {
 
             } else {
                 customprogress.dismiss()
@@ -497,6 +563,7 @@ class HomeFragment : Fragment() {
 
 
     }
+/*
 
     fun getLocationFromAddress_drop(strAddress: String?) {
 
@@ -569,6 +636,7 @@ class HomeFragment : Fragment() {
             e.printStackTrace()
         }
     }
+*/
 
     fun getKilometers(lat1: Double, long1: Double, lat2: Double, long2: Double): Double {
         val PI_RAD = Math.PI / 180.0
@@ -608,6 +676,7 @@ class HomeFragment : Fragment() {
             println("onClick: " + numberPicker.value)
             var numberpickkk = numberPicker.value.toString()
             no_passenger.setText(numberpickkk)
+            no_of_passenger=numberpickkk.toInt()
 
 
         }
@@ -621,14 +690,16 @@ class HomeFragment : Fragment() {
         customprogress.show()
         val request = HashMap<String, String>()
         request.put("pickupAddress", pick_up_location)
-        request.put("pickupLatitude", lati_curr)
-        request.put("pickupLongitude", longi_current)
+        request.put("pickupLatitude", sourlat.toString())
+        request.put("pickupLongitude", sourlng.toString())
         request.put("dropAddress", drop_location)
-        request.put("dropLatitude", lati_drop)
-        request.put("dropLongitude", longi_drop)
+        request.put("dropLatitude", deslat.toString())
+        request.put("dropLongitude", deslng.toString())
         request.put("user_id", user_id)
         request.put("time", time_count)
         request.put("distance", total_distance_apprx)
+        request.put("passenger", no_of_passenger.toString())
+
 
 
         var driver_vec_details: Call<BookingResponse> =
@@ -645,8 +716,8 @@ class HomeFragment : Fragment() {
                     if (response.body()!!.success.equals("true")) {
 
                         //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
-                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
-                            .show()
+                     //   Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                         //   .show()
 
                        SharedPreferenceUtils.getInstance(requireContext())!!.
                        setStringValue(ConstantUtils.Booking_id,response.body()!!.data.toString())
@@ -697,8 +768,6 @@ class HomeFragment : Fragment() {
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
             )
-         /*   total_time_trip_act.text = toatal_time_taken*/
-
 
         } else {
             var minutes = Integer.toString(totalMinutes % 60)
@@ -709,7 +778,6 @@ class HomeFragment : Fragment() {
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
             )
-            /*total_time_trip_act.text = toatal_time_taken*/
 
         }
       return toatal_time_taken

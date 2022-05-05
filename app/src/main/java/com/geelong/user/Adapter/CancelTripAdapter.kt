@@ -1,5 +1,6 @@
 package com.geelong.user.Adapter
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.R
 import com.geelong.user.Response.CancelTripResponsedata
@@ -20,23 +22,20 @@ class CancelTripAdapter(
     var mlist: List<CancelTripResponsedata>)  :
     RecyclerView
 .Adapter<CancelTripAdapter.ViewHolder>() {
+    private var selectedItemPosition: String = ""
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        ///   lateinit var nameof: TextView
-        // lateinit var time: TextView
 
-    /*    lateinit var introduction: TextView*/
         lateinit var Reason: TextView
+        lateinit var Linear_Trip:CardView
         var rowindex:Int=-1
 
 
         init {
-            // nameof=itemView.findViewById(R.id.notification_description)
-            // time=itemView.findViewById(R.id.notification_time)
 
-            /*introduction=itemView.findViewById(R.id.terms_heading)*/
             Reason=itemView.findViewById(R.id.reason_cancel_trip)
+            Linear_Trip=itemView.findViewById(R.id.liner_trip)
 
 
         }
@@ -53,14 +52,31 @@ class CancelTripAdapter(
 
         return ViewHolder(v)    }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+
+
         //  holder.nameof.text=notiData[position].description
         //holder.time.text=notiData[position].time
         holder.Reason.text=mlist[position].description
         holder.itemView.setOnClickListener {
+            selectedItemPosition=position.toString()
+            notifyDataSetChanged()
             lintener.onclick( mlist[position].description)
 
-            holder.Reason.setTextColor(Color.parseColor("#F9CB33"))
+
+        }
+        if(selectedItemPosition==position.toString())
+        {
+           // holder.Reason.setTextColor(Color.YELLOW)
+            holder.Linear_Trip.setBackgroundColor(Color.GRAY)
+
+        }
+        else
+        { //  holder.Reason.setTextColor(Color.BLACK)
+            holder.Linear_Trip.setBackgroundColor(Color.WHITE)
+
         }
 
 

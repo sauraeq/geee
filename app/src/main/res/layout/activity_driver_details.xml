@@ -9,7 +9,7 @@
     tools:context=".Activity.DriverDetails">
 
     <LinearLayout
-        android:id="@+id/main_activity_content_id"
+        android:id="@+id/rid_details_linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -80,7 +80,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_60sdp"
                                 android:background="#C4C4C4"
-                                android:weightSum="3"
+                                android:weightSum="5"
                                 android:orientation="horizontal">
 
                                 <!--<ImageView
@@ -99,6 +99,7 @@
                                     android:layout_height="@dimen/_40sdp"
                                     android:src="@drawable/driverimg"
                                     android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_weight="1"
                                     app:civ_border_width="1dp"
                                     android:layout_marginTop="@dimen/_10sdp"
                                     app:civ_border_color="@color/yellow"/>
@@ -109,6 +110,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/_4sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_weight="2"
                                     android:orientation="vertical">
 
                                     <TextView
@@ -444,26 +446,43 @@
                                         </LinearLayout>
 
                                     </LinearLayout>
+
                                     <LinearLayout
                                         android:id="@+id/linear_arriving"
                                         android:layout_marginTop="@dimen/_10sdp"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_50sdp"
                                         android:orientation="horizontal"
+                                        android:weightSum="2"
                                         android:layout_marginLeft="@dimen/_10sdp"
                                         android:layout_marginRight="@dimen/_10sdp"
                                         android:padding="@dimen/_5sdp">
 
                                         <TextView
                                             android:id="@+id/Cancel_booking_btn_aty"
-                                            android:layout_width="match_parent"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="match_parent"
                                             android:background="@drawable/button_corner"
                                             android:fontFamily="@font/poppinsmedium"
                                             android:paddingTop="@dimen/_12sdp"
                                             android:text="@string/cancel_trip"
+                                            android:layout_weight="1"
                                             android:textAlignment="center"
                                             android:textColor="@color/black"
+                                            android:textSize="@dimen/_13sdp"
+                                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/pyment_btn_driver_details"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:background="@drawable/button_corner"
+                                            android:fontFamily="@font/poppinsmedium"
+                                            android:paddingTop="@dimen/_12sdp"
+                                            android:text="@string/payment"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/black"
+                                            android:layout_marginLeft="@dimen/_5sdp"
+                                            android:layout_weight="1"
                                             android:textSize="@dimen/_13sdp"
                                             android:textStyle="bold" />
                                     </LinearLayout>
@@ -721,6 +740,62 @@
                      android:textSize="20sp" />
 
              </LinearLayout>-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progress_linear_ride"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_200sdp"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.FadingCircle"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            app:SpinKit_Color="@color/yellow" />
+
+        <TextView
+            android:text="@string/finding_driver"
+            android:gravity="center"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </TextView><LinearLayout
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_marginLeft="@dimen/_18sdp"
+        android:layout_marginRight="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_150sdp"
+        android:padding="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/cancel_ride_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_corner"
+            android:fontFamily="@font/poppinsmedium"
+            android:paddingTop="@dimen/_9sdp"
+            android:text="@string/cancel"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
     </LinearLayout>
 

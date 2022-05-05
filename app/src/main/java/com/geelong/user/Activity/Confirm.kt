@@ -10,6 +10,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -65,11 +66,17 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     var booking_id:String=""
     var amount:String=""
     var approx_km:String=""
+    var status="2"
+    var count=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
         supportActionBar?.hide()
+        confirm_linear.visibility=View.GONE
+        progress_linear.visibility=View.VISIBLE
+
+        SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
 
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.dialog_progress)
@@ -95,6 +102,13 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         if(NetworkUtils.checkInternetConnection(this))
         {
            Booking_status()
+        }
+        cancel_requestt_btn.setOnClickListener {
+            val intent=Intent(this,Search1::class.java)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Booking_id)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Distance)
+            SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Toatal_time)
+            startActivity(intent)
         }
 
         back_linera_layout_act.setOnClickListener {
@@ -218,7 +232,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
     fun Booking_status()
 
-    { customprogress.show()
+    {
 
 
         val request = HashMap<String, String>()
@@ -230,20 +244,32 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
             override fun onResponse(call: Call<BookingStatusResponse>, response: Response<BookingStatusResponse>) {
                 try {
 
-                    /*customprogress.show()*/
+
                     if (response.body()!!.success.equals("true")) {
 
                         if (response.body()!!.data[0].status.equals("0"))
 
                         {
+                            customprogress.hide()
                             //cardview_driverDetails.visibility=View.GONE
+
 
                             var handler: Handler? = null
                             handler = Handler()
                             handler.postDelayed(Runnable {
                                 Booking_status()
+                                count++
 
                             }, 5000)
+
+                            if(count==8)
+                            {
+                                //Toast.makeText(this@Confirm,count.toString(),Toast.LENGTH_LONG)
+                                //.show()
+                                handler.removeCallbacksAndMessages(null)
+                            }
+
+
                             // SharedPreferenceUtils.getInstance(requireContext())?.removeKey
                           //  (ConstantUtils.Booking_id)
                             /*val intent=Intent(requireContext(),Search1::class.java)
@@ -253,6 +279,8 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                         else
 
                         {
+                            confirm_linear.visibility=View.VISIBLE
+                            progress_linear.visibility=View.GONE
                            // cardview_driverDetails.visibility=View.VISIBLE
                             customprogress.hide()
                             var otp=response.body()!!.data[0].otp
@@ -283,9 +311,15 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
 
                         //driver_rating_txt_aty.setText(rating)
-                        total_fare_act.setText("$"+amount)
-                        toatl_distance_trip_act.setText(approx_km)
-                        total_time_trip_act.setText(toatal_time_taken)
+                      total_fare_act.setText(response.body()!!.data[0].amount)
+                        SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                        setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
+                        SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                        setStringValue(ConstantUtils.Distance,response.body()!!.data[0].distance)
+                        SharedPreferenceUtils.getInstance(this@Confirm)!!.
+                        setStringValue(ConstantUtils.Toatal_time,response.body()!!.data[0].time)
+                        toatl_distance_trip_act.setText(response.body()!!.data[0].distance)
+                        total_time_trip_act.setText(response.body()!!.data[0].time)
                     }catch (e:Exception)
                     {
                         /*//Toast.makeText(this@Confirm,e.toString(), Toast.LENGTH_LONG)
@@ -390,15 +424,35 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
      }*/
 
 
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity()
+
+            var handler: Handler? = null
+            handler = Handler()
+            SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,"1")
+        /*  handler.removeCallbacks(Runnable {  },1000)*/
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+
 }
 
 
 
-        /*customprogress= Dialog(this)
-        customprogress.setContentView(R.layout.loader_layout)
-        customprogress.show()
 
-        *//* if ((ContextCompat.checkSelfPermission(
+/*customprogress= Dialog(this)
+customprogress.setContentView(R.layout.loader_layout)
+customprogress.show()
+
+*//* if ((ContextCompat.checkSelfPermission(
                    applicationContext,
                    Manifest.permission.ACCESS_FINE_LOCATION
                )
@@ -425,3 +479,4 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     {
         onBackPressed()
     }*/
+
