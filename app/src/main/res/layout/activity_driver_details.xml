@@ -78,7 +78,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_60sdp"
+                                android:layout_height="wrap_content"
                                 android:background="#C4C4C4"
                                 android:weightSum="5"
                                 android:orientation="horizontal">
@@ -154,7 +154,7 @@
                                     android:weightSum="2"
                                     android:layout_width="wrap_content"
                                     android:layout_marginLeft="@dimen/_90sdp"
-                                    android:layout_marginRight="@dimen/_10sdp"
+                                    android:layout_marginRight="@dimen/_15sdp"
                                     android:layout_height="wrap_content">
                                     <RelativeLayout
                                         android:id="@+id/driver_message"
@@ -761,9 +761,9 @@
             app:SpinKit_Color="@color/yellow" />
 
         <TextView
-            android:text="@string/finding_driver"
+            android:text="@string/waiting_for_driver_acceptance"
             android:gravity="center"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:fontFamily="@font/poppinsmedium"

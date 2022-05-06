@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.view.ViewGroup
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.geelong.user.Activity.DriverDetails
 import com.geelong.user.Activity.Search1
@@ -51,10 +52,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     fun generateNotification(title:String,message:String)
     {
 
-        val intent= Intent(this,Search1::class.java)
+
+//      Toast.makeText(this,title+message,Toast.LENGTH_LONG).show()
+        /*  val intent= Intent(this,Search1::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val pendingIntent= PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent= PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_ONE_SHOT)*/
 
         // channel id, channel name
         var builder: NotificationCompat.Builder= NotificationCompat.Builder(applicationContext,
@@ -66,7 +69,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000,1000,1000,1000))
             .setOnlyAlertOnce(true)
-            .setContentIntent(pendingIntent)
         builder=builder.setContent(getRemoteview(title,message))
 
         val notificationManager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

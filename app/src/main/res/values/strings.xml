@@ -48,6 +48,9 @@
     <string name="please_wait">Please wait</string>
     <string name="finding_driver">Finding Driver</string>
     <string name="cancel">Cancel</string>
+    <string name="duration">Duration</string>
+    <string name="total_distance">Total Distance</string>
+    <string name="waiting_for_driver_acceptance">Waiting for Driver acceptance</string>
     >
 
 </resources>

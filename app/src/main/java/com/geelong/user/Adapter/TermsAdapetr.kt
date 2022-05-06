@@ -1,6 +1,7 @@
 package com.geelong.user.Adapter
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class TermsAdapetr(var mContext: Context, var mlist: List<TermDataRes>) : Recycl
         //  holder.nameof.text=notiData[position].description
         //holder.time.text=notiData[position].time
 
-        holder.description.text=mlist[position].description
+        holder.description.text=Html.fromHtml(mlist[position].description)
         holder.introduction.text=mlist[position].id
     }
 

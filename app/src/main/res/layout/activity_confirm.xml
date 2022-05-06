@@ -177,7 +177,7 @@
                                     android:fontFamily="@font/poppinsmedium"
                                     android:paddingLeft="@dimen/_8sdp"
                                     android:paddingTop="@dimen/_2sdp"
-                                    android:text="HOURS">
+                                    android:text="@string/duration">
 
                                 </TextView>
 
@@ -237,7 +237,7 @@
                                     android:fontFamily="@font/poppinsmedium"
                                     android:paddingLeft="@dimen/_8sdp"
                                     android:paddingTop="@dimen/_2sdp"
-                                    android:text="TOTAL DISTANCE">
+                                    android:text="@string/total_distance">
 
                                 </TextView>
 

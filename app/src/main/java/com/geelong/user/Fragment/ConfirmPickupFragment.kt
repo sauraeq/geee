@@ -63,7 +63,7 @@ class ConfirmPickupFragment : Fragment() {
     var lati:String=""
     var longi:String=""
     var toatal_time_taken:String=""
-    lateinit var current_location:AutoCompleteTextView
+    lateinit var current_location:TextView
     var placesClient: PlacesClient? = null
     var user_id:String=""
     var driver_id:String=""
@@ -185,7 +185,7 @@ class ConfirmPickupFragment : Fragment() {
             {
                 Toast.makeText(requireContext(),"drop is empty",Toast.LENGTH_LONG).show()
             }
-            else if (Current_lati.isEmpty())
+            else if (Current_lati.isEmpty()  )
             {
                 Toast.makeText(requireContext(),"confirm pickup latitude empty",Toast.LENGTH_LONG)
                     .show()
@@ -193,6 +193,11 @@ class ConfirmPickupFragment : Fragment() {
             else if(Current_longi.isEmpty())
             {
                 Toast.makeText(requireContext(),"confirm pickup longitude empty",Toast.LENGTH_LONG)
+                    .show()
+            }
+            else if(current_location.text.toString().isNullOrEmpty())
+            {
+                Toast.makeText(requireContext(),"confirm pickup  empty",Toast.LENGTH_LONG)
                     .show()
             }
             else
@@ -246,33 +251,39 @@ class ConfirmPickupFragment : Fragment() {
 
     fun loadmap(var1:String,var_2:String,var_3:String)
     {
-        val mapFragment =
+
+        try {
+            val mapFragment =
                 childFragmentManager.findFragmentById(R.id.frg) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
-        mapFragment!!.getMapAsync { mMap ->
-            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            mapFragment!!.getMapAsync { mMap ->
+                mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-            mMap.clear()
+                mMap.clear()
 
-            val googlePlex = CameraPosition.builder()
+                val googlePlex = CameraPosition.builder()
                     .target(LatLng(var_2.toDouble(),var_3.toDouble()))
                     .zoom(20f)
                     .bearing(0f)
                     .build()
 
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
-            val height = 90
-            val width = 90
-            val bitmapdraw = resources.getDrawable(R.drawable.placeholder) as BitmapDrawable
-            val b = bitmapdraw.bitmap
-            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-            mMap.addMarker(
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null)
+                val height = 90
+                val width = 90
+                val bitmapdraw = resources.getDrawable(R.drawable.placeholder) as BitmapDrawable
+                val b = bitmapdraw.bitmap
+                val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+                mMap.addMarker(
                     MarkerOptions()
-                            .position(LatLng(var_2.toDouble(),var_3.toDouble()))
-                           .title(var1)
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-            )
+                        .position(LatLng(var_2.toDouble(),var_3.toDouble()))
+                        .title(var1)
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                )
+
+            }
+        }catch (e:Exception){
 
         }
+
     }
 
 
@@ -420,6 +431,11 @@ class ConfirmPickupFragment : Fragment() {
                 val lng: String = data?.getStringExtra("lng").toString()
                 val location: String = data?.getStringExtra("location").toString()
 
+                if(location.equals("null"))
+                {
+                    current_location?.setText(locat)
+
+                }else{
                     Current_lati=lat
                     Current_longi=lng
                     current_location?.setText(location)
@@ -431,12 +447,14 @@ class ConfirmPickupFragment : Fragment() {
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Current_Location,location).toString()
 
-                var dist=getKilometers(Current_lati.toDouble(),Current_longi.toDouble(),
-                    drop_lati.toDouble(),drop_longi.toDouble())
-                total_distance=roundOffDecimal(dist.toDouble()).toString()
-                SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                    .Distance,total_distance).toString()
-                Totaltimetaken(total_distance.toDouble())
+                    var dist=getKilometers(Current_lati.toDouble(),Current_longi.toDouble(),
+                        drop_lati.toDouble(),drop_longi.toDouble())
+                    total_distance=roundOffDecimal(dist.toDouble()).toString()
+                    SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
+                        .Distance,total_distance).toString()
+                    Totaltimetaken(total_distance.toDouble())
+                }
+
 
 
 
@@ -484,9 +502,9 @@ class ConfirmPickupFragment : Fragment() {
 val intent=Intent(requireContext(),DriverDetails::class.java)
                         startActivity(intent)
                         //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
-                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                       /* Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
                             .show()
-
+*/
                         customprogress.hide()
 
 

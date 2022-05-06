@@ -428,7 +428,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                                 .data[0].status.equals("1"))
 
                         {
-                            cardview_driverDetails.visibility=View.GONE
+
 
                             var handler: Handler? = null
                             handler = Handler()
@@ -445,7 +445,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                         else
 
                         {
-                            customprogress.show()
+
                             rid_details_linear.visibility=View.VISIBLE
                             progress_linear_ride.visibility=View.GONE
 
@@ -469,7 +469,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                             tp_driverdetails.setText("$"+amount)
                             total_distancee_driverdetails.setText(approx_km)
                             total_timee_driverdetails.setText(toatal_time_taken)
-                            customprogress.hide()
+
                             Ride_status()
                         }
 

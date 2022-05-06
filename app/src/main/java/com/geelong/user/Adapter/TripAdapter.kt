@@ -171,8 +171,8 @@ class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : Recy
 
         val request = HashMap<String, String>()
         request.put("booking_id",booking_id)
-        request.put("user_id",user_id)
-        request.put("driver_id",driver_id)
+        request.put("user_id",driver_id)
+        request.put("driver_id",user_id)
         request.put("rating",reveiw_string)
         request.put("review",driver_rating)
 

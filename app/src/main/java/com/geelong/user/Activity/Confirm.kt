@@ -150,11 +150,17 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
 
     override fun onMapReady(p0: GoogleMap) {
-        mMap = p0!!
-        val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
-        mMap.clear()
-        mMap.addMarker(MarkerOptions().position(originLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+
+        try {
+            mMap = p0!!
+            val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
+            mMap.clear()
+            mMap.addMarker(MarkerOptions().position(originLocation))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+        }catch (e:Exception){
+
+        }
+
     }
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
@@ -313,7 +319,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                         //driver_rating_txt_aty.setText(rating)
                       total_fare_act.setText(response.body()!!.data[0].amount)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
-                        setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
+                        setStringValue("$"+ConstantUtils.Amount,response.body()!!.data[0].amount)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
                         setStringValue(ConstantUtils.Distance,response.body()!!.data[0].distance)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
