@@ -483,7 +483,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@DriverDetails,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -492,7 +492,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
             override fun onFailure(call: Call<BookingStsResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@DriverDetails,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@DriverDetails,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
             }
@@ -554,7 +554,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@DriverDetails,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@DriverDetails,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -563,7 +563,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
             override fun onFailure(call: Call<BookingStsResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@DriverDetails,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@DriverDetails,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
             }

@@ -460,7 +460,8 @@ class Search1 : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Search1,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG)
+                        .show()
                     customProgress.hide()
 
                 }
@@ -470,7 +471,7 @@ class Search1 : AppCompatActivity() {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Search1,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customProgress.hide()
             }
 
@@ -597,7 +598,7 @@ class Search1 : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Search1,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                    /* customProgress.hide()
 */
                 }
@@ -607,7 +608,7 @@ class Search1 : AppCompatActivity() {
             override fun onFailure(call: Call<NewNotificationResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Search1,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                /* customProgress.hide()*/
             }
 

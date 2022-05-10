@@ -121,7 +121,7 @@ class Pay_Now : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Pay_Now,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Pay_Now,"Weak Internet Connection", Toast.LENGTH_LONG).show()
 
                 }
 
@@ -130,7 +130,7 @@ class Pay_Now : AppCompatActivity() {
             override fun onFailure(call: Call<PaylaterResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Pay_Now,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Pay_Now,"Weak Internet Connection", Toast.LENGTH_LONG).show()
 
             }
 

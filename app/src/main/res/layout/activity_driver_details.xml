@@ -92,6 +92,12 @@
                                     android:src="@drawable/driverimg">
 
                                 </ImageView>-->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content">
+
+
                                 <de.hdodenhof.circleimageview.CircleImageView
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:id="@+id/driver_img_drvFrg_aty"
@@ -99,10 +105,11 @@
                                     android:layout_height="@dimen/_40sdp"
                                     android:src="@drawable/driverimg"
                                     android:layout_marginLeft="@dimen/_10sdp"
-                                    android:layout_weight="1"
+
                                     app:civ_border_width="1dp"
                                     android:layout_marginTop="@dimen/_10sdp"
                                     app:civ_border_color="@color/yellow"/>
+                                </LinearLayout>
 
                                 <LinearLayout
 
@@ -115,15 +122,16 @@
 
                                     <TextView
                                         android:id="@+id/driver_nmae_drvFrg_aty"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppinsmedium"
                                         android:text="Jhon Smith"
-                                        android:textSize="@dimen/_15ssp">
+                                        android:textSize="@dimen/_8ssp">
 
                                     </TextView>
 
                                     <LinearLayout
+                                        android:layout_marginTop="@dimen/_2sdp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content">
 

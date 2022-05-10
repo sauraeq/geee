@@ -98,7 +98,7 @@ class Notification : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@Notification,e.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Notification,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customDialog.hide()
                 }
 
@@ -106,7 +106,7 @@ class Notification : AppCompatActivity() {
 
             override fun onFailure(call: Call<NotificationResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@Notification,t.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Notification,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customDialog.hide()
             }
 
@@ -147,7 +147,7 @@ class Notification : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Notification,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Notification,"Weak Internet Connection", Toast.LENGTH_LONG).show()
 
                 }
 
@@ -156,7 +156,7 @@ class Notification : AppCompatActivity() {
             override fun onFailure(call: Call<ViewNotificationResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Notification,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Notification,"Weak Internet Connection", Toast.LENGTH_LONG).show()
 
             }
 

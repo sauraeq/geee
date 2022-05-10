@@ -302,7 +302,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
               else {
                   if(NetworkUtils.checkInternetConnection(this))
                   {
-                      custom_progress.show()
+                    //  custom_progress.show()
                       signup()
                   }
                   else{
@@ -350,6 +350,8 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
 
     fun signup()
     {
+
+        custom_progress.show()
         val request = HashMap<String, String>()
         request.put("name",name)
         request.put("email",email)
@@ -383,12 +385,13 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                     } else {
 
                         Toast.makeText(this@Sign_Up,response.body()!!.msg,Toast.LENGTH_LONG).show()
+                        custom_progress.hide()
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Sign_Up,e.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                     custom_progress.hide()
 
                 }
@@ -398,9 +401,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Sign_Up,"Email or Mobile Number already exist+",Toast
-                    .LENGTH_LONG)
-                    .show()
+                Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                 custom_progress.hide()
 
             }
@@ -409,6 +410,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     }
     fun login()
     {
+         custom_progress.show()
         val request = HashMap<String, String>()
         request.put("mobile",country_code+mobile_number_login)
         request.put("device_tokanid",token_id)
@@ -444,7 +446,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Sign_Up,e.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                     custom_progress.hide()
 
                 }
@@ -454,7 +456,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Sign_Up,t.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                 custom_progress.hide()
 
             }

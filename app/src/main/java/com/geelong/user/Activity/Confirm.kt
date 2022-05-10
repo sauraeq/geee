@@ -317,9 +317,9 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
 
                         //driver_rating_txt_aty.setText(rating)
-                      total_fare_act.setText(response.body()!!.data[0].amount)
+                      total_fare_act.setText("$"+response.body()!!.data[0].amount)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
-                        setStringValue("$"+ConstantUtils.Amount,response.body()!!.data[0].amount)
+                        setStringValue(ConstantUtils.Amount,response.body()!!.data[0].amount)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
                         setStringValue(ConstantUtils.Distance,response.body()!!.data[0].distance)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.

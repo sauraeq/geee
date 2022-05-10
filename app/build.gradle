@@ -78,6 +78,7 @@ dependencies {
 
     implementation 'com.kaopiz:kprogresshud:1.2.0'
    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.karumi:dexter:6.2.2'
 
 
 }

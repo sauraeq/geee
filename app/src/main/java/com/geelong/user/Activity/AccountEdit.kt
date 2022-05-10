@@ -36,6 +36,14 @@ import com.geelong.user.Util.Camerautils.Utility
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_acccount.*
 import kotlinx.android.synthetic.main.activity_account_edit.*
@@ -52,7 +60,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AccountEdit : AppCompatActivity() {
+class AccountEdit : AppCompatActivity() , MultiplePermissionsListener {
 
     var image=""
 
@@ -143,7 +151,12 @@ class AccountEdit : AppCompatActivity() {
             }
 
         }
+        val permissions = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE ,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
 
+        )
 
         save.setOnClickListener {
 
@@ -183,7 +196,25 @@ class AccountEdit : AppCompatActivity() {
             onBackPressed()
         }
         change_profile_img.setOnClickListener {
-            getPermissions()
+            Dexter.withContext(this)
+                .withPermission(Manifest.permission.CAMERA)
+                .withListener(object : PermissionListener {
+                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
+
+                   selectImage()
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                        Toast.makeText(this@AccountEdit,"Demied....",Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
+                        token!!.continuePermissionRequest()
+                    }
+                }).check()
             //val i = Intent()
            // i.type = "image/*"
             //i.action = Intent.ACTION_GET_CONTENT
@@ -499,13 +530,13 @@ class AccountEdit : AppCompatActivity() {
                         }
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this@AccountEdit,e.toString(),Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AccountEdit,"Weak Internet Connection",Toast.LENGTH_LONG).show()
 
                 }
             }
 
             override fun onFailure(call: Call<EditProfileResponse>, t: Throwable) {
-                Toast.makeText(this@AccountEdit,t.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AccountEdit,"Weak Internet Connection",Toast.LENGTH_LONG).show()
             }
 
         })
@@ -550,7 +581,7 @@ class AccountEdit : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@AccountEdit,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AccountEdit,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -560,7 +591,7 @@ class AccountEdit : AppCompatActivity() {
             override fun onFailure(call: Call<EditPResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@AccountEdit,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AccountEdit,"Weak Internet Connection", Toast.LENGTH_LONG).show()
 
                customprogress.hide()
 
@@ -582,6 +613,13 @@ class AccountEdit : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 */
+    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>, token: PermissionToken) {
+       // Toast.makeText(this,token.toString()+permissions.toString(),Toast.LENGTH_LONG).show()
+    }
+
+    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+       //Toast.makeText(this,report.toString(),Toast.LENGTH_LONG).show()
+    }
 
 
 }

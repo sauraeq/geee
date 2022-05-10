@@ -131,7 +131,7 @@ class Payment_method : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@Payment_method,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Payment_method,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -140,7 +140,7 @@ class Payment_method : AppCompatActivity() {
 
             override fun onFailure(call: Call<PyMentResp>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@Payment_method,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Payment_method,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customprogress.hide()
             }
 

@@ -122,7 +122,7 @@ class Acccount : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@Acccount,e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Acccount,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -131,7 +131,7 @@ class Acccount : AppCompatActivity() {
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@Acccount,t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Acccount,"Weak Internet Connection", Toast.LENGTH_LONG).show()
                 customprogress.hide()
             }
 

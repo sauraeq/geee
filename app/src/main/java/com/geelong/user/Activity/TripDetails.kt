@@ -95,7 +95,7 @@ class TripDetails : AppCompatActivity() {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                Toast.makeText(this@TripDetails,e.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TripDetails,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                     customprogress.hide()
                 }
 
@@ -103,7 +103,7 @@ class TripDetails : AppCompatActivity() {
 
             override fun onFailure(call: Call<TripHistoryResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(this@TripDetails,t.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TripDetails,"Weak Internet Connection",Toast.LENGTH_LONG).show()
                 customprogress.hide()
             }
 

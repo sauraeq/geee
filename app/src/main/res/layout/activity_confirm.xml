@@ -59,7 +59,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
                 android:elevation="2dp"
                 android:layout_weight="5"
                 app:cardBackgroundColor="@color/white"
@@ -71,7 +70,7 @@
                     android:id="@+id/confirm_trip_linearlayout_act"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
+
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -92,7 +91,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_50sdp"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
 
                             <TextView
@@ -122,7 +121,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardview11"
                             android:layout_width="match_parent"
-                            android:layout_height="125dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:layout_marginRight="20dp"
@@ -133,7 +132,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_14sdp"
                                 android:orientation="horizontal">
 
@@ -167,7 +166,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_30sdp"
                                 android:orientation="horizontal">
 
@@ -195,7 +194,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_50sdp"
                                 android:orientation="horizontal">
 
@@ -227,7 +226,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_70sdp"
                                 android:orientation="horizontal">
 
@@ -259,12 +258,13 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_48sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:layout_marginLeft="@dimen/_18sdp"
                             android:layout_marginRight="@dimen/_18sdp"
-                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:orientation="horizontal"
-                            android:padding="@dimen/_5sdp">
+                           >
 
                             <TextView
                                 android:id="@+id/pick_up_confirm_act"
