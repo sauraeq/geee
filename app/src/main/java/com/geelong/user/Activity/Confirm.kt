@@ -143,7 +143,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                 mMap.addMarker(MarkerOptions().position(destinationLocation))
                 val urll = getDirectionURL(originLocation, destinationLocation, apiKey)
                 GetDirection(urll).execute()
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
             }
 
     }
@@ -156,7 +156,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
             val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
             mMap.clear()
             mMap.addMarker(MarkerOptions().position(originLocation))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 5F))
         }catch (e:Exception){
 
         }

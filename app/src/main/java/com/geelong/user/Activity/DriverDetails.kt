@@ -321,7 +321,7 @@ private fun updateAdapter(highlightItemPos: Int) {
             mMap.addMarker(MarkerOptions().position(destinationLocation))
             val urll = getDirectionURL(originLocation, destinationLocation, apiKey)
             GetDirection(urll).execute()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 14F))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
         }
         Booking_status()
 
@@ -332,7 +332,7 @@ private fun updateAdapter(highlightItemPos: Int) {
         val originLocation = LatLng(originLatitude.toDouble(), originLongitude.toDouble())
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(originLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 18F))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 5F))
     }
     private fun getDirectionURL(origin:LatLng, dest:LatLng, secret: String) : String{
         return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
