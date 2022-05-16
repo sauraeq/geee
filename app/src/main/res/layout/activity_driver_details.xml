@@ -277,9 +277,9 @@
                                         <LinearLayout
                                             android:layout_marginTop="@dimen/_5sdp"
                                             android:background="@drawable/button_corner"
-                                            android:layout_width="@dimen/_105sdp"
+                                            android:layout_width="wrap_content"
                                             android:gravity="center"
-                                            android:layout_height="@dimen/_40sdp">
+                                            android:layout_height="wrap_content">
 
                                             <in.aabhasjindal.otptextview.OtpTextView
                                                 android:id="@+id/otp_drvFrg_aty"
@@ -445,6 +445,8 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="$25.12"
+                                                    android:singleLine="true"
+                                                    android:ellipsize="end"
                                                     android:gravity="center"
                                                     android:textSize="@dimen/_12ssp">
 

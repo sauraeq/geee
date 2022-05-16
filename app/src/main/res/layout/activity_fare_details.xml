@@ -73,10 +73,12 @@
             <TextView
                 android:id="@+id/toatal_fare_txtview"
                 android:text="$25.12"
-                android:textSize="@dimen/_58ssp"
+                android:textSize="@dimen/_40ssp"
                 android:layout_gravity="center"
                 android:textColor="#3E3E3E"
                 android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/poppinsmedium"
                 android:layout_width="wrap_content"

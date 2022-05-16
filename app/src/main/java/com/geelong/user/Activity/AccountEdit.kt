@@ -60,7 +60,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AccountEdit : AppCompatActivity() , MultiplePermissionsListener {
+class AccountEdit : AppCompatActivity()  {
 
     var image=""
 
@@ -196,7 +196,8 @@ class AccountEdit : AppCompatActivity() , MultiplePermissionsListener {
             onBackPressed()
         }
         change_profile_img.setOnClickListener {
-            Dexter.withContext(this)
+            getMultiplePermission()
+           /* Dexter.withContext(this)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(object : PermissionListener {
                     override fun onPermissionGranted(response: PermissionGrantedResponse) {
@@ -214,7 +215,7 @@ class AccountEdit : AppCompatActivity() , MultiplePermissionsListener {
                     ) {
                         token!!.continuePermissionRequest()
                     }
-                }).check()
+                }).check()*/
             //val i = Intent()
            // i.type = "image/*"
             //i.action = Intent.ACTION_GET_CONTENT
@@ -613,12 +614,42 @@ class AccountEdit : AppCompatActivity() , MultiplePermissionsListener {
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 */
-    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>, token: PermissionToken) {
+    /*override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>, token: PermissionToken) {
        // Toast.makeText(this,token.toString()+permissions.toString(),Toast.LENGTH_LONG).show()
     }
 
     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
        //Toast.makeText(this,report.toString(),Toast.LENGTH_LONG).show()
+    }*/
+
+    private fun getMultiplePermission() {
+        Dexter.withContext(this)
+            .withPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ).withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    report.let {
+
+                        if (report.areAllPermissionsGranted()) {
+                            selectImage()
+                            // Toast.makeText(this@EditProfile, "Permissions Granted", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@AccountEdit, "Please Grant Permissions to use the app", Toast
+                                .LENGTH_SHORT).show()
+                        }
+
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(permissions: List<PermissionRequest?>?, token: PermissionToken?) {
+                    token?.continuePermissionRequest()
+                }
+            }).withErrorListener{
+                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+            }.check()
+
     }
 
 
