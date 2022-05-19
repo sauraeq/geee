@@ -76,7 +76,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        supportActionBar?.hide()
+
 
         radioGroup=findViewById(R.id.radioGroup1)
 

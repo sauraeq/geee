@@ -90,7 +90,6 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_details)
-        supportActionBar?.hide()
         SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
         rid_details_linear.visibility=View.GONE
         progress_linear_ride.visibility=View.VISIBLE

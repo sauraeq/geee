@@ -29,7 +29,7 @@ class Pay_Now : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_now)
-        supportActionBar?.hide()
+
         c1 = findViewById(R.id.checkbox_paynow)
         c2 = findViewById(R.id.checkbox_paylater)
 

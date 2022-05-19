@@ -49,7 +49,6 @@ class ConfirmPick_up : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_pick_up)
-        supportActionBar?.hide()
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
         customprogress.show()

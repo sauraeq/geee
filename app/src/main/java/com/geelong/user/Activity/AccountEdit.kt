@@ -124,7 +124,7 @@ class AccountEdit : AppCompatActivity()  {
             picasso.load(img_url).into(userProfile_edit_img)
         }
 
-        supportActionBar?.hide()
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         var lang=ArrayList<String>()

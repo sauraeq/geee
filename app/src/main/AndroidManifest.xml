@@ -31,6 +31,12 @@
         android:theme="@style/Theme.GeeLong"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".RideLaterOverview"
+            android:exported="false" />
+        <activity
+            android:name=".RideLaterHistory"
+            android:exported="false" />
+        <activity
             android:name=".CancelTripHistory"
             android:exported="false" />
         <activity
@@ -60,13 +66,21 @@
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.CancelTripHistory"
+        <activity
+            android:name=".Activity.CancelTripHistory"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait"
-           />
-
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.RideLaterOverview"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.RideLaterHistory"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.CallActivity"
             android:configChanges="orientation"

@@ -36,7 +36,7 @@ class TermsCondition : AppCompatActivity() {
 
         TermsConditionss()
 
-        supportActionBar?.hide()
+
 
         back_activity.setOnClickListener {
            onBackPressed()

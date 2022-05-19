@@ -69,6 +69,7 @@ class Search1 : AppCompatActivity() {
         NavigationItemModel(R.drawable.trips, "Trip History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
         NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
+        NavigationItemModel(R.drawable.ridelater,"Ride Later"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
        // NavigationItemModel(R.drawable.home, "Profile"),
@@ -79,6 +80,7 @@ class Search1 : AppCompatActivity() {
         NavigationItemModel(R.drawable.trips, "Trip History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
         NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
+        NavigationItemModel(R.drawable.ridelater,"Ride Later"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
        // NavigationItemModel(R.drawable.home, "Profile"),
@@ -88,7 +90,7 @@ class Search1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search1)
-        supportActionBar?.hide()
+
 
         SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
        // window.setStatusBarColor(ContextCompat.getColor(this,android.R.color.transparent))
@@ -186,18 +188,18 @@ class Search1 : AppCompatActivity() {
                         val intent = Intent(this@Search1, Notification::class.java)
                         startActivity(intent)
                     }
-                    4 -> {
+                    5 -> {
                         val intent = Intent(this@Search1, TermsCondition::class.java)
                         startActivity(intent)
                         // # Books Fragment
 
                     }
-                    5 -> {
+                    6 -> {
                         // # Profile Activity
                         val intent = Intent(this@Search1, Privacy_Policy::class.java)
                         startActivity(intent)
                     }
-                    5 -> {
+                    7 -> {
                         drawerLayout.closeDrawer(GravityCompat.START)
 
 
@@ -205,6 +207,11 @@ class Search1 : AppCompatActivity() {
                     3 -> {
 
                         val intent = Intent(this@Search1, CancelTripHistory::class.java)
+                        startActivity(intent)
+                    }
+                    4 -> {
+
+                        val intent = Intent(this@Search1, RideLaterHistory::class.java)
                         startActivity(intent)
                     }
                 }

@@ -19,6 +19,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/corner_edittext2.xml" value="0.1445" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_thumb.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/custom_track.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/date_ride_later.xml" value="0.141" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/defaultt.xml" value="0.186" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/headercorner.xml" value="0.1695" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.141" />
@@ -27,7 +28,11 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/noti.xml" value="0.1695" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/pickup.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/rectangle.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ride_la.xml" value="0.141" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ride_later.xml" value="0.141" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/time_ride_later.xml" value="0.141" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/toggle_bck.xml" value="0.119" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/trip_cancel.xml" value="0.141" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_acccount.xml" value="0.33" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_account_edit.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_call.xml" value="0.20416666666666666" />
@@ -46,6 +51,8 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_payment_method.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_privacy_policy.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_review.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_ride_later_history.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_ride_later_overview.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search.xml" value="0.1" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search1.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/activity_search_1.xml" value="0.20416666666666666" />
@@ -75,6 +82,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/popup_write_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/privacy_adapter_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/ride_later.xml" value="0.16673792218896966" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/ride_later_history_layout.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/ride_later_success_dialog.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/row_nav_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/successalertdialog.xml" value="0.20416666666666666" />

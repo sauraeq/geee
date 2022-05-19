@@ -36,7 +36,7 @@ class Notification : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
-        supportActionBar?.hide()
+
         customDialog= Dialog(this)
         customDialog.setContentView(R.layout.loader_layout)
         user_id= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()

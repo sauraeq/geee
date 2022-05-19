@@ -31,7 +31,7 @@ class Privacy_Policy : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_policy)
-        supportActionBar?.hide()
+
 
         var back_activity_privacy=findViewById<ImageView>(R.id.LeftArrow2)
          privacy_progress=findViewById<RelativeLayout>(R.id.progress_loader_privacy)

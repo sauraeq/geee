@@ -32,7 +32,7 @@ class TripDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip_details)
-        supportActionBar?.hide()
+
         var back_activity=findViewById<ImageView>(R.id.LeftArrow)
 
          user_id= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()

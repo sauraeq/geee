@@ -25,7 +25,7 @@ class Otp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp)
-        supportActionBar?.hide()
+
         var verify_txt=findViewById<TextView>(R.id.verify_now)
         var otp_edittext=findViewById<OtpTextView>(R.id.otp_view)
 

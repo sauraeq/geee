@@ -31,7 +31,7 @@ class CancelTripHistory : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cancel_trip_history)
-        supportActionBar?.hide()
+
         var back_activity=findViewById<ImageView>(R.id.LeftArrow_canceltrip)
 
         user_id= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()

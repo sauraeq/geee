@@ -72,7 +72,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
-        supportActionBar?.hide()
+
         confirm_linear.visibility=View.GONE
         progress_linear.visibility=View.VISIBLE
 

@@ -13,7 +13,6 @@ class Chat : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        supportActionBar?.hide()
 
         var back_activity_privacy=findViewById<ImageView>(R.id.leftarrow_chat)
         back_activity_privacy.setOnClickListener {

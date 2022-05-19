@@ -44,7 +44,7 @@ public class SearchActivityNew extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_12);
-        getSupportActionBar().hide();
+
 
         binding.etDestination.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.place_row));
         type=getIntent().getStringExtra("type");

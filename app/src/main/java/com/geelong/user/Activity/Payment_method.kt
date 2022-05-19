@@ -45,7 +45,6 @@ class Payment_method : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_method)
-        supportActionBar?.hide()
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
         requestQueue = Volley.newRequestQueue(this)

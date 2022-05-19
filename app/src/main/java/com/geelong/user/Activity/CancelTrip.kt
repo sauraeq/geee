@@ -37,7 +37,7 @@ class CancelTrip : AppCompatActivity(),CancelTripAdapter.PractiseInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cancel_trip)
-        supportActionBar?.hide()
+
         Cancel_trip_submit=findViewById(R.id.Cancel_trip_submit_btn)
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.loader_layout)
