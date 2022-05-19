@@ -1,23 +1,24 @@
 package com.geelong.user.Fragment
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Address
-import android.location.Geocoder
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -25,13 +26,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.Confirm
-import com.geelong.user.Activity.Pay_Now
 import com.geelong.user.Activity.Search1
 import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.Adapter.AutoCompleteAdapter_pickup
 import com.geelong.user.R
 import com.geelong.user.Response.BookingResponse
-import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
@@ -45,19 +44,16 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompletePrediction
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import kotlinx.android.synthetic.main.activity_confirm.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.lang.Math.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -83,6 +79,7 @@ class HomeFragment : Fragment() {
     var toatal_time_taken: String = ""
     var time_count:String=""
     var no_of_passenger=0
+    var cal = Calendar.getInstance()
     lateinit var passenger_edittext:EditText
 
     var autoCompleteTextView_drop: AutoCompleteTextView? = null
@@ -95,6 +92,7 @@ class HomeFragment : Fragment() {
     var resultReceiver: ResultReceiver? = null
     lateinit var no_passengerr: EditText
     var total_distance_apprx: String = ""
+    lateinit var ride_later:TextView
     var locType:String=""
     var sourlat = 0.0
     var sourlng:Double = 0.0
@@ -130,7 +128,7 @@ class HomeFragment : Fragment() {
         user_id = SharedPreferenceUtils.getInstance(requireContext())
             ?.getStringValue(ConstantUtils.USER_ID, "").toString()
         pick_up_user = rootview.findViewById(R.id.pickup_location_user)
-
+        ride_later=rootview.findViewById(R.id.ride_later_btn)
         no_passengerr = rootview.findViewById(R.id.no_passenger)
         no_passengerr.setOnClickListener {
             numberPickerCustom()
@@ -182,6 +180,33 @@ class HomeFragment : Fragment() {
 
             var intent = Intent(requireContext(), SearchActivityNew::class.java)
             startActivityForResult(intent, 100)
+        }
+        ride_later.setOnClickListener {
+            pick_up_location = pickup_location_user.text.toString()
+            drop_location = drop_location_user.text.toString()
+            n_of_passenger = no_passenger.text.toString()
+            if (pick_up_location.isEmpty())
+            {
+                Toast.makeText(requireContext(), "Please select pickup location", Toast.LENGTH_LONG)
+                    .show()
+            }
+            else if (drop_location.isEmpty())
+            {
+                Toast.makeText(requireContext(), "Please select drop location", Toast.LENGTH_LONG)
+                    .show()
+            }
+            else if (n_of_passenger.isEmpty())
+            {
+                Toast.makeText(requireContext(), "Please fill no of passenger", Toast.LENGTH_LONG)
+                    .show()
+            }
+            else
+            {
+                ride_later_Dialog()
+            }
+
+          /*  Toast.makeText(requireContext(),"Under Developement",Toast.LENGTH_LONG).show()*/
+
         }
 
 
@@ -493,8 +518,9 @@ class HomeFragment : Fragment() {
                 var locaity: String? = resultData.getString(Constants.LOCAITY)
                 var state: String? = resultData.getString(Constants.STATE)
                 var district: String? = resultData.getString(Constants.DISTRICT)
-                var country: String? = resultData.getString(Constants.ADDRESS)
-                locat = address + "," + locaity + "," + state
+                var country: String? = resultData.getString(Constants.COUNTRY)
+                var postCode:String?=resultData.getString(Constants.POST_CODE)
+                locat = address + "," + locaity + "," + district+ "," + state+ "," + country+ ","+ postCode
                 pick_up_user.setText(locat)
 
                 SharedPreferenceUtils.getInstance(requireContext())
@@ -757,20 +783,23 @@ class HomeFragment : Fragment() {
     fun Totaltimetaken(distance_km: Double): String {
 
 
-        val km = distance_km.toInt()
-        val kms_per_min = 0.4
+        val km = distance_km.toDouble()
+        val kms_per_min = 0.8
         val mins_taken = km / kms_per_min
-        val totalMinutes = mins_taken.toInt()
+        val totalMinutes = mins_taken.toDouble()
         if (totalMinutes < 60) {
 
-            toatal_time_taken = totalMinutes.toString() + " " + "Mins"
+          var  toatal_time_taken1 = totalMinutes.toString()
+            val round_total_time_taken=roundOffDecimal(toatal_time_taken1.toDouble())
+            toatal_time_taken=round_total_time_taken.toString() + " " + "Mins"
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
             )
 
+
         } else {
-            var minutes = Integer.toString(totalMinutes % 60)
+            var minutes = Integer.toString((totalMinutes % 60).toInt())
             minutes = if (minutes.length == 1) "0$minutes" else minutes
             (totalMinutes / 60).toString() + " hour " + minutes + "mins"
             toatal_time_taken = minutes.toString()
@@ -783,7 +812,155 @@ class HomeFragment : Fragment() {
       return toatal_time_taken
 
     }
+
+    fun ride_later_Dialog() {
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.getWindow()!!
+            .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.ride_later)
+
+       val date_ride_later=dialog.findViewById<TextView>(R.id.ride_later_date)
+        var time_ride_later=dialog.findViewById<TextView>(R.id.ride_later_time)
+        var submit_review_btn=dialog.findViewById<TextView>(R.id.submit_review_btn)
+
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                   dayOfMonth: Int) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val myFormat = "MM/dd/yyyy"
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                date_ride_later!!.text = sdf.format(cal.getTime())
+            }
+        }
+
+        val mTimePicker: TimePickerDialog
+        val mcurrentTime = Calendar.getInstance()
+        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = mcurrentTime.get(Calendar.MINUTE)
+
+        mTimePicker = TimePickerDialog(requireContext(), object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                time_ride_later!!.setText(String.format("%d : %d", hourOfDay, minute))
+            }
+        }, hour, minute, false)
+
+
+        time_ride_later!!.setOnClickListener {
+            mTimePicker.show()
+   }
+
+        date_ride_later!!.setOnClickListener {
+            DatePickerDialog(requireContext(), dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
+
+
+        }
+
+
+        submit_review_btn?.setOnClickListener {
+            val date_string_value=date_ride_later?.text.toString()
+            val time_val= time_ride_later?.text.toString()
+
+            if (date_string_value.equals("--/--/----"))
+
+            {
+
+                Toast.makeText(requireContext(),"Please select date",Toast.LENGTH_LONG).show()
+            }
+            else if (time_val.equals("-:-"))
+            {
+
+                Toast.makeText(requireContext(),"Please select time",Toast.LENGTH_LONG).show()
+            }
+
+            else
+            {
+
+                dialog.hide()
+                SuccessDialog()
+
+            }
+
+        }
+
+
+
+
+        dialog.show()
+
+    }
+    private fun SuccessDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.ride_later_success_dialog)
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        lateinit var button: LinearLayout
+
+
+        button = dialog.findViewById(R.id.payment_success)
+
+        button.setOnClickListener {
+
+            val intent=Intent(requireContext(), Search1::class.java)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+
+
+
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()
+
+        //dialog.window?.setLayout(700,750)
+
+    }
+
+    private fun updateDateInView() {
+        /*val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        textview_date!!.text = sdf.format(cal.getTime())*/
+    }
+
+   /* fun showHourPicker() {
+        val myCalender = Calendar.getInstance()
+        val hour = myCalender[Calendar.HOUR_OF_DAY]
+        val minute = myCalender[Calendar.MINUTE]
+        val myTimeListener =
+            OnTimeSetListener { view, hourOfDay, minute ->
+                if (view.isShown) {
+                    myCalender[Calendar.HOUR_OF_DAY] = hourOfDay
+                    myCalender[Calendar.MINUTE] = minute
+                    Toast.makeText(requireContext(),hourOfDay.toString()+minute.toString(),Toast
+                        .LENGTH_LONG).show()
+                }
+            }
+        val timePickerDialog = TimePickerDialog(
+            activity,
+            android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+            myTimeListener,
+            hour,
+            minute,
+            true
+        )
+        timePickerDialog.setTitle("Choose hour:")
+        timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        timePickerDialog.show()
+    }
+*/
 }
+
 // Toast.makeText(requireContext(), latitude1+longitude1, Toast.LENGTH_SHORT).show()
 
 /*  //Put marker on map on that LatLng

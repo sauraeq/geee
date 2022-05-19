@@ -65,6 +65,12 @@ interface APIConfiguration {
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<TripHistoryResponse>
 
+    @POST("cancel_trip")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun CancelTripHistoryy(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call< CancelTripHistoryResponse>
+
     @POST("addreview")
     @Headers("Content-Type:application/x-www-form-urlencoded")
     fun Review(

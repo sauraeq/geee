@@ -66,8 +66,9 @@ class Search1 : AppCompatActivity() {
     var resultReceiver: ResultReceiver? = null
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.home, "Account"),
-        NavigationItemModel(R.drawable.trips, "Trips"),
+        NavigationItemModel(R.drawable.trips, "Trip History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
+        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
        // NavigationItemModel(R.drawable.home, "Profile"),
@@ -75,8 +76,9 @@ class Search1 : AppCompatActivity() {
     )
     private var items1 = arrayListOf(
         NavigationItemModel(R.drawable.home, "Account"),
-        NavigationItemModel(R.drawable.trips, "Trips"),
+        NavigationItemModel(R.drawable.trips, "Trip History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
+        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
        // NavigationItemModel(R.drawable.home, "Profile"),
@@ -184,13 +186,13 @@ class Search1 : AppCompatActivity() {
                         val intent = Intent(this@Search1, Notification::class.java)
                         startActivity(intent)
                     }
-                    3 -> {
+                    4 -> {
                         val intent = Intent(this@Search1, TermsCondition::class.java)
                         startActivity(intent)
                         // # Books Fragment
 
                     }
-                    4 -> {
+                    5 -> {
                         // # Profile Activity
                         val intent = Intent(this@Search1, Privacy_Policy::class.java)
                         startActivity(intent)
@@ -200,9 +202,10 @@ class Search1 : AppCompatActivity() {
 
 
                     }
-                    6 -> {
+                    3 -> {
 
-
+                        val intent = Intent(this@Search1, CancelTripHistory::class.java)
+                        startActivity(intent)
                     }
                 }
 

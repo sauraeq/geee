@@ -87,38 +87,40 @@
 
 
                     <TextView
-                        android:text="@string/pickup"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_19sdp"
+                        android:layout_marginTop="@dimen/_30sdp"
                         android:fontFamily="@font/poppinsmedium"
-                        android:layout_height="match_parent"/>
+                        android:text="@string/pickup" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginLeft="@dimen/_13sdp"
                         android:layout_height="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="horizontal">
+
                         <ImageView
-                            android:src="@drawable/pick"
-                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:paddingTop="@dimen/_2sdp"
+                            android:src="@drawable/pick"
 
                             >
 
                         </ImageView>
+
                         <TextView
-                            android:visibility="gone"
-                            android:text="7958 Swfit Village"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:fontFamily="@font/poppinsmedium"
+                            android:text="7958 Swfit Village"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
-                            android:fontFamily="@font/poppinsmedium"
-                            android:layout_marginLeft="@dimen/_12sdp"
-                            android:layout_height="wrap_content">
+                            android:visibility="gone">
 
                         </TextView>
 
@@ -128,19 +130,18 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:background="@null"
-                           android:focusable="false"
-                            android:hint="@string/enter_pick_up_location"
+                            android:focusable="false"
                             android:fontFamily="@font/poppinsmedium"
+                            android:hint="@string/enter_pick_up_location"
+                            android:inputType="textMultiLine"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
-                            android:inputType="textMultiLine"
                             tools:ignore="TouchTargetSizeCheck">
 
                         </AutoCompleteTextView>
 
 
                     </LinearLayout>
-
 
 
                     <View
@@ -150,29 +151,29 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:background="#C8C3C3" />
 
                     <TextView
-                        android:text="@string/drop"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_19sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/poppinsmedium"
-                        android:layout_height="match_parent"/>
+                        android:text="@string/drop" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_13sdp"
-                        android:layout_height="@dimen/_30sdp">
+                        android:layout_marginTop="@dimen/_5sdp">
+
                         <ImageView
-                            android:src="@drawable/drop"
                             android:layout_width="@dimen/_12sdp"
-                            android:layout_marginTop="@dimen/_7sdp"
                             android:layout_height="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
                             android:paddingTop="@dimen/_2sdp"
-                            >
+                            android:src="@drawable/drop">
 
                         </ImageView>
 
@@ -183,15 +184,16 @@
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:background="@null"
                             android:focusable="false"
-                            android:inputType="textMultiLine"
                             android:fontFamily="@font/poppinsmedium"
                             android:hint="@string/enter_drop_location"
+                            android:inputType="textMultiLine"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
                             tools:ignore="TouchTargetSizeCheck">
 
                         </AutoCompleteTextView>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
@@ -199,28 +201,29 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:background="#C8C3C3" />
+
                     <TextView
-                        android:text="@string/no_of_passengers"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_19sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/poppinsmedium"
-                        android:layout_height="match_parent"/>
+                        android:text="@string/no_of_passengers" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_marginLeft="@dimen/_13sdp"
-                        android:layout_height="@dimen/_25sdp">
+                        android:layout_marginTop="@dimen/_5sdp">
 
                         <ImageView
-                            android:src="@drawable/person"
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
                             android:layout_marginTop="@dimen/_7sdp"
-                            android:paddingTop="@dimen/_2sdp"                            >
+                            android:paddingTop="@dimen/_2sdp"
+                            android:src="@drawable/person">
 
                         </ImageView>
 
@@ -241,6 +244,7 @@
 
                         </EditText>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
@@ -248,40 +252,74 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:background="#C8C3C3" />
+
                     <LinearLayout
-
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_45sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:padding="@dimen/_5sdp">
+                        android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/search_text_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/button_corner"
-                            android:fontFamily="@font/poppinsmedium"
-                            android:paddingTop="@dimen/_8sdp"
-                            android:text="@string/search"
-                            android:textAlignment="center"
-                            android:clickable="true"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            android:textStyle="bold" />
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_45sdp"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:id="@+id/search_text_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/button_corner"
+                                android:clickable="true"
+                                android:fontFamily="@font/poppinsmedium"
+                                android:paddingTop="@dimen/_8sdp"
+                                android:text="Ride Now"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_45sdp"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:id="@+id/ride_later_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/button_corner"
+                                android:clickable="true"
+                                android:fontFamily="@font/poppinsmedium"
+                                android:paddingTop="@dimen/_8sdp"
+                                android:text="Ride Later"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
                     </LinearLayout>
 
 
-
-
-
                 </LinearLayout>
-
 
 
             </LinearLayout>

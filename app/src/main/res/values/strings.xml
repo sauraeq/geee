@@ -51,6 +51,13 @@
     <string name="duration">Duration</string>
     <string name="total_distance">Total Distance</string>
     <string name="waiting_for_driver_acceptance">Waiting for Driver acceptance</string>
+    <string name="select_date">Select date</string>
+    <string name="select_time">Select Time</string>
+    <string name="time_selcet">-:-</string>
+    <string name="you_have_booked_your_ride">You Have Booked Your Ride</string>
+    <string name="your_ride_has_been_booked_successfully">Your Ride has been booked successfully.</string>
+    <string name="booked_successful">Booked Successful</string>
+    <string name="cancel_trip_history">Cancel Trip History</string>
     >
 
 </resources>

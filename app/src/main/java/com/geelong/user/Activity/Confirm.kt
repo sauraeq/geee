@@ -296,7 +296,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                             var name=response.body()!!.data[0].name
                             SharedPreferenceUtils.getInstance(this@Confirm)!!.
                             setStringValue(ConstantUtils.Driver_Id,response.body()!!.data[0].id)
-                            var vehicle_name=response.body()!!.data[0].name
+                            var vehicle_name=response.body()!!.data[0].vehicle_name.toString()
                             var rating=response.body()!!.data[0].rating
                             SharedPreferenceUtils.getInstance(this@Confirm)!!.
                             setStringValue(ConstantUtils.Driver_latitude,response.body()!!
@@ -324,7 +324,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                         setStringValue(ConstantUtils.Distance,response.body()!!.data[0].distance)
                         SharedPreferenceUtils.getInstance(this@Confirm)!!.
                         setStringValue(ConstantUtils.Toatal_time,response.body()!!.data[0].time)
-                        toatl_distance_trip_act.setText(response.body()!!.data[0].distance)
+                        toatl_distance_trip_act.setText(response.body()!!.data[0].distance+" "+"KM")
                         total_time_trip_act.setText(response.body()!!.data[0].time)
                     }catch (e:Exception)
                     {
