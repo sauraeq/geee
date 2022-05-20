@@ -149,7 +149,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
             CancelTripSubmit()
            finish()
 
-        },10000L)
+        },400000L)
 
     }
 

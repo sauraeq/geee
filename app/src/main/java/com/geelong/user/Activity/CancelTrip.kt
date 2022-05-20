@@ -160,13 +160,13 @@ class CancelTrip : AppCompatActivity(),CancelTripAdapter.PractiseInterface {
 
 
                     } else {
-
+                        Toast.makeText(this@CancelTrip,response.body()!!.msg,Toast.LENGTH_LONG).show()
 
                     }
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-
+                  //  Toast.makeText(this@CancelTrip,e.toString(),Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
 
@@ -176,7 +176,7 @@ class CancelTrip : AppCompatActivity(),CancelTripAdapter.PractiseInterface {
 
             override fun onFailure(call: Call<CancelSubmitResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-
+               // Toast.makeText(this@CancelTrip,t.toString(),Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
 
