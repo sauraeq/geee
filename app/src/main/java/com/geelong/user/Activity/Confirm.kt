@@ -18,10 +18,7 @@ import android.widget.Toast
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Fragment.ConfirmFragment
 import com.geelong.user.R
-import com.geelong.user.Response.BookingStatusResponse
-import com.geelong.user.Response.BookingStsResponse
-import com.geelong.user.Response.MapData
-import com.geelong.user.Response.Vechail_detailsResponse
+import com.geelong.user.Response.*
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
@@ -69,6 +66,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     var status="2"
     var count=0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
@@ -77,6 +75,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
         progress_linear.visibility=View.VISIBLE
 
         SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
+
 
         customprogress= Dialog(this)
         customprogress.setContentView(R.layout.dialog_progress)
@@ -145,6 +144,12 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                 GetDirection(urll).execute()
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
             }
+
+        Handler().postDelayed(Runnable {
+            CancelTripSubmit()
+           finish()
+
+        },10000L)
 
     }
 
@@ -447,6 +452,64 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
+
+    fun CancelTripSubmit()
+    {
+        customprogress.show()
+        val request = HashMap<String, String>()
+        request.put("booking_id",booking_id)
+        request.put("description","dfdf")
+
+
+
+        var cancel_trip: Call<AfterminCancelRideResponse> = APIUtils.getServiceAPI()!!.AfterminCancel(request)
+
+        cancel_trip.enqueue(object : Callback<AfterminCancelRideResponse> {
+            override fun onResponse(call: Call<AfterminCancelRideResponse>, response: Response<AfterminCancelRideResponse>) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        SharedPreferenceUtils.getInstance(this@Confirm)!!.setStringValue(ConstantUtils.Status,"1").toString()
+                              SharedPreferenceUtils.getInstance(this@Confirm)!!.removeKey(ConstantUtils.Booking_id)
+                        Toast.makeText(this@Confirm,response.body()!!.msg.toString(),Toast.LENGTH_LONG).show()
+                       /* var Inte=Intent(this@Confirm,Search1::class.java)
+                        startActivity(Inte)
+*/
+
+
+                        customprogress.hide()
+
+
+
+
+                    } else {
+
+
+                    }
+
+                }  catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+
+                    customprogress.hide()
+
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<AfterminCancelRideResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+
+                customprogress.hide()
+
+
+            }
+
+        })
+    }
+
+
 
 
 }

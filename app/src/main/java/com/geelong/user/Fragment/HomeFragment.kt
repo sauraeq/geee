@@ -31,6 +31,7 @@ import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.Adapter.AutoCompleteAdapter_pickup
 import com.geelong.user.R
 import com.geelong.user.Response.BookingResponse
+import com.geelong.user.Response.RideLaterResponse
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.Constants
 import com.geelong.user.Util.FetchAddressServices
@@ -46,7 +47,11 @@ import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_ride_later_overview.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.drop_location_user
+import kotlinx.android.synthetic.main.fragment_home.no_passenger
+import kotlinx.android.synthetic.main.fragment_home.pickup_location_user
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -202,6 +207,16 @@ class HomeFragment : Fragment() {
             }
             else
             {
+                var toatal_distance = getKilometers(
+                    sourlat.toDouble(),
+                    sourlng.toDouble(),
+                    deslat.toDouble(),
+                    deslng.toDouble()
+                )
+                total_distance_apprx = roundOffDecimal(toatal_distance.toDouble()).toString()
+                time_count=Totaltimetaken(total_distance_apprx.toDouble())
+                SharedPreferenceUtils.getInstance(requireContext())!!
+                    .setStringValue(ConstantUtils.Distance, total_distance_apprx.toString())
                 ride_later_Dialog()
             }
 
@@ -833,7 +848,7 @@ class HomeFragment : Fragment() {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val myFormat = "MM/dd/yyyy"
+                val myFormat = "yyyy-MM-dd"
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
                 date_ride_later!!.text = sdf.format(cal.getTime())
             }
@@ -843,10 +858,11 @@ class HomeFragment : Fragment() {
         val mcurrentTime = Calendar.getInstance()
         val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
         val minute = mcurrentTime.get(Calendar.MINUTE)
+        val second=mcurrentTime.get(Calendar.SECOND)
 
         mTimePicker = TimePickerDialog(requireContext(), object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                time_ride_later!!.setText(String.format("%d : %d", hourOfDay, minute))
+                time_ride_later!!.setText(String.format("%d:%d:%d", hourOfDay, minute,second))
             }
         }, hour, minute, false)
 
@@ -883,9 +899,9 @@ class HomeFragment : Fragment() {
 
             else
             {
-
+              RideLater(date_string_value,time_val)
                 dialog.hide()
-                SuccessDialog()
+
 
             }
 
@@ -926,6 +942,76 @@ class HomeFragment : Fragment() {
         //dialog.window?.setLayout(700,750)
 
     }
+    fun RideLater(date:String,time:String) {
+
+        customprogress.show()
+        val request = HashMap<String, String>()
+        request.put("pickupAddress", pick_up_location)
+        request.put("pickupLatitude", sourlat.toString())
+        request.put("pickupLongitude", sourlng.toString())
+        request.put("dropAddress", drop_location)
+        request.put("dropLatitude", deslat.toString())
+        request.put("dropLongitude", deslng.toString())
+        request.put("user_id", user_id)
+        request.put("time", time_count)
+        request.put("distance", total_distance_apprx)
+        request.put("passenger", no_of_passenger.toString())
+        request.put("date",date)
+        request.put("bookingtime",time)
+
+
+
+        var driver_vec_details: Call<RideLaterResponse> =
+            APIUtils.getServiceAPI()!!.RideLater_btn(request)
+
+        driver_vec_details.enqueue(object : Callback<RideLaterResponse> {
+            override fun onResponse(
+                call: Call<RideLaterResponse>,
+                response: Response<RideLaterResponse>
+            ) {
+                try {
+
+
+                    if (response.body()!!.success.equals("true")) {
+                        SuccessDialog()
+                       /* //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
+                        //   Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                        //   .show()
+
+
+
+                        val intent = Intent(requireContext(), Confirm::class.java)
+                        startActivity(intent)*/
+                        customprogress.hide()
+
+
+                    } else {
+
+                        Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
+                            .show()
+                        customprogress.hide()
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("saurav", e.toString())
+                    Toast.makeText(requireContext(),"Weak Internet Connection",Toast.LENGTH_LONG).show()
+                    customprogress.hide()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<RideLaterResponse>, t: Throwable) {
+                Log.e("Saurav", t.message.toString())
+                Toast.makeText(requireContext(),"Weak Internet Connection",Toast.LENGTH_LONG).show()
+                customprogress.hide()
+
+
+            }
+
+        })
+    }
+
 
     private fun updateDateInView() {
         /*val myFormat = "MM/dd/yyyy" // mention the format you need

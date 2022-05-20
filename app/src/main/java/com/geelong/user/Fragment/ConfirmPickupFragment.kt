@@ -487,6 +487,7 @@ class ConfirmPickupFragment : Fragment() {
 
 
 
+
         var driver_vec_details: Call<CnfBookingResponse> =
             APIUtils.getServiceAPI()!!.confirm_booking(request)
 

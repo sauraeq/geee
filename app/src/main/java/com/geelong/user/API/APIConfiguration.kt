@@ -45,6 +45,12 @@ interface APIConfiguration {
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<BookingResponse>
 
+    @POST("bookinglater")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun RideLater_btn(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<RideLaterResponse>
+
     @Multipart
     @POST("edituser")
     fun profileupdate(
@@ -64,6 +70,19 @@ interface APIConfiguration {
     fun TripHistory(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<TripHistoryResponse>
+
+    @POST("triphistorylater")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun RideLaterHistory(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<RideLaterHistoryRes>
+
+    @POST("bookingupdatenew")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun RideLaterOverView_update(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<RideLaterOverViewResponse>
+
 
     @POST("cancel_trip")
     @Headers("Content-Type:application/x-www-form-urlencoded")
@@ -92,6 +111,12 @@ interface APIConfiguration {
     fun CancelResultSubmission(
         @Body stringStringHashMap: HashMap<String, String>,
     ): Call<CancelSubmitResponse>
+
+    @POST("cancelridenew")
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    fun AfterminCancel(
+        @Body stringStringHashMap: HashMap<String, String>,
+    ): Call<AfterminCancelRideResponse>
 
 
     @POST("subscription")
