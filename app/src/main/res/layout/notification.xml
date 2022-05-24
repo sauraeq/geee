@@ -24,6 +24,7 @@ android:orientation="vertical"
         android:layout_marginTop="@dimen/_2sdp"
         android:layout_toRightOf="@id/icon_notification"
         android:text="Geelong Taxi"
+        android:fontFamily="@font/poppinsmedium"
         android:gravity="center"
         android:textSize="@dimen/_12ssp" />
 
@@ -41,6 +42,7 @@ android:orientation="vertical"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
             android:textColor="@color/black"
+            android:fontFamily="@font/poppinsmedium"
             android:layout_toRightOf="@+id/icon_notification"
             android:text="this is message"
             android:textSize="@dimen/_10ssp" />

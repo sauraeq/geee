@@ -444,10 +444,8 @@ private fun updateAdapter(highlightItemPos: Int) {
                         else
 
                         {
-
                             rid_details_linear.visibility=View.VISIBLE
                             progress_linear_ride.visibility=View.GONE
-
                             var otp=response.body()!!.data[0].otp
                             var driver_profile_pic=response.body()!!.data[0].profile_photo
                             var vechile_img=response.body()!!.data[0].vehicle_image
@@ -455,8 +453,6 @@ private fun updateAdapter(highlightItemPos: Int) {
                             var name=response.body()!!.data[0].name
                             var vehicle_name=response.body()!!.data[0].name
                             var rating=response.body()!!.data[0].rating
-
-
                             val picasso = Picasso.get()
                             picasso.load(driver_profile_pic).into(driver_img_drvFrg_aty)
                             picasso.load(vechile_img).into(vch_img_drvFrg_aty)
