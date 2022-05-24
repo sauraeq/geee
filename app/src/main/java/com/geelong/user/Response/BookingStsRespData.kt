@@ -11,6 +11,7 @@ data class BookingStsRespData(
     val profile_photo: String,
     val rating: String,
     val status: String,
+    val cancel:String,
     val vehicle_image: String,
     val vehicle_name: String,
     val vehicle_no: String

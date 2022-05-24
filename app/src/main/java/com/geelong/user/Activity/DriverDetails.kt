@@ -466,10 +466,26 @@ private fun updateAdapter(highlightItemPos: Int) {
                             otp_drvFrg_aty.setOTP(otp)
                             driver_rating_txt_aty.setText(rating)
                             tp_driverdetails.setText("$"+amount)
-                            total_distancee_driverdetails.setText(approx_km)
+                            total_distancee_driverdetails.setText(approx_km+"Km")
                             total_timee_driverdetails.setText(toatal_time_taken)
 
                             Ride_status()
+                        }
+
+                        if(response.body()!!.data[0].cancel.equals("1"))
+                        {
+
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_number)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechilename)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
+                            var intent=Intent(this@DriverDetails,Search1::class.java)
+                            startActivity(intent)
+                            finish()
                         }
 
                     }
@@ -477,6 +493,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                         Toast.makeText(this@DriverDetails,response.body()!!.msg, Toast.LENGTH_LONG)
                             .show()
+
                         customprogress.hide()
                     }
 
@@ -516,7 +533,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                     if (response.body()!!.success.equals("true")) {
 
-                        if (response.body()!!.data[0].status.equals("3"))
+                        if (response.body()!!.data[0].status.equals("3") || response.body()!!.data[0].cancel.equals("1"))
 
                         {
                            var intent=Intent(this@DriverDetails,Search1::class.java)
@@ -529,6 +546,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
+                            finish()
 
                         }
                         else
@@ -542,6 +560,22 @@ private fun updateAdapter(highlightItemPos: Int) {
                             }, 5000)
 
                         }
+                       /* if()
+                        {
+
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_number)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechilename)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
+                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
+
+                            var intent=Intent(this@DriverDetails,Search1::class.java)
+                            startActivity(intent)
+                            finish()
+                        }*/
 
                     }
                     else {

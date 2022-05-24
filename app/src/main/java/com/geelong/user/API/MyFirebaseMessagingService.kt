@@ -44,7 +44,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val remoteView= RemoteViews("com.geelong.user",R.layout.notification)
         remoteView.setTextViewText(R.id.title,title)
         remoteView.setTextViewText(R.id.message,message)
-        remoteView.setImageViewResource(R.id.icon_notification,R.drawable.appicon)
+        remoteView.setImageViewResource(R.id.icon_notification,R.mipmap.ic_launcher)
         return remoteView
     }
 
@@ -63,7 +63,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var builder: NotificationCompat.Builder= NotificationCompat.Builder(applicationContext,
             channelID
 
-
         )
             .setSmallIcon(R.drawable.appicon)
             .setAutoCancel(true)
@@ -76,27 +75,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val notificationChannel=
                 NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
+            try {
+                val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val mp: MediaPlayer = MediaPlayer.create(this, notification)
+                mp.start()
+            } catch (e:Exception)
+            {
 
+            }
 
         }
         notificationManager.notify(0,builder.build())
-       /* val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val mp: MediaPlayer = MediaPlayer.create(this, notification)
-        mp.start()*/
+
+
 
     }
 
-    private fun showDialog() {
-        val dialog = Dialog(baseContext)
 
-        dialog.getWindow()!!
-            .setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.popup_write_review)
-
-        dialog.show()
-
-    }
 
 }

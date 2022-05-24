@@ -13,6 +13,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.*
 import android.util.Log
@@ -504,6 +506,7 @@ class HomeFragment : Fragment() {
                                 val longi = locationResult.locations[latestlocIndex].longitude
                                 sourlat = lati
                                 sourlng = longi
+                                getAddress(sourlat,sourlng)
                                 SharedPreferenceUtils.getInstance(requireContext())!!
                                     .setStringValue(
                                         ConstantUtils.Pick_up_Latitude,sourlat.toString()
@@ -535,13 +538,8 @@ class HomeFragment : Fragment() {
                 var district: String? = resultData.getString(Constants.DISTRICT)
                 var country: String? = resultData.getString(Constants.COUNTRY)
                 var postCode:String?=resultData.getString(Constants.POST_CODE)
-                locat = address + "," + locaity + "," + district+ "," + state+ "," + country+ ","+ postCode
-                pick_up_user.setText(locat)
+                var address_line:String?=resultData.getString(Constants.Address_lINe)
 
-                SharedPreferenceUtils.getInstance(requireContext())
-                    ?.setStringValue(ConstantUtils.Current_Location, locat)
-
-                loadMap(sourlat.toString(), sourlng.toString(), locat)
 
             } else {
                 Toast.makeText(
@@ -799,14 +797,14 @@ class HomeFragment : Fragment() {
 
 
         val km = distance_km.toDouble()
-        val kms_per_min = 0.8
+        val kms_per_min = 0.4
         val mins_taken = km / kms_per_min
-        val totalMinutes = mins_taken.toDouble()
+        val totalMinutes = mins_taken.toInt()
         if (totalMinutes < 60) {
 
-          var  toatal_time_taken1 = totalMinutes.toString()
-            val round_total_time_taken=roundOffDecimal(toatal_time_taken1.toDouble())
-            toatal_time_taken=round_total_time_taken.toString() + " " + "Mins"
+          var  toatal_time_taken1 = totalMinutes
+          /*  val round_total_time_taken=roundOffDecimal(toatal_time_taken1.toDouble())*/
+            toatal_time_taken=toatal_time_taken1.toString() + " " + "Mins"
             SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(
                 ConstantUtils
                     .Toatal_time, toatal_time_taken
@@ -1017,6 +1015,35 @@ class HomeFragment : Fragment() {
         /*val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         textview_date!!.text = sdf.format(cal.getTime())*/
+    }
+
+    fun getAddress(lat:Double,long:Double){
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address>?
+        val address: Address?
+        var fulladdress = ""
+        addresses = geocoder.getFromLocation(lat,long, 1)
+
+        if (addresses.isNotEmpty()) {
+            address = addresses[0]
+            fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+            var city = address.getLocality();
+            var state = address.getAdminArea();
+            var country = address.getCountryName();
+            var postalCode = address.getPostalCode();
+            var knownName = address.getFeatureName();
+
+            locat = fulladdress
+            pick_up_user.setText(locat)
+
+            SharedPreferenceUtils.getInstance(requireContext())
+                ?.setStringValue(ConstantUtils.Current_Location, locat)
+
+            loadMap(sourlat.toString(), sourlng.toString(), locat)
+        // Only if available else return NULL
+        } else{
+            fulladdress = "Location not found"
+        }
     }
 
    /* fun showHourPicker() {

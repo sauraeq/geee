@@ -245,7 +245,6 @@
                                             android:text="VD 128 235"
                                             android:textSize="@dimen/_11ssp"
                                             android:textColor="#3E3E3E"
-
                                             android:fontFamily="@font/poppinsmedium"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
@@ -255,7 +254,6 @@
                                     </LinearLayout>
                                     <LinearLayout
                                         android:layout_weight="1"
-                                        android:layout_marginLeft="@dimen/_25sdp"
                                         android:orientation="horizontal"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -350,7 +348,7 @@
                                             android:id="@+id/vch_img_drvFrg_aty"
                                             android:layout_marginTop="@dimen/_4sdp"
                                             android:src="@drawable/carimage"
-                                            android:layout_width="@dimen/_100sdp"
+                                            android:layout_width="@dimen/_60sdp"
                                             android:paddingRight="@dimen/_5sdp"
                                             android:paddingLeft="@dimen/_5sdp"
                                             android:layout_height="match_parent">

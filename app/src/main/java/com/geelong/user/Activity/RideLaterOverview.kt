@@ -262,8 +262,10 @@ class RideLaterOverview : AppCompatActivity() {
                             Toast.makeText(this@RideLaterOverview,response.body()!!.msg, Toast
                                 .LENGTH_LONG)
                                 .show()
+                            var intent=Intent(this@RideLaterOverview,Search1::class.java)
+                            startActivity(intent)
                             customprogress.hide()
-                            finishAffinity()
+                           // finishAffinity()
                         }
                         else
                         {

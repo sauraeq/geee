@@ -10,6 +10,7 @@ internal object Constants {
     const val COUNTRY = PACKAGE_NAME + ".COUNTRY"
     const val DISTRICT = PACKAGE_NAME + ".DISTRICT"
     const val POST_CODE = PACKAGE_NAME + ".POST_CODE"
+    const val Address_lINe=PACKAGE_NAME + ".SUB_LOCALITY"
     const val STATE = PACKAGE_NAME + ".STATE"
     const val SUCCESS_RESULT = 1
     const val FAILURE_RESULT = 0
