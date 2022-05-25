@@ -33,6 +33,10 @@ class RideLaterHistory : AppCompatActivity() {
         user_idd=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.USER_ID,
             "").toString()
         TripHistory()
+
+        LeftArrow_ride_later.setOnClickListener {
+            onBackPressed()
+        }
       /*  rcyView_ride_later.layoutManager = LinearLayoutManager(this)
 
         val adapter = RideLaterAdapter(this)

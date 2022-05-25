@@ -66,9 +66,9 @@ class Search1 : AppCompatActivity() {
     var resultReceiver: ResultReceiver? = null
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.home, "Account"),
-        NavigationItemModel(R.drawable.trips, "Trip History"),
+        NavigationItemModel(R.drawable.trips, "Trips History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
-        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
+        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trips"),
         NavigationItemModel(R.drawable.ridelater,"Ride Later"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
@@ -77,9 +77,9 @@ class Search1 : AppCompatActivity() {
     )
     private var items1 = arrayListOf(
         NavigationItemModel(R.drawable.home, "Account"),
-        NavigationItemModel(R.drawable.trips, "Trip History"),
+        NavigationItemModel(R.drawable.trips, "Trips History"),
         NavigationItemModel(R.drawable.noti, "Notifications"),
-        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trip"),
+        NavigationItemModel(R.drawable.trip_cancel,"Cancel Trips"),
         NavigationItemModel(R.drawable.ridelater,"Ride Later"),
         NavigationItemModel(R.drawable.tc, "Terms & Conditions"),
         NavigationItemModel(R.drawable.privacy, "Privacy Policy")
@@ -160,6 +160,7 @@ class Search1 : AppCompatActivity() {
 
         navigation_rv.layoutManager = LinearLayoutManager(this)
         navigation_rv.setHasFixedSize(true)
+
         ivMenu.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
        }
@@ -209,6 +210,11 @@ class Search1 : AppCompatActivity() {
                         val intent = Intent(this@Search1, CancelTripHistory::class.java)
                         startActivity(intent)
                     }
+                    8 -> {
+
+                       /* val intent = Intent(this@Search1, CancelTripHistory::class.java)
+                        startActivity(intent)*/
+                    }
                     4 -> {
 
                         val intent = Intent(this@Search1, RideLaterHistory::class.java)
@@ -227,7 +233,7 @@ class Search1 : AppCompatActivity() {
         }))
 
 
-        updateAdapter(0)
+        updateAdapter(8)
 
 
         customProgress.show()

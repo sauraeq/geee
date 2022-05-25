@@ -104,7 +104,9 @@ class RideLaterOverview : AppCompatActivity() {
         overview_no_passenger.setOnClickListener {
             numberPickerCustom()
         }
-
+        LeftArrow_ride_later_overview.setOnClickListener {
+            onBackPressed()
+        }
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
                                    dayOfMonth: Int) {
