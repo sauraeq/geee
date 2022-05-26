@@ -72,7 +72,7 @@
                     android:fontFamily="@font/poppinsmedium"
                     android:text="Jacky pual"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14ssp">
+                    android:textSize="@dimen/_10ssp">
 
 
                 </TextView>
@@ -86,7 +86,7 @@
                     android:fontFamily="@font/poppinsmedium"
                     android:text="₹25.00"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/_10ssp"
                     android:textStyle="bold">
 
 
@@ -136,7 +136,7 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 android:fontFamily="@font/poppinsmedium"
                 android:text="12/12/21, 8:20 PM"
-                android:textSize="@dimen/_13ssp">
+                android:textSize="@dimen/_9ssp">
 
 
             </TextView>

@@ -273,7 +273,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
 
                             }, 5000)
 
-                            if(count==8)
+                            if(count==15)
                             {
                                 //Toast.makeText(this@Confirm,count.toString(),Toast.LENGTH_LONG)
                                 //.show()

@@ -72,7 +72,7 @@ class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : Recy
   var img_url=mlist[position].driver_photo
         holder.user_name.text=mlist[position].driver_name
         holder.user_distance_travel.text=mlist[position].distance
-        holder.user_fare.text="₹"+mlist[position].amount
+        holder.user_fare.text="$"+mlist[position].amount
         holder.user_trip_time.text=mlist[position].created_date
         holder.user_pick_up_pick.text=mlist[position].pickup_address
         holder.user_drop_location.text=mlist[position].drop_address

@@ -24,6 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.geelong.user.Util.ConstantUtils
 import com.geelong.user.Util.SharedPreferenceUtils
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_payment_method.*
 import org.json.JSONException
@@ -205,15 +206,15 @@ class Payment_method : AppCompatActivity() {
     }
 
     private fun showDialog() {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        dialog.setCancelable(true)
+        dialog.setCancelable(false)
         dialog.setContentView(R.layout.successalertdialog)
         lateinit var button: LinearLayout
 
 
-        button = dialog.findViewById(R.id.payment_success)
+        button = dialog.findViewById(R.id.payment_success)!!
 
         button.setOnClickListener {
             dialog.dismiss()

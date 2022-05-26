@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +14,10 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.squareup.picasso.Picasso
@@ -53,10 +58,13 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
    var originLatitude: String = ""
     var originLongitude: String = ""
+    var originLocation: String = ""
+    var destinationLocation: String = ""
     var destinationLatitude: String = ""
     var destinationLongitude: String = ""
     var booking_id:String=""
     var approx_km:String=""
+
     var status="4"
      var toatal_time_taken:String=""
 
@@ -98,8 +106,10 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
                 .toString()
             toatal_time_taken=SharedPreferenceUtils.getInstance(this)?.
             getStringValue(ConstantUtils.Toatal_time,"").toString()
-
-
+            originLocation=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+                .Current_Location,"").toString()
+            destinationLocation=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
+                .Drop_location,"").toString()
             amount=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Amount,"").toString()
             booking_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Booking_id,"").toString()
             originLatitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
@@ -462,7 +472,8 @@ private fun updateAdapter(highlightItemPos: Int) {
                             otp_drvFrg_aty.setOTP(otp)
                             driver_rating_txt_aty.setText(rating)
                             tp_driverdetails.setText("$"+amount)
-                            total_distancee_driverdetails.setText(approx_km+"Km")
+                            var amount_trip=roundOffDecimal(amount.toDouble())
+                            total_distancee_driverdetails.setText(amount_trip.toString()+"Km")
                             total_timee_driverdetails.setText(toatal_time_taken)
 
                             Ride_status()
@@ -532,17 +543,8 @@ private fun updateAdapter(highlightItemPos: Int) {
                         if (response.body()!!.data[0].status.equals("3") || response.body()!!.data[0].cancel.equals("1"))
 
                         {
-                           var intent=Intent(this@DriverDetails,Search1::class.java)
-                            startActivity(intent)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_number)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechilename)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
-                            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
-                            finish()
+                            CompleteDialog()
+
 
                         }
                         else
@@ -583,7 +585,7 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(this@DriverDetails,"Weak Internet Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@DriverDetails,"Weak Internet Connection" ,Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -701,6 +703,56 @@ private fun updateAdapter(highlightItemPos: Int) {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
+
+
+
+    private fun CompleteDialog() {
+        val dialog = BottomSheetDialog(this)
+        dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.ride_completion_dialog)
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        lateinit var button: LinearLayout
+
+
+   var pickup_diaolog=dialog.findViewById<TextView>(R.id.cmpleted_pickup)
+        var dropoff_diaolog=dialog.findViewById<TextView>(R.id.completed_drop)
+        var fare_diaolog=dialog.findViewById<TextView>(R.id.completed_fare)
+        pickup_diaolog!!.setText(originLocation)
+        dropoff_diaolog!!.setText(destinationLocation)
+
+        var amount_dialog=roundOffDecimal(amount.toDouble())
+        fare_diaolog!!.setText("$"+amount_dialog)
+        button = dialog.findViewById(R.id.completed_ok_linear)!!
+
+        button.setOnClickListener {
+
+            val intent=Intent(this, Search1::class.java)
+            startActivity(intent)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_number)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechilename)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Vechile_image)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Distance)
+            SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Rating)
+            dialog.dismiss()
+            finish()
+        }
+
+
+
+
+
+
+        dialog.show()
+
+        //dialog.window?.setLayout(700,750)
+
+    }
+
 
 
 }
