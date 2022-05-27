@@ -143,10 +143,12 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         Cancel_booking_btn_aty.setOnClickListener {
             val intent = Intent(this,CancelTrip::class.java)
             startActivity(intent)
+            finish()
         }
         pyment_btn_driver_details.setOnClickListener {
             val intent = Intent(this,Pay_Now::class.java)
             startActivity(intent)
+            finish()
         }
         cancel_ride_btn.setOnClickListener {
             val intent=Intent(this,Search1::class.java)
@@ -155,6 +157,7 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
             SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Toatal_time)
             SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Driver_Id)
             startActivity(intent)
+            finish()
         }
 
 

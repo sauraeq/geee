@@ -306,6 +306,7 @@ class Search1 : AppCompatActivity() {
     {
         val intent = Intent(this, Confirm::class.java)
         startActivity(intent)
+        finish()
     }
 
 /*

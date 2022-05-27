@@ -36,6 +36,7 @@ class RideLaterHistory : AppCompatActivity() {
 
         LeftArrow_ride_later.setOnClickListener {
             onBackPressed()
+            finish()
         }
       /*  rcyView_ride_later.layoutManager = LinearLayoutManager(this)
 
@@ -60,6 +61,7 @@ class RideLaterHistory : AppCompatActivity() {
                     customprogress.hide()
                     if (response.body()!!.success.equals("true")) {
                         Log.d("response",response.body().toString())
+
                         if (response.body()!!.data.isEmpty())
                         {
                             Toast.makeText(this@RideLaterHistory,"DATA Not Found", Toast.LENGTH_LONG).show()
@@ -70,6 +72,7 @@ class RideLaterHistory : AppCompatActivity() {
                             mlist= response.body()!!.data
                             rcyView_ride_later.layoutManager= LinearLayoutManager(this@RideLaterHistory)
                             rcyView_ride_later.adapter= RideLaterAdapter(this@RideLaterHistory,mlist)
+
 
                         }
 

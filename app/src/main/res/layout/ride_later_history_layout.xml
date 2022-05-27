@@ -250,7 +250,7 @@
 
                 </LinearLayout>
                 <TextView
-                    android:text="No. of pass."
+                    android:text="No. of Passenger"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginLeft="@dimen/_14sdp"

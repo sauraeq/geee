@@ -1,5 +1,6 @@
 package com.geelong.user.Adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.RideLaterHistory
 import com.geelong.user.Activity.RideLaterOverview
+import com.geelong.user.Activity.Search1
 import com.geelong.user.R
 import com.geelong.user.Response.CancelSubmitResponse
 import com.geelong.user.Response.RideLaterHistoryRes
@@ -115,9 +117,11 @@ class RideLaterAdapter(var mContext: Context,var mlist: List<RideLaterHistoryRes
                        /* Toast.makeText(mContext,response.body()!!.msg.toString(), Toast.LENGTH_LONG)
                             .show()*/
 
-                        var intent=Intent(mContext,RideLaterHistory::class.java)
+                        var intent=Intent(mContext,Search1::class.java)
 
                            mContext.startActivity(intent)
+                        (mContext as Activity).finish()
+
 
 
 

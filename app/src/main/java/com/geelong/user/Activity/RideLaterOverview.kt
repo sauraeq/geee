@@ -106,6 +106,7 @@ class RideLaterOverview : AppCompatActivity() {
         }
         LeftArrow_ride_later_overview.setOnClickListener {
             onBackPressed()
+            finish()
         }
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
@@ -113,7 +114,7 @@ class RideLaterOverview : AppCompatActivity() {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val myFormat = "MM/dd/yyyy"
+                val myFormat = "yyyy-MM-dd"
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
                // overview_pickup = sdf.format(cal.getTime())
                 overview_date.setText(sdf.format(cal.getTime()))
@@ -124,10 +125,12 @@ class RideLaterOverview : AppCompatActivity() {
         val mcurrentTime = Calendar.getInstance()
         val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
         val minute = mcurrentTime.get(Calendar.MINUTE)
+        val second=mcurrentTime.get(Calendar.SECOND)
+
 
         mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                overview_time!!.setText(String.format("%d : %d", hourOfDay, minute))
+                overview_time!!.setText(String.format("%d:%d:%d", hourOfDay, minute,second))
             }
         }, hour, minute, false)
 
@@ -140,7 +143,9 @@ class RideLaterOverview : AppCompatActivity() {
             DatePickerDialog(this, dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
+                cal.get(Calendar.DAY_OF_MONTH))
+                .show()
+
 
 
         }
@@ -266,6 +271,7 @@ class RideLaterOverview : AppCompatActivity() {
                                 .show()
                             var intent=Intent(this@RideLaterOverview,Search1::class.java)
                             startActivity(intent)
+                            finish()
                             customprogress.hide()
                            // finishAffinity()
                         }

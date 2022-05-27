@@ -108,10 +108,12 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
             SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Distance)
             SharedPreferenceUtils.getInstance(this)!!.removeKey(ConstantUtils.Toatal_time)
             startActivity(intent)
+            finish()
         }
 
         back_linera_layout_act.setOnClickListener {
             onBackPressed()
+            finish()
         }
 
         pick_up_confirm_act.setOnClickListener {

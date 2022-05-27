@@ -172,6 +172,10 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             val intent= Intent(this,FAcebook::class.java)
             startActivity(intent)
         }
+        external_tc_textview.setOnClickListener {
+            val intent=Intent(this,TermsCondition::class.java)
+            startActivity(intent)
+        }
 
         SharedPreferenceUtils.getInstance(this)!!.setStringValue(ConstantUtils.Status,status)
         if ((ContextCompat.checkSelfPermission(

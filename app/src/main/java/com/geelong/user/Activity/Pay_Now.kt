@@ -58,11 +58,13 @@ class Pay_Now : AppCompatActivity() {
             {
                 val intent = Intent(this, FareDetails::class.java)
                 startActivity(intent)
+                finish()
             }
             else if(c2.isChecked){
                 paylater()
                 val intent = Intent(this, DriverDetails::class.java)
                 startActivity(intent)
+                finish()
             }
             else{
                 Toast.makeText(this,"Please select Payment type",Toast.LENGTH_LONG).show()
@@ -77,6 +79,7 @@ class Pay_Now : AppCompatActivity() {
             /*val intent = Intent(this, ConfirmPick_up::class.java)
             startActivity(intent)*/
             onBackPressed()
+            finish()
         }
 
     }

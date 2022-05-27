@@ -194,6 +194,7 @@ class AccountEdit : AppCompatActivity()  {
         }
           back_act.setOnClickListener {
             onBackPressed()
+              finish()
         }
         change_profile_img.setOnClickListener {
             getMultiplePermission()

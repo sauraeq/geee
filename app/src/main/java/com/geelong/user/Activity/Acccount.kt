@@ -49,6 +49,7 @@ class Acccount : AppCompatActivity() {
             intent.putExtra("address",User_Address.text.toString())
             intent.putExtra("gender",User_gender.text.toString())
             startActivity(intent)
+            finish()
         }
         if (NetworkUtils.checkInternetConnection(this))
         {
@@ -60,6 +61,7 @@ class Acccount : AppCompatActivity() {
 
         back_act.setOnClickListener {
            onBackPressed()
+            finish()
         }
 
     }

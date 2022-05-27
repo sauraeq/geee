@@ -50,6 +50,7 @@ class CancelTrip : AppCompatActivity(),CancelTripAdapter.PractiseInterface {
 
         cancel_LeftArrow.setOnClickListener {
             onBackPressed()
+            finish()
         }
 
 

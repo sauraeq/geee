@@ -84,6 +84,7 @@ class Payment_method : AppCompatActivity() {
            /* val intent = Intent(this, FareDetails::class.java)
             startActivity(intent)*/
             onBackPressed()
+            finish()
         }
 
     }
@@ -193,6 +194,7 @@ class Payment_method : AppCompatActivity() {
             {
                 val intent=Intent(this,Payment_method::class.java)
                 startActivity(intent)
+                finish()
             }
 
         } catch (e: JSONException) {
@@ -220,6 +222,7 @@ class Payment_method : AppCompatActivity() {
             dialog.dismiss()
             val intent=Intent(this,DriverDetails::class.java)
             startActivity(intent)
+            finish()
         }
 
 

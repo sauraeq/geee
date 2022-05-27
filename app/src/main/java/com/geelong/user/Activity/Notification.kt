@@ -134,9 +134,9 @@ class Notification : AppCompatActivity() {
 
 
                     if (response.body()!!.success.equals("true")) {
-                        Toast.makeText(this@Notification,response.body()!!.msg,Toast
+                     /*   Toast.makeText(this@Notification,response.body()!!.msg,Toast
                             .LENGTH_LONG)
-                            .show()
+                            .show()*/
 
 
                     } else {

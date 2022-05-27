@@ -87,6 +87,7 @@ class ConfirmPick_up : AppCompatActivity() {
        /* val intent = Intent(this, Confirm::class.java)
         startActivity(intent)*/
         onBackPressed()
+        finish()
     }
 
     override fun onRequestPermissionsResult(

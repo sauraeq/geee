@@ -506,6 +506,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/external_tc_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_15sdp"
