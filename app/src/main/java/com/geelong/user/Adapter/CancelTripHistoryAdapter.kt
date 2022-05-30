@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+import java.util.*
 
 class CancelTripHistoryAdapter (var mContext: Context, var mlist: List<CancelTripHistoryResData>) :
     RecyclerView
@@ -72,7 +72,8 @@ class CancelTripHistoryAdapter (var mContext: Context, var mlist: List<CancelTri
         holder.driver_id_id=mlist[position].driver_id
         holder.user_idd=mlist[position].uid
         var img_url=mlist[position].driver_photo
-        holder.user_name.text=mlist[position].driver_name
+         var username=mlist[position].driver_name
+        holder.user_name.text=getCapsSentences(username)
         holder.user_distance_travel.text=mlist[position].distance+" "+"Km"
         holder.user_fare.text="$"+mlist[position].amount
         holder.user_trip_time.text=mlist[position].created_date
@@ -104,6 +105,21 @@ class CancelTripHistoryAdapter (var mContext: Context, var mlist: List<CancelTri
     override fun getItemCount(): Int {
 
         return mlist.size
+    }
+
+    private fun getCapsSentences(tagName: String): String? {
+        val splits = tagName.lowercase(Locale.getDefault()).split(" ".toRegex()).toTypedArray()
+        val sb = StringBuilder()
+        for (i in splits.indices) {
+            val eachWord = splits[i]
+            if (i > 0 && eachWord.length > 0) {
+                sb.append(" ")
+            }
+            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                    + eachWord.substring(1))
+            sb.append(cap)
+        }
+        return sb.toString()
     }
 
 

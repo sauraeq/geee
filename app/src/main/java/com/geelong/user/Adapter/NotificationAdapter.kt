@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.R
 import com.geelong.user.Response.NotificationData
 import com.geelong.user.Response.TripHistoryData
+import java.util.*
 
 class NotificationAdapter(var mContext: Context,var mlist: List<NotificationData>): RecyclerView
 .Adapter<NotificationAdapter.ViewHolder>() {
@@ -51,12 +52,28 @@ class NotificationAdapter(var mContext: Context,var mlist: List<NotificationData
         //holder.time.text=notiData[position].time
         holder.create_datee.text=mlist[position].created_date
         holder.titleee.text=mlist[position].title
-        holder.descri.text=mlist[position].description
+        var descri=mlist[position].description
+        holder.descri.text=getCapsSentences(descri)
     }
 
     override fun getItemCount(): Int {
 
         return mlist.size
+    }
+
+    private fun getCapsSentences(tagName: String): String? {
+        val splits = tagName.lowercase(Locale.getDefault()).split(" ".toRegex()).toTypedArray()
+        val sb = StringBuilder()
+        for (i in splits.indices) {
+            val eachWord = splits[i]
+            if (i > 0 && eachWord.length > 0) {
+                sb.append(" ")
+            }
+            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                    + eachWord.substring(1))
+            sb.append(cap)
+        }
+        return sb.toString()
     }
 
 }

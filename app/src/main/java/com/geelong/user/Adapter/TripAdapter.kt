@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+import java.util.*
 
 class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : RecyclerView.Adapter<TripAdapter.ViewHolder>() {
 
@@ -70,7 +70,8 @@ class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : Recy
 
 
   var img_url=mlist[position].driver_photo
-        holder.user_name.text=mlist[position].driver_name
+        var username=mlist[position].driver_name
+        holder.user_name.text=getCapsSentences(username)
         holder.user_distance_travel.text=mlist[position].distance
         holder.user_fare.text="$"+mlist[position].amount
         holder.user_trip_time.text=mlist[position].created_date
@@ -215,6 +216,21 @@ class TripAdapter(var mContext: Context,var mlist: List<TripHistoryData>) : Recy
             }
 
         })
+    }
+
+    private fun getCapsSentences(tagName: String): String? {
+        val splits = tagName.lowercase(Locale.getDefault()).split(" ".toRegex()).toTypedArray()
+        val sb = StringBuilder()
+        for (i in splits.indices) {
+            val eachWord = splits[i]
+            if (i > 0 && eachWord.length > 0) {
+                sb.append(" ")
+            }
+            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                    + eachWord.substring(1))
+            sb.append(cap)
+        }
+        return sb.toString()
     }
 
 }

@@ -5,11 +5,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.os.ResultReceiver
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -33,10 +32,9 @@ import com.geelong.user.Model.NavigationItemModel
 import com.geelong.user.R
 import com.geelong.user.Response.LoginResponse
 import com.geelong.user.Response.NewNotificationResponse
-import com.geelong.user.Response.ViewNotificationResponse
-import com.geelong.user.Util.*
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.tasks.OnSuccessListener
+import com.geelong.user.Util.ConstantUtils
+import com.geelong.user.Util.NetworkUtils
+import com.geelong.user.Util.SharedPreferenceUtils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_search1.*
 import retrofit2.Call
@@ -452,7 +450,8 @@ class Search1 : AppCompatActivity() {
 
 
                         var img_url=response.body()!!.data[0].profile_photo
-                        username_sidebar.text=response.body()!!.data[0].name
+                       val username=getCapsSentences(response.body()!!.data[0].name)
+                        username_sidebar.text=username
                         user_location_sidebar.text=response.body()!!.data[0].address
 
                         if(img_url.isEmpty())
@@ -633,7 +632,28 @@ class Search1 : AppCompatActivity() {
     }
 
 
-
+    fun capitalizeString(str: String): String {
+        var retStr = str
+        try { // We can face index out of bound exception if the string is null
+            retStr = str.substring(0, 1).toUpperCase() + str.substring(1)
+        } catch (e: Exception) {
+        }
+        return retStr
+    }
+    private fun getCapsSentences(tagName: String): String? {
+        val splits = tagName.lowercase(Locale.getDefault()).split(" ".toRegex()).toTypedArray()
+        val sb = StringBuilder()
+        for (i in splits.indices) {
+            val eachWord = splits[i]
+            if (i > 0 && eachWord.length > 0) {
+                sb.append(" ")
+            }
+            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                    + eachWord.substring(1))
+            sb.append(cap)
+        }
+        return sb.toString()
+    }
 
 
 

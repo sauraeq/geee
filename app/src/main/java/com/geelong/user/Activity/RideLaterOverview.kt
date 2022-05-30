@@ -5,13 +5,14 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
 import android.widget.NumberPicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.geelong.user.API.APIUtils
 import com.geelong.user.Fragment.SearchActivityNew
 import com.geelong.user.R
@@ -140,12 +141,15 @@ class RideLaterOverview : AppCompatActivity() {
         }
 
         overview_date!!.setOnClickListener {
-            DatePickerDialog(this, dateSetListener,
+            val calendar = Calendar.getInstance()
+         val datePickerDialog=DatePickerDialog(this, dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH))
-                .show()
-
+            datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis())
+            datePickerDialog.show()
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
 
 
         }
@@ -305,3 +309,5 @@ class RideLaterOverview : AppCompatActivity() {
     }
 
 }
+
+
