@@ -86,6 +86,7 @@ class HomeFragment : Fragment() {
     var toatal_time_taken: String = ""
     var time_count:String=""
     var no_of_passenger=0
+    var location_Pincode=""
     var cal = Calendar.getInstance()
     lateinit var passenger_edittext:EditText
 
@@ -290,18 +291,20 @@ class HomeFragment : Fragment() {
                 if(locType.equals("pickloc")){
                     sourlat=lat.toDouble()
                     sourlng=lng.toDouble()
-                    pick_up_user?.setText(location)
-                    pick_up_user?.setText(location)
+                    location_Pincode=getlocation(sourlat,sourlng)
+                    pick_up_user?.setText(location+","+location_Pincode)
+                    pick_up_user?.setText(location+","+location_Pincode)
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Pick_up_Latitude,sourlat.toString()).toString()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Pick_up_longitude,sourlng.toString()).toString()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                        .Current_Location,location).toString()
+                        .Current_Location,location+","+location_Pincode).toString()
                     sourcelatLng= LatLng(sourlat,sourlng)
                 }else{
                     deslat=lat.toDouble()
                     deslng=lng.toDouble()
+                    location_Pincode=getlocation(deslat,deslng)
                     destLoc=location
                     destlatLng= LatLng(deslat,deslng)
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
@@ -309,9 +312,9 @@ class HomeFragment : Fragment() {
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Longitude_Drop,deslng.toString()).toString()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
-                        .Drop_location,location).toString()
-                    autoCompleteTextView_drop?.setText(location)
-                    autoCompleteTextView_drop?.setText(location)
+                        .Drop_location,location+","+location_Pincode).toString()
+                    autoCompleteTextView_drop?.setText(location+","+location_Pincode)
+                   // autoCompleteTextView_drop?.setText(location+","+location_Pincode)
                 }
 
 
@@ -708,6 +711,7 @@ class HomeFragment : Fragment() {
         numberPicker.wrapSelectorWheel = true
 
 
+
         numberPicker.setOnValueChangedListener { numberPicker, i, i1 ->
             println("onValueChange: ")
         }
@@ -722,6 +726,8 @@ class HomeFragment : Fragment() {
         d.setNegativeButton("Cancel") { dialogInterface, i -> }
         val alertDialog = d.create()
         alertDialog.show()
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
     }
 
     fun DriverDetailss() {
@@ -1049,6 +1055,40 @@ class HomeFragment : Fragment() {
         } else{
             fulladdress = "Location not found"
         }
+
+
+    }
+
+    fun getlocation(lat:Double,long:Double): String {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address>?
+        val address: Address?
+        var fulladdress = ""
+        var postalCode=""
+        addresses = geocoder.getFromLocation(lat,long, 1)
+
+        if (addresses.isNotEmpty()) {
+            address = addresses[0]
+            fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+            var city = address.getLocality();
+            var state = address.getAdminArea();
+            var country = address.getCountryName();
+             postalCode = address.getPostalCode();
+            var knownName = address.getFeatureName();
+
+           /* locat = fulladdress
+            pick_up_user.setText(locat)
+
+            SharedPreferenceUtils.getInstance(requireContext())
+                ?.setStringValue(ConstantUtils.Current_Location, locat)
+
+            loadMap(sourlat.toString(), sourlng.toString(), locat)
+            // Only if available else return NULL*/
+        } else{
+            fulladdress = "Location not found"
+        }
+return postalCode
+
     }
 
    /* fun showHourPicker() {

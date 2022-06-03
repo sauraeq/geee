@@ -395,7 +395,7 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                    Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Sign_Up,"Mobile number is already exit",Toast.LENGTH_LONG).show()
                     custom_progress.hide()
 
                 }

@@ -110,15 +110,22 @@ class CancelTripHistoryAdapter (var mContext: Context, var mlist: List<CancelTri
     private fun getCapsSentences(tagName: String): String? {
         val splits = tagName.lowercase(Locale.getDefault()).split(" ".toRegex()).toTypedArray()
         val sb = StringBuilder()
-        for (i in splits.indices) {
-            val eachWord = splits[i]
-            if (i > 0 && eachWord.length > 0) {
-                sb.append(" ")
+        try {
+            for (i in splits.indices) {
+                val eachWord = splits[i]
+                if (i > 0 && eachWord.length > 0) {
+                    sb.append(" ")
+                }
+                val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                        + eachWord.substring(1))
+                sb.append(cap)
             }
-            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
-                    + eachWord.substring(1))
-            sb.append(cap)
         }
+        catch (e:Exception)
+        {
+
+        }
+
         return sb.toString()
     }
 

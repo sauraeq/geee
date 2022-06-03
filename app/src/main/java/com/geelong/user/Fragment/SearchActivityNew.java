@@ -64,7 +64,7 @@ public class SearchActivityNew extends BaseActivity implements View.OnClickListe
         if (gc.isPresent()) {
             List<Address> list = null;
             try {
-                list = gc.getFromLocationName(binding.etDestination.getText().toString(), 1);
+                list = gc.getFromLocationName(binding.etDestination.getText().toString(), 2);
                 Address address = list.get(0);
                 double lat = address.getLatitude();
                 double lng = address.getLongitude();

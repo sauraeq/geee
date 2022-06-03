@@ -143,12 +143,12 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
         Cancel_booking_btn_aty.setOnClickListener {
             val intent = Intent(this,CancelTrip::class.java)
             startActivity(intent)
-            finish()
+
         }
         pyment_btn_driver_details.setOnClickListener {
             val intent = Intent(this,Pay_Now::class.java)
             startActivity(intent)
-            finish()
+          
         }
         cancel_ride_btn.setOnClickListener {
             val intent=Intent(this,Search1::class.java)
@@ -543,27 +543,15 @@ private fun updateAdapter(highlightItemPos: Int) {
 
                     if (response.body()!!.success.equals("true")) {
 
-                        if (response.body()!!.data[0].status.equals("3") || response.body()!!.data[0].cancel.equals("1"))
+                        if (response.body()!!.data[0].status.equals("3") )
 
                         {
                             CompleteDialog()
 
 
                         }
-                        else
-
+                        else if( response.body()!!.data[0].cancel.equals("1"))
                         {
-                            var handler: Handler? = null
-                            handler = Handler()
-                            handler.postDelayed(Runnable {
-                                Ride_status()
-
-                            }, 5000)
-
-                        }
-                       /* if()
-                        {
-
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Booking_id)
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_Id)
                             SharedPreferenceUtils.getInstance(this@DriverDetails)!!.removeKey(ConstantUtils.Driver_name)
@@ -576,6 +564,24 @@ private fun updateAdapter(highlightItemPos: Int) {
                             var intent=Intent(this@DriverDetails,Search1::class.java)
                             startActivity(intent)
                             finish()
+                        }
+                        else
+
+                        {
+                            var handler: Handler? = null
+                            handler = Handler()
+                            handler.postDelayed(Runnable {
+                                Ride_status()
+
+                            }, 5000)
+
+                        }
+
+
+                       /* if()
+                        {
+
+
                         }*/
 
                     }
@@ -711,7 +717,8 @@ private fun updateAdapter(highlightItemPos: Int) {
 
     private fun CompleteDialog() {
         val dialog = BottomSheetDialog(this)
-        dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+     //   dialog.getWindow()!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+            //.LayoutParams.MATCH_PARENT);
 
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.ride_completion_dialog)

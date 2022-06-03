@@ -42,6 +42,10 @@ class Payment_method : AppCompatActivity() {
     lateinit var webview_paymentt:WebView
     lateinit var customprogress:Dialog
     private var requestQueue: RequestQueue? = null
+    var amount=""
+    var driver_id=""
+    var booking_idd=""
+    var amount_price=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +57,15 @@ class Payment_method : AppCompatActivity() {
         userid= SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.USER_ID,"").toString()
        // booking_id=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
            // .Booking_id,"").toString()
+        driver_id=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.Driver_Id,"")
+            .toString()
 
+        booking_idd=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.Booking_id,"")
+            .toString()
+
+       // amount=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.Amount,"")
+            .toString()
+       // amount_price=amount.toInt()
         webview_paymentt=findViewById(R.id.webview_payement)
         webview_paymentt.getSettings().setJavaScriptEnabled(true)
         webview_paymentt.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
@@ -96,9 +108,9 @@ class Payment_method : AppCompatActivity() {
         val request = HashMap<String, String>()
         request.put("user_id",userid)
         request.put("payment_method","PayPal")
-        request.put("booking_id","4")
+        request.put("booking_id",booking_idd)
         request.put("amount","100")
-        request.put("driver_id","4")
+        request.put("driver_id",driver_id)
 
 
 
