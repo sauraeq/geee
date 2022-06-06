@@ -77,6 +77,15 @@ class HomeFragment : Fragment() {
     var pick_up_location: String = ""
     var drop_location: String = ""
     var n_of_passenger: String = ""
+     var pickup_street=""
+     var pickup_suburb=""
+    var pickup_state=""
+    var pickup_postcode=""
+    var drop_postcode=""
+    var drop_state=""
+    var drop_suburb=""
+    var drop_street=""
+
 
     var placesClient: PlacesClient? = null
     var pickUp_address: String = ""
@@ -291,9 +300,8 @@ class HomeFragment : Fragment() {
                 if(locType.equals("pickloc")){
                     sourlat=lat.toDouble()
                     sourlng=lng.toDouble()
-                    location_Pincode=getlocation(sourlat,sourlng)
-                    pick_up_user?.setText(location+","+location_Pincode)
-                    pick_up_user?.setText(location+","+location_Pincode)
+                    location_Pincode=getAddress_ss(sourlat,sourlng)
+                    Toast.makeText(requireContext(),location,Toast.LENGTH_LONG).show()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Pick_up_Latitude,sourlat.toString()).toString()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
@@ -301,6 +309,7 @@ class HomeFragment : Fragment() {
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Current_Location,location+","+location_Pincode).toString()
                     sourcelatLng= LatLng(sourlat,sourlng)
+                    pick_up_user?.setText(location+","+location_Pincode)
                 }else{
                     deslat=lat.toDouble()
                     deslng=lng.toDouble()
@@ -745,6 +754,14 @@ class HomeFragment : Fragment() {
         request.put("distance", total_distance_apprx)
         request.put("passenger", no_of_passenger.toString())
 
+        request.put("pickup_street", pickup_street)
+        request.put("pickup_suburb", pickup_suburb)
+        request.put("pickup_state", pickup_state)
+        request.put("pickup_postcode", pickup_postcode)
+        request.put("drop_postcode",drop_postcode)
+        request.put("drop_state",drop_state)
+        request.put("drop_suburb",drop_suburb)
+        request.put("drop_street",drop_street)
 
 
         var driver_vec_details: Call<BookingResponse> =
@@ -1039,11 +1056,18 @@ class HomeFragment : Fragment() {
             address = addresses[0]
             fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
             var city = address.getLocality();
-            var state = address.getAdminArea();
-            var country = address.getCountryName();
-            var postalCode = address.getPostalCode();
-            var knownName = address.getFeatureName();
+            pickup_state = address.getAdminArea();
 
+            var country = address.getCountryName();
+            pickup_postcode = address.getPostalCode();
+            var knownName = address.getFeatureName();
+            try {
+                pickup_street=address.subLocality
+                pickup_suburb=address.subAdminArea
+            } catch (e:Exception)
+            {
+
+            }
             locat = fulladdress
             pick_up_user.setText(locat)
 
@@ -1059,6 +1083,38 @@ class HomeFragment : Fragment() {
 
     }
 
+    fun getAddress_ss(lat:Double,long:Double):String{
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address>?
+        val address: Address?
+        var fulladdress = ""
+        addresses = geocoder.getFromLocation(lat,long, 1)
+
+        if (addresses.isNotEmpty()) {
+            address = addresses[0]
+            fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+            var city = address.getLocality();
+            pickup_state = address.getAdminArea();
+
+            var country = address.getCountryName();
+            pickup_postcode = address.getPostalCode();
+            var knownName = address.getFeatureName();
+            try {
+                pickup_street=address.subLocality
+                pickup_suburb=address.subAdminArea
+            } catch (e:Exception)
+            {
+
+            }
+            locat = fulladdress
+
+        } else{
+            fulladdress = "Location not found"
+        }
+ return  fulladdress
+
+    }
+
     fun getlocation(lat:Double,long:Double): String {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         val addresses: List<Address>?
@@ -1071,23 +1127,25 @@ class HomeFragment : Fragment() {
             address = addresses[0]
             fulladdress = address.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
             var city = address.getLocality();
-            var state = address.getAdminArea();
+             drop_state = address.getAdminArea();
             var country = address.getCountryName();
-             postalCode = address.getPostalCode();
+            drop_postcode = address.getPostalCode();
             var knownName = address.getFeatureName();
 
-           /* locat = fulladdress
-            pick_up_user.setText(locat)
+           // Toast.makeText(requireContext(),city,Toast.LENGTH_LONG).show()
+            try {
+                drop_street=address.subLocality
+                drop_suburb=address.subAdminArea
+            } catch (e:Exception)
+            {
 
-            SharedPreferenceUtils.getInstance(requireContext())
-                ?.setStringValue(ConstantUtils.Current_Location, locat)
+            }
 
-            loadMap(sourlat.toString(), sourlng.toString(), locat)
-            // Only if available else return NULL*/
+
         } else{
             fulladdress = "Location not found"
         }
-return postalCode
+      return postalCode
 
     }
 

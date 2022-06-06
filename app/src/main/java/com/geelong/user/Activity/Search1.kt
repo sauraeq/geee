@@ -476,7 +476,7 @@ class Search1 : AppCompatActivity() {
                 }  catch (e: Exception) {
                     Log.e("saurav", e.toString())
 
-                   Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG)
+                   Toast.makeText(this@Search1,e.toString(), Toast.LENGTH_LONG)
                         .show()
                     customProgress.hide()
 
@@ -487,7 +487,7 @@ class Search1 : AppCompatActivity() {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Search1,"Weak Internet Connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Search1,t.message.toString(), Toast.LENGTH_LONG).show()
                 customProgress.hide()
             }
 
