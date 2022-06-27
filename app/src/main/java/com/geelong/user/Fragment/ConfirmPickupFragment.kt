@@ -1,6 +1,5 @@
 package com.geelong.user.Fragment
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -14,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -23,30 +21,21 @@ import com.geelong.user.API.APIUtils
 import com.geelong.user.Activity.*
 import com.geelong.user.Adapter.AutoCompleteAdapter
 import com.geelong.user.R
-import com.geelong.user.Response.BookingResponse
 import com.geelong.user.Response.CnfBookingResponse
-import com.geelong.user.Response.ConfirmBookingResponse
-import com.geelong.user.Response.DriverDetails_Vch_Response
 import com.geelong.user.Util.ConstantUtils
-import com.geelong.user.Util.NetworkUtils
 import com.geelong.user.Util.SharedPreferenceUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompletePrediction
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.confirm_pickup_fragment.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragments_driver_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -100,7 +89,7 @@ class ConfirmPickupFragment : Fragment() {
         val rootview= inflater.inflate(R.layout.confirm_pickup_fragment, container, false)
         confirm_search_btn=rootview.findViewById(R.id.confirm_search_pickup)
         var cardview11=rootview.findViewById<CardView>(R.id.cardview11)
-       var  back_go_activityy=rootview.findViewById<LinearLayout>(R.id.back_go_activity)
+        var  back_go_activityy=rootview.findViewById<LinearLayout>(R.id.back_go_activity)
         var  confirm_pick_up=rootview.findViewById<LinearLayout>(R.id.confirm_pick_Up_layout)
         current_location=rootview.findViewById(R.id.current_loc_textview)
         pick_up_confirm_texview =rootview.findViewById(R.id.pick_up_confirm_txt1)
@@ -479,9 +468,8 @@ class ConfirmPickupFragment : Fragment() {
         request.put("dropLatitude", drop_lati)
         request.put("dropLongitude", drop_longi)
         request.put("user_id", user_id)
-        request.put("time", total_time)
+        request.put("time","20")
         request.put("distance", total_distance)
-        request.put("driver_id", user_id)
         request.put("booking_id", booking_id)
         request.put("driver_id", driver_id)
         request.put("remark",remarks_string)
@@ -501,7 +489,7 @@ class ConfirmPickupFragment : Fragment() {
 
 
                     if (response.body()!!.success.equals("true")) {
-val intent=Intent(requireContext(),DriverDetails::class.java)
+              val intent=Intent(requireContext(),DriverDetails::class.java)
                         startActivity(intent)
                         //Toast.makeText(requireContext(),user_id+driver_id+Current_lati+Current_longi+amount+current_loca,Toast.LENGTH_LONG).show()
                        /* Toast.makeText(requireContext(), response.body()!!.msg, Toast.LENGTH_LONG)
@@ -519,7 +507,7 @@ val intent=Intent(requireContext(),DriverDetails::class.java)
 
                 } catch (e: Exception) {
                     Log.e("saurav", e.toString())
-                    Toast.makeText(requireContext(),"Weak Internet Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),e.toString(), Toast.LENGTH_LONG).show()
                     customprogress.hide()
 
                 }
@@ -528,7 +516,7 @@ val intent=Intent(requireContext(),DriverDetails::class.java)
 
             override fun onFailure(call: Call<CnfBookingResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
-                Toast.makeText(requireContext(),"Weak Internet Connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), t.message.toString(), Toast.LENGTH_LONG).show()
                 customprogress.hide()
 
 

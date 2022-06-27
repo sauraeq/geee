@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="start"
+    android:background="@color/white"
     tools:context=".Activity.DriverDetails">
 
     <LinearLayout
@@ -261,7 +262,7 @@
                                         <TextView
                                             android:text="OTP"
                                             android:textSize="@dimen/_11ssp"
-                                            android:textColor="#3E3E3E"
+                                            android:textColor="@color/black"
                                             android:textStyle="bold"
                                             android:padding="@dimen/_8sdp"
                                             android:gravity="center"
@@ -373,6 +374,7 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="Distance"
+                                                    android:textColor="@color/black"
                                                     android:gravity="center"
                                                     android:textStyle="bold"
                                                     android:textSize="@dimen/_12ssp">
@@ -386,6 +388,7 @@
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="Time"
                                                     android:gravity="center"
+                                                    android:textColor="@color/black"
                                                     android:textStyle="bold"
                                                     android:textSize="@dimen/_12ssp">
 
@@ -397,6 +400,7 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="Price"
+                                                    android:textColor="@color/black"
                                                     android:gravity="center"
                                                     android:textStyle="bold"
                                                     android:textSize="@dimen/_12ssp">
@@ -419,6 +423,9 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="0.2"
+                                                    android:textColor="@color/black"
+                                                    android:singleLine="true"
+                                                    android:ellipsize="end"
                                                     android:gravity="center"
                                                     android:textSize="@dimen/_12ssp">
 
@@ -431,6 +438,9 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="2 min"
+                                                    android:textColor="@color/black"
+                                                    android:singleLine="true"
+                                                    android:ellipsize="end"
                                                     android:gravity="center"
                                                     android:textSize="@dimen/_12ssp">
 
@@ -443,6 +453,7 @@
                                                     android:layout_weight="1"
                                                     android:fontFamily="@font/poppinsmedium"
                                                     android:text="$25.12"
+                                                    android:textColor="@color/black"
                                                     android:singleLine="true"
                                                     android:ellipsize="end"
                                                     android:gravity="center"

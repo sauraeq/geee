@@ -30,6 +30,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/rectangle.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ride_la.xml" value="0.141" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/ride_later.xml" value="0.141" />
+        <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/search_icon.xml" value="0.155" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/time_ride_later.xml" value="0.141" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/toggle_bck.xml" value="0.119" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/drawable/trip_cancel.xml" value="0.141" />
@@ -92,6 +93,7 @@
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/trip_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AndroidStudioProjects/GeeLong/app/src/main/res/layout/wait_for_trip_popup.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/arash/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_expandable_list_item_2.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/arash/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1675929884566054" />
       </map>
     </option>
   </component>

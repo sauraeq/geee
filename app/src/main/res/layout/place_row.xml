@@ -5,4 +5,5 @@
     android:padding="10dp"
     android:textSize="@dimen/_9sdp"
     android:textColor="@color/black"
+    android:background="@color/white"
     android:id="@+id/autocompleteText" />

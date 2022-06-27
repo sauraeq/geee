@@ -65,6 +65,7 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
     var approx_km:String=""
     var status="2"
     var count=0
+    var cmt=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,12 +147,20 @@ class Confirm : AppCompatActivity() , OnMapReadyCallback {
                 GetDirection(urll).execute()
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLocation, 10F))
             }
-
-        Handler().postDelayed(Runnable {
+       /* var handler: Handler? = null
+        handler = Handler()
+       handler.postDelayed(Runnable {
+           cmt++
             CancelTripSubmit()
            finish()
+           
 
         },400000L)
+        if(cmt==1)
+        {
+            handler.removeCallbacksAndMessages(null)
+        }
+*/
 
     }
 

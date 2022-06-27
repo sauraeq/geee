@@ -117,8 +117,8 @@ class DriverDetails : AppCompatActivity(),OnMapReadyCallback {
             originLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils
                 .Pick_up_longitude,"").toString()
             destinationLatitude=SharedPreferenceUtils.getInstance(this)?.
-            getStringValue(ConstantUtils.Driver_latitude,"").toString()
-            destinationLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Driver_longitude,"").toString()
+            getStringValue(ConstantUtils.Latitude_Drop,"").toString()
+            destinationLongitude=SharedPreferenceUtils.getInstance(this)?.getStringValue(ConstantUtils.Longitude_Drop,"").toString()
         }catch (e:Exception)
         {
 
@@ -466,6 +466,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                             var name=response.body()!!.data[0].name
                             var vehicle_name=response.body()!!.data[0].name
                             var rating=response.body()!!.data[0].rating
+                            var distance=response.body()!!.data[0].distance
                             val picasso = Picasso.get()
                             picasso.load(driver_profile_pic).into(driver_img_drvFrg_aty)
                             picasso.load(vechile_img).into(vch_img_drvFrg_aty)
@@ -476,7 +477,7 @@ private fun updateAdapter(highlightItemPos: Int) {
                             driver_rating_txt_aty.setText(rating)
                             tp_driverdetails.setText("$"+amount)
                             var amount_trip=roundOffDecimal(amount.toDouble())
-                            total_distancee_driverdetails.setText(amount_trip.toString()+"Km")
+                            total_distancee_driverdetails.setText(distance.toString()+"Km")
                             total_timee_driverdetails.setText(toatal_time_taken)
 
                             Ride_status()

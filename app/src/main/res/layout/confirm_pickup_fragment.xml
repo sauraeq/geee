@@ -132,6 +132,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_weight="6"
+                                    android:textColor="@color/black"
                                     android:inputType="textMultiLine"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:paddingLeft="@dimen/_15sdp"

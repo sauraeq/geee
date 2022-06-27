@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activity.Acccount">
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +72,7 @@
           android:layout_width="match_parent"
           android:fontFamily="@font/poppinsmedium"
           android:textSize="@dimen/_13ssp"
+          android:textColor="@color/black"
           android:layout_height="@dimen/_19sdp">
       </TextView>
       <TextView
@@ -97,6 +99,7 @@
           android:fontFamily="@font/poppinsmedium"
           android:layout_marginTop="@dimen/_10sdp"
           android:textSize="@dimen/_13ssp"
+          android:textColor="@color/black"
           android:layout_height="@dimen/_19sdp">
       </TextView>
       <TextView
@@ -123,6 +126,7 @@
           android:fontFamily="@font/poppinsmedium"
           android:layout_marginTop="@dimen/_10sdp"
           android:textSize="@dimen/_13ssp"
+          android:textColor="@color/black"
           android:layout_height="@dimen/_19sdp">
       </TextView>
       <TextView
@@ -149,6 +153,7 @@
           android:fontFamily="@font/poppinsmedium"
           android:layout_marginTop="@dimen/_10sdp"
           android:textSize="@dimen/_13ssp"
+          android:textColor="@color/black"
           android:layout_height="@dimen/_19sdp">
       </TextView>
       <TextView
@@ -175,6 +180,7 @@
           android:fontFamily="@font/poppinsmedium"
           android:layout_marginTop="@dimen/_10sdp"
           android:textSize="@dimen/_13ssp"
+          android:textColor="@color/black"
           android:layout_height="@dimen/_19sdp">
       </TextView>
       <TextView

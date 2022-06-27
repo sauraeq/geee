@@ -12,6 +12,7 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.*
 import android.preference.PreferenceManager
@@ -135,10 +136,14 @@ class AccountEdit : AppCompatActivity()  {
         if (gender_spinner != null) {
             val adapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item, lang)
+
             gender_spinner.adapter = adapter
+
 
         }
         gender_spinner.setSelection(lang.indexOf(gender));
+
+
 
         gender_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {

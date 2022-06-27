@@ -45,7 +45,7 @@ class Payment_method : AppCompatActivity() {
     var amount=""
     var driver_id=""
     var booking_idd=""
-    var amount_price=0
+    var amount_price=0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +63,8 @@ class Payment_method : AppCompatActivity() {
         booking_idd=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.Booking_id,"")
             .toString()
 
-       // amount=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils.Amount,"")
-            .toString()
+        amount_price=SharedPreferenceUtils.getInstance(this)!!.getStringValue(ConstantUtils
+            .Amount,"")!!.toDouble()
        // amount_price=amount.toInt()
         webview_paymentt=findViewById(R.id.webview_payement)
         webview_paymentt.getSettings().setJavaScriptEnabled(true)
@@ -109,7 +109,7 @@ class Payment_method : AppCompatActivity() {
         request.put("user_id",userid)
         request.put("payment_method","PayPal")
         request.put("booking_id",booking_idd)
-        request.put("amount","100")
+        request.put("amount",amount_price.toString())
         request.put("driver_id",driver_id)
 
 

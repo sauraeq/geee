@@ -7,6 +7,7 @@ data class BookingStsRespData(
     val latitude: String,
     val longitude: String,
     val name: String,
+    val distance:String,
     val otp: String,
     val profile_photo: String,
     val rating: String,

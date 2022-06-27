@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activity.Sign_Up">
 
     <ScrollView
@@ -168,6 +169,8 @@
                             android:textSize="@dimen/_15ssp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_2sdp"
+
+                            android:textColor="@color/black"
                             android:layout_marginRight="@dimen/_2sdp"
                             android:hint="@string/name" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -190,6 +193,7 @@
                             android:id="@+id/email_edit_Text"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_2sdp"
+                            android:textColor="@color/black"
                             android:layout_marginRight="@dimen/_2sdp"
                             android:hint="@string/name_example_com" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -213,6 +217,7 @@
                             android:id="@+id/address_edit_text"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_2sdp"
+                            android:textColor="@color/black"
                             android:layout_marginRight="@dimen/_2sdp"
                             android:hint="@string/address" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -263,6 +268,7 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="Mobile Number"
+                        android:textColor="@color/black"
                             android:inputType="phone"
                             android:singleLine="true" />
                     </LinearLayout>
@@ -281,6 +287,7 @@
                         <RadioButton
                             android:id="@+id/radioButton1"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:text="@string/male" />
 
@@ -289,6 +296,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/radioGroup1"
+                            android:textColor="@color/black"
                             android:layout_alignLeft="@+id/radioGroup1"
                             android:layout_marginLeft="@dimen/_20sdp"
                             android:text="@string/female" />
@@ -370,6 +378,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:textColor="@color/black"
                             android:hint="Mobile Number"
                             android:inputType="phone"
                             android:singleLine="true" />

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activity.AccountEdit">
     <ScrollView
         android:layout_width="match_parent"
@@ -73,6 +74,7 @@
             android:layout_width="match_parent"
             android:fontFamily="@font/poppinsmedium"
             android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
@@ -100,6 +102,7 @@
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginTop="@dimen/_18sdp"
             android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
@@ -154,6 +157,7 @@
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginTop="@dimen/_18sdp"
             android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
             android:layout_height="@dimen/_19sdp">
         </TextView>
         <EditText
@@ -181,6 +185,7 @@
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginTop="@dimen/_18sdp"
             android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
             android:layout_height="@dimen/_19sdp">
         </TextView>
        <LinearLayout
@@ -206,6 +211,7 @@
            <Spinner
                 android:id="@+id/gender_spinner"
                android:layout_weight="2"
+               android:popupBackground="@color/white"
                android:layout_width="match_parent"
                android:layout_marginRight="@dimen/_20sdp"
                android:layout_height="wrap_content">

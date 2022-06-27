@@ -11,12 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.geelong.user.API.APIUtils
-import com.geelong.user.Activity.RideLaterHistory
 import com.geelong.user.Activity.RideLaterOverview
 import com.geelong.user.Activity.Search1
 import com.geelong.user.R
 import com.geelong.user.Response.CancelSubmitResponse
-import com.geelong.user.Response.RideLaterHistoryRes
 import com.geelong.user.Response.RideLaterHistoryResData
 import retrofit2.Call
 import retrofit2.Callback
@@ -114,8 +112,8 @@ class RideLaterAdapter(var mContext: Context,var mlist: List<RideLaterHistoryRes
 
                     if (response.body()!!.success.equals("true")) {
 
-                       /* Toast.makeText(mContext,response.body()!!.msg.toString(), Toast.LENGTH_LONG)
-                            .show()*/
+                        Toast.makeText(mContext,response.body()!!.msg.toString(), Toast.LENGTH_LONG)
+                            .show()
 
                         var intent=Intent(mContext,Search1::class.java)
 
@@ -127,7 +125,8 @@ class RideLaterAdapter(var mContext: Context,var mlist: List<RideLaterHistoryRes
 
                     } else {
 
-
+                        Toast.makeText(mContext,response.body()!!.msg.toString(), Toast.LENGTH_LONG)
+                            .show()
                     }
 
                 }  catch (e: Exception) {

@@ -405,7 +405,9 @@ class Sign_Up : AppCompatActivity() , GoogleApiClient.OnConnectionFailedListener
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                 Log.e("Saurav", t.message.toString())
 
-                Toast.makeText(this@Sign_Up,"Weak Internet Connection",Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Sign_Up,"Mobile number or Email is already exit",Toast
+                    .LENGTH_LONG)
+                    .show()
                 custom_progress.hide()
 
             }

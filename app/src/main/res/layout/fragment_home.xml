@@ -91,6 +91,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_19sdp"
                         android:layout_marginTop="@dimen/_30sdp"
+                        android:textColor="@color/black"
                         android:fontFamily="@font/poppinsmedium"
                         android:text="@string/pickup" />
 
@@ -131,6 +132,7 @@
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:background="@null"
                             android:focusable="false"
+                            android:textColorHint="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:hint="@string/enter_pick_up_location"
                             android:inputType="textMultiLine"
@@ -159,6 +161,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_19sdp"
                         android:layout_marginTop="@dimen/_15sdp"
+                        android:textColor="@color/black"
                         android:fontFamily="@font/poppinsmedium"
                         android:text="@string/drop" />
 
@@ -184,6 +187,7 @@
                             android:layout_marginLeft="@dimen/_12sdp"
                             android:background="@null"
                             android:focusable="false"
+                            android:textColorHint="@color/black"
                             android:fontFamily="@font/poppinsmedium"
                             android:hint="@string/enter_drop_location"
                             android:inputType="textMultiLine"
@@ -210,6 +214,7 @@
                         android:layout_marginLeft="@dimen/_19sdp"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/poppinsmedium"
+                        android:textColor="@color/black"
                         android:text="@string/no_of_passengers" />
 
                     <LinearLayout
@@ -237,6 +242,7 @@
                             android:focusable="false"
                             android:fontFamily="@font/poppinsmedium"
                             android:hint="No."
+                            android:textColorHint="@color/black"
                             android:inputType="number"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"

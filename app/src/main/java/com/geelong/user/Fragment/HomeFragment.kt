@@ -301,7 +301,7 @@ class HomeFragment : Fragment() {
                     sourlat=lat.toDouble()
                     sourlng=lng.toDouble()
                     location_Pincode=getAddress_ss(sourlat,sourlng)
-                    Toast.makeText(requireContext(),location,Toast.LENGTH_LONG).show()
+               //     Toast.makeText(requireContext(),location,Toast.LENGTH_LONG).show()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
                         .Pick_up_Latitude,sourlat.toString()).toString()
                     SharedPreferenceUtils.getInstance(requireContext())!!.setStringValue(ConstantUtils
